@@ -11,15 +11,164 @@ html {
 
 body {
     font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-    background: #f5f7f9;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.95) 0, rgba(255, 255, 255, 0) 28%),
+        radial-gradient(circle at 82% 0%, rgba(210, 228, 238, 0.7) 0, rgba(210, 228, 238, 0) 30%),
+        linear-gradient(135deg, #f8fafb 0%, #eef3f6 46%, #f6f8f9 100%);
     color: #2c3e50;
     line-height: 1.7;
     font-weight: 300;
+    min-height: 100vh;
 }
 
 a {
     color: inherit;
     text-decoration: none;
+}
+
+body.is-loading {
+    overflow: hidden;
+}
+
+/* ========== Loading Screen ========== */
+.loader-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.95), transparent 30%),
+        radial-gradient(circle at 72% 70%, rgba(138, 175, 196, 0.22), transparent 34%),
+        linear-gradient(135deg, rgba(248, 250, 251, 0.96), rgba(238, 243, 246, 0.92));
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.loader-screen.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-screen::before {
+    content: '';
+    position: absolute;
+    width: min(56vw, 520px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.88), rgba(138, 175, 196, 0.12) 52%, transparent 70%);
+    filter: blur(10px);
+    transform: translate(-28%, -22%);
+}
+
+.loader-glass {
+    position: relative;
+    width: min(78vw, 320px);
+    min-height: 260px;
+    border-radius: 28px;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    padding: 42px 36px;
+    border: 1px solid rgba(255, 255, 255, 0.66);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.28)),
+        rgba(245, 247, 249, 0.42);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    box-shadow:
+        0 30px 80px rgba(44, 62, 80, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(93, 132, 153, 0.08);
+    overflow: hidden;
+}
+
+.loader-glass::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.78), transparent 38%),
+        radial-gradient(circle at 72% 0%, rgba(255, 255, 255, 0.7), transparent 30%);
+    pointer-events: none;
+}
+
+.loader-mark {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    color: #fff;
+    background: linear-gradient(135deg, #8aafc4, #5d8499);
+    font-size: 34px;
+    font-weight: 300;
+    letter-spacing: 0;
+    box-shadow:
+        0 18px 34px rgba(93, 132, 153, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    animation: loaderFloat 2.4s ease-in-out infinite;
+}
+
+.loader-name {
+    position: relative;
+    margin-top: 26px;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: #2c3e50;
+}
+
+.loader-line {
+    position: relative;
+    width: 142px;
+    height: 2px;
+    margin-top: 26px;
+    border-radius: 999px;
+    background: rgba(138, 175, 196, 0.22);
+    overflow: hidden;
+}
+
+.loader-line span {
+    display: block;
+    width: 44%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, #5d8499, transparent);
+    animation: loaderLine 1.35s ease-in-out infinite;
+}
+
+.loader-caption {
+    position: relative;
+    margin-top: 18px;
+    font-size: 12px;
+    color: #8a98a6;
+    letter-spacing: 1px;
+}
+
+@keyframes loaderFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes loaderLine {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(260%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loader-mark,
+    .loader-line span {
+        animation: none;
+    }
+
+    .loader-screen {
+        transition-duration: 0.2s;
+    }
 }
 
 /* ========== 配色变量 ==========
@@ -30,65 +179,215 @@ a {
    副文字 灰: #7a8a99
 */
 
-/* ========== 导航栏 ========== */
-nav {
+body::before {
+    content: '';
     position: fixed;
-    top: 0;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 36%),
+        radial-gradient(circle at 50% 20%, rgba(138, 175, 196, 0.1), transparent 32%);
+    z-index: -1;
+}
+
+.pond-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.78;
+    mix-blend-mode: multiply;
+}
+
+nav,
+section,
+footer {
+    position: relative;
+    z-index: 1;
+}
+
+#hero {
+    isolation: isolate;
+}
+
+/* ========== 导航栏：Liquid Glass ========== */
+.site-nav {
+    position: fixed;
+    top: 18px;
     left: 0;
     right: 0;
-    background: rgba(245, 247, 249, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 100;
-    border-bottom: 1px solid rgba(138, 175, 196, 0.15);
+    z-index: 1000;
+    pointer-events: none;
 }
 
 .nav-inner {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 20px 40px;
+    padding: 10px 12px 10px 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    pointer-events: auto;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 999px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.36)),
+        rgba(245, 247, 249, 0.42);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow:
+        0 22px 60px rgba(44, 62, 80, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.86),
+        inset 0 -1px 0 rgba(93, 132, 153, 0.08);
+    overflow: hidden;
+    transition:
+        max-width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.nav-inner::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background:
+        radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.82), transparent 28%),
+        linear-gradient(115deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.08) 44%, rgba(138, 175, 196, 0.12));
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.nav-inner::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 24px;
+    right: 24px;
+    height: 1px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+}
+
+.site-nav:hover .nav-inner,
+.site-nav.nav-open .nav-inner {
+    transform: translateY(2px);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.42)),
+        rgba(245, 247, 249, 0.52);
+    box-shadow:
+        0 26px 70px rgba(44, 62, 80, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(93, 132, 153, 0.1);
+}
+
+.site-nav.nav-scrolled .nav-inner {
+    max-width: 980px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.38)),
+        rgba(245, 247, 249, 0.48);
+    box-shadow:
+        0 18px 46px rgba(44, 62, 80, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .logo {
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 1px;
     color: #5d8499;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
 }
 
 .nav-links {
     display: flex;
-    gap: 36px;
+    gap: 8px;
     list-style: none;
+    position: relative;
+    z-index: 1;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: gap 0.35s ease, background 0.35s ease;
+}
+
+.site-nav:hover .nav-links {
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.28);
 }
 
 .nav-links a {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    padding: 0 14px;
+    border-radius: 999px;
     font-size: 14px;
-    color: #7a8a99;
-    transition: color 0.3s;
+    color: rgba(44, 62, 80, 0.68);
+    transition: color 0.3s, background 0.3s, box-shadow 0.3s, transform 0.3s;
     position: relative;
+    overflow: hidden;
 }
 
 .nav-links a:hover {
-    color: #5d8499;
+    color: #2c3e50;
+    background: rgba(255, 255, 255, 0.58);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 8px 20px rgba(93, 132, 153, 0.12);
+    transform: translateY(-1px);
 }
 
 .nav-links a::after {
     content: '';
     position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: #8aafc4;
-    transition: width 0.3s;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.7), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .nav-links a:hover::after {
-    width: 100%;
+    opacity: 1;
+}
+
+.nav-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: #5d8499;
+    margin: 5px auto;
+    border-radius: 999px;
+    transition: transform 0.3s ease;
+}
+
+.site-nav.nav-open .nav-toggle span:first-child {
+    transform: translateY(3.25px) rotate(45deg);
+}
+
+.site-nav.nav-open .nav-toggle span:last-child {
+    transform: translateY(-3.25px) rotate(-45deg);
 }
 
 /* ========== 通用容器 ========== */
@@ -122,7 +421,7 @@ section {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 80px;
+    padding-top: 110px;
 }
 
 .hero-greeting {
@@ -599,8 +898,55 @@ footer {
 
 /* ========== 响应式 ========== */
 @media (max-width: 768px) {
-    .nav-inner { padding: 16px 24px; }
-    .nav-links { gap: 20px; }
+    .site-nav {
+        top: 12px;
+        padding: 0 16px;
+    }
+    .nav-inner {
+        padding: 9px 10px 9px 18px;
+        max-width: 100%;
+        overflow: visible;
+    }
+    .nav-toggle {
+        display: block;
+    }
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        display: grid;
+        gap: 6px;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.62);
+        border-radius: 24px;
+        background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.42)),
+            rgba(245, 247, 249, 0.5);
+        backdrop-filter: blur(26px) saturate(185%);
+        -webkit-backdrop-filter: blur(26px) saturate(185%);
+        box-shadow:
+            0 24px 54px rgba(44, 62, 80, 0.16),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+        pointer-events: none;
+        transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+    .site-nav:hover .nav-links {
+        gap: 6px;
+    }
+    .site-nav.nav-open .nav-links {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+    .nav-links a {
+        width: 100%;
+        justify-content: space-between;
+        min-height: 44px;
+        padding: 0 16px;
+    }
     section { padding: 80px 24px; }
     .hero-name { font-size: 48px; }
     .hero-name-en { font-size: 18px; }
