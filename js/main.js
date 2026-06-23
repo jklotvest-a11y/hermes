@@ -8,6 +8,11 @@
     const navLinks = document.querySelectorAll('.nav-links a');
     const loader = document.querySelector('.loader-screen');
     const pond = document.querySelector('#pond-canvas');
+    const lightbox = document.querySelector('.image-lightbox');
+    const lightboxImage = document.querySelector('.lightbox-image');
+    const lightboxStage = document.querySelector('.lightbox-stage');
+    const zoomTriggers = document.querySelectorAll('.zoom-trigger');
+    let lightboxZoom = 1;
 
     const hideLoader = () => {
         if (!loader) return;
@@ -56,6 +61,61 @@
         window.addEventListener('scroll', () => {
             nav.classList.toggle('nav-scrolled', window.scrollY > 24);
         }, { passive: true });
+    }
+
+    if (lightbox && lightboxImage) {
+        const setZoom = value => {
+            lightboxZoom = Math.min(3, Math.max(1, value));
+            lightboxImage.style.setProperty('--zoom', lightboxZoom.toFixed(2));
+        };
+
+        const openLightbox = trigger => {
+            const src = trigger.dataset.zoomSrc || trigger.querySelector('img')?.src;
+            const alt = trigger.querySelector('img')?.alt || '作品原型图';
+            if (!src) return;
+            lightboxImage.src = src;
+            lightboxImage.alt = alt;
+            setZoom(1);
+            lightbox.classList.add('is-open');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('lightbox-open');
+        };
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('is-open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('lightbox-open');
+        };
+
+        zoomTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => openLightbox(trigger));
+        });
+
+        lightbox.addEventListener('click', event => {
+            if (event.target === lightbox) closeLightbox();
+        });
+
+        lightbox.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
+
+        lightbox.querySelectorAll('[data-zoom-action]').forEach(button => {
+            button.addEventListener('click', () => {
+                const action = button.dataset.zoomAction;
+                if (action === 'in') setZoom(lightboxZoom + 0.25);
+                if (action === 'out') setZoom(lightboxZoom - 0.25);
+                if (action === 'reset') setZoom(1);
+            });
+        });
+
+        lightboxStage?.addEventListener('wheel', event => {
+            event.preventDefault();
+            setZoom(lightboxZoom + (event.deltaY < 0 ? 0.12 : -0.12));
+        }, { passive: false });
+
+        window.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+                closeLightbox();
+            }
+        });
     }
 
     if (pond) {

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家plus · AI 软装改造助手 | 孔小洁 Jessie</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="loader-screen" aria-label="页面载入中">
+        <div class="loader-glass">
+            <div class="loader-mark">J</div>
+            <div class="loader-name">JESSIE KONG</div>
+            <div class="loader-line">
+                <span></span>
+            </div>
+            <div class="loader-caption">Project is loading</div>
+        </div>
+    </div>
+
+    <canvas id="pond-canvas" class="pond-canvas" aria-hidden="true"></canvas>
+
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a class="logo" href="index.html">KONG · JESSIE</a>
+            <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html#about">ABOUT</a></li>
+                <li><a href="index.html#skills">SKILLS</a></li>
+                <li><a href="index.html#experience">EXPERIENCE</a></li>
+                <li><a href="index.html#works">WORKS</a></li>
+                <li><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="project-page-main">
+        <section class="project-detail">
+            <a class="project-back" href="index.html#works">BACK TO WORKS</a>
+            <div class="section-title">FEATURED PROJECT</div>
+            <h1 class="section-heading">家plus · AI 软装改造助手</h1>
+
+            <div class="project-intro">
+                <div class="project-intro-copy">
+                    <p>
+                        家plus 是一个面向精装修新房业主的 AI 软装改造 App Demo。用户上传真实房间照片后，选择空间、风格、预算和家庭需求，AI 会生成保留原空间结构的软装改造效果图，并输出家具推荐和分步落地建议。
+                    </p>
+                    <p>
+                        我的目标不是做一个“生成好看图片”的工具，而是把 AI 生图能力转化成一个可理解、可购买、可执行的软装决策流程。
+                    </p>
+                </div>
+                <div class="project-actions" aria-label="项目链接">
+                    <a class="project-action project-action-primary" href="../app/ai-home-makeover/index.html">打开本地 Demo</a>
+                    <a class="project-action" href="https://www.figma.com/design/Pkc0q6HsdznQFPSrPJgt6Y" target="_blank" rel="noreferrer">查看 Figma 原型</a>
+                    <a class="project-action" href="../docs/prd.md">查看 PRD 文档</a>
+                </div>
+            </div>
+
+            <section class="project-section project-case-overview">
+                <div class="case-kpi-grid">
+                    <div>
+                        <span>ROLE</span>
+                        <strong>AI 产品经理 / 原型设计</strong>
+                        <p>负责产品定义、MVP 范围、AI 工作流、页面流程、Figma 原型和本地 Demo。</p>
+                    </div>
+                    <div>
+                        <span>USER</span>
+                        <strong>精装修新房业主</strong>
+                        <p>刚收房或准备入住，希望改善空间质感，但缺少软装搭配和预算判断经验。</p>
+                    </div>
+                    <div>
+                        <span>OUTPUT</span>
+                        <strong>PRD + 结构图 + 原型 + Demo</strong>
+                        <p>完成 PRD、产品结构、核心流程、7 个关键页面截图和可交互静态 Demo。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">PROBLEM DEFINITION</div>
+                    <h2>问题定义</h2>
+                    <p>精装房用户不缺灵感，真正困难的是判断“别人家的案例能不能落到自己家”。</p>
+                </div>
+                <div class="case-problem-layout">
+                    <div class="case-narrative">
+                        <h3>为什么选择精装房软装</h3>
+                        <p>精装修降低了入住门槛，但很多房子交付后风格统一、缺少个性。用户会在内容平台收藏大量案例，却很难判断这些图片是否适合自己的户型、采光、墙地面颜色和预算。</p>
+                        <p>因此，家plus 的机会不是继续提供更多灵感，而是基于用户自己的真实照片，生成一套能理解、能购买、能分步执行的软装方案。</p>
+                    </div>
+                    <div class="case-breakpoint-list">
+                        <h3>核心断点</h3>
+                        <ol>
+                            <li>看到了喜欢的风格，但不知道是否适合自己家。</li>
+                            <li>担心家具买错，和墙面、地面、采光不协调。</li>
+                            <li>预算有限时，不知道应该先买什么。</li>
+                            <li>看到效果图之后，不知道下一步怎么落地。</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">USER SCENARIO</div>
+                    <h2>目标用户与使用场景</h2>
+                    <p>我把用户收敛在“刚收房、想软装、不想大拆大改”的轻量改造场景里。</p>
+                </div>
+                <div class="scenario-grid">
+                    <div><span>01</span><h3>刚收房</h3><p>基础硬装已完成，用户希望快速看到自己家的改造可能性。</p></div>
+                    <div><span>02</span><h3>准备买家具</h3><p>用户需要知道哪些家具更适合当前空间，以及预算应该如何排序。</p></div>
+                    <div><span>03</span><h3>分阶段落地</h3><p>不追求一次性装修完成，而是先买最关键的单品，再逐步补齐软装。</p></div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">MVP STRATEGY</div>
+                    <h2>MVP 范围与取舍</h2>
+                    <p>先验证“照片输入 → AI 方案 → 家具推荐 → 保存方案”的闭环，不急着做完整家装平台。</p>
+                </div>
+                <div class="scope-columns">
+                    <div>
+                        <h3>MVP 包含</h3>
+                        <ul>
+                            <li>上传真实房间照片</li>
+                            <li>选择空间、风格、预算和家庭需求</li>
+                            <li>AI 生成过程展示</li>
+                            <li>原图 / 改造图、空间诊断和家具推荐</li>
+                            <li>预算优先级、分步建议和方案保存</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>暂不包含</h3>
+                        <ul>
+                            <li>登录注册、真实支付和电商购买</li>
+                            <li>施工报价、硬装拆改和 AR 量房</li>
+                            <li>3D 建模、社区分享和完整装修服务</li>
+                            <li>复杂账号体系和真实商品库存</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>取舍原因</h3>
+                        <p>这些能力会显著拉长链路。MVP 阶段更重要的是证明用户是否愿意基于自己的照片理解方案，并把 AI 结果继续转化成家具清单和执行步骤。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">PRD</div>
+                    <h2>PRD 功能定义</h2>
+                    <p>PRD 用来把产品判断落成团队可执行的需求：页面目标、输入输出、交互规则、异常情况和验收标准。</p>
+                </div>
+                <div class="prd-grid">
+                    <div class="prd-card">
+                        <h3>文档范围</h3>
+                        <p>当前版本为 MVP v0.1，围绕“上传照片 → 选择偏好 → AI 生成方案 → 查看推荐 → 保存方案”的核心链路定义需求。</p>
+                    </div>
+                    <div class="prd-card">
+                        <h3>页面定义</h3>
+                        <ul>
+                            <li>首页：说明产品价值并进入核心流程。</li>
+                            <li>上传页：获取真实空间照片并提示拍摄要求。</li>
+                            <li>偏好页：收集空间、风格、预算和家庭需求。</li>
+                            <li>结果页：展示效果图、空间诊断、家具推荐和落地建议。</li>
+                        </ul>
+                    </div>
+                    <div class="prd-card">
+                        <h3>异常与边界</h3>
+                        <ul>
+                            <li>图片过暗、非室内空间或遮挡严重时提示重新上传。</li>
+                            <li>必填项未完成时，生成按钮置灰或提示补全。</li>
+                            <li>AI 生成失败时，提供重试和返回修改偏好的路径。</li>
+                        </ul>
+                    </div>
+                    <div class="prd-card">
+                        <h3>验收标准</h3>
+                        <ul>
+                            <li>用户可以完整完成一次核心流程。</li>
+                            <li>结果页同时包含效果图、问题诊断、家具推荐和执行步骤。</li>
+                            <li>推荐理由具体，预算档位能影响推荐内容。</li>
+                        </ul>
+                    </div>
+                </div>
+                <a class="prd-link" href="../docs/prd.md">查看完整 PRD 文档</a>
+            </section>
+
+            <section class="project-section project-structure">
+                <div class="project-section-header">
+                    <div class="project-label">PRODUCT STRUCTURE</div>
+                    <h2>产品结构图</h2>
+                </div>
+                <button class="project-hero zoom-trigger" type="button" data-zoom-src="assets/structure-overview.png" aria-label="放大家plus产品结构图">
+                    <img src="assets/structure-overview.png" alt="家plus 产品结构图与页面原型总览">
+                    <span class="zoom-hint">点击查看结构大图</span>
+                </button>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">USER FLOW</div>
+                    <h2>核心用户流程</h2>
+                    <p>用户从真实空间照片出发，逐步完成输入、生成、理解方案和保存方案。</p>
+                </div>
+                <div class="flow-steps">
+                    <div><span>01</span><div><strong>理解价值</strong><p>首页说明产品能基于真实房间生成软装方案。</p></div></div>
+                    <div><span>02</span><div><strong>提供空间</strong><p>上传或拍摄房间照片，让 AI 获得真实空间输入。</p></div></div>
+                    <div><span>03</span><div><strong>补充偏好</strong><p>选择空间、风格、预算和家庭需求，约束生成方向。</p></div></div>
+                    <div><span>04</span><div><strong>等待生成</strong><p>展示 AI 正在理解空间、匹配风格、生成效果和整理清单。</p></div></div>
+                    <div><span>05</span><div><strong>查看方案</strong><p>查看改造图、空间诊断、家具推荐和落地建议。</p></div></div>
+                    <div><span>06</span><div><strong>保存方案</strong><p>把满意方案沉淀到我的方案，方便后续继续比较和执行。</p></div></div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">PROTOTYPE DESIGN</div>
+                    <h2>原型设计</h2>
+                    <p>原型按用户流程分成输入、生成、结果和沉淀四个阶段，每组页面都对应一个产品任务。</p>
+                </div>
+                <div class="prototype-groups">
+                    <article>
+                        <div class="prototype-copy">
+                            <span>INPUT</span>
+                            <h3>输入阶段</h3>
+                            <p>首页建立产品价值，上传页获取真实空间，偏好页把用户需求结构化，帮助 AI 收敛生成方向。</p>
+                        </div>
+                        <div class="case-gallery case-gallery-three">
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-home.png">
+                                <img src="assets/screen-home.png" alt="家plus 首页">
+                                <span>首页</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-upload.png">
+                                <img src="assets/screen-upload.png" alt="家plus 上传照片页">
+                                <span>上传照片</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-prefs.png">
+                                <img src="assets/screen-prefs.png" alt="家plus 偏好选择页">
+                                <span>偏好选择</span>
+                            </button>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="prototype-copy">
+                            <span>OUTPUT</span>
+                            <h3>结果阶段</h3>
+                            <p>生成页降低等待不确定感；结果页把视觉效果、空间诊断和家具推荐放在一起；详情页解释推荐理由；我的方案承接保存后的复看。</p>
+                        </div>
+                        <div class="case-gallery">
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-loading.png">
+                                <img src="assets/screen-loading.png" alt="家plus AI 生成中页面">
+                                <span>AI 生成中</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-result.png">
+                                <img src="assets/screen-result.png" alt="家plus 改造结果页">
+                                <span>改造结果</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-product.png">
+                                <img src="assets/screen-product.png" alt="家plus 家具详情页">
+                                <span>家具详情</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-plans.png">
+                                <img src="assets/screen-plans.png" alt="家plus 我的方案页">
+                                <span>我的方案</span>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">AI WORKFLOW</div>
+                    <h2>把生图能力拆成产品闭环</h2>
+                    <p>这个项目不只展示一张效果图，而是把多模态 AI 放进真实的软装决策链路里。</p>
+                </div>
+                <div class="workflow-grid">
+                    <div><span>01</span><div><h3>图片理解</h3><p>识别空间类型、采光、墙地面主色、已有家具和可改造区域。</p></div></div>
+                    <div><span>02</span><div><h3>问题诊断</h3><p>输出视觉中心、收纳、层次、比例等空间软装问题。</p></div></div>
+                    <div><span>03</span><div><h3>风格策略</h3><p>结合风格、预算和家庭需求，确定主色调、材质和重点区域。</p></div></div>
+                    <div><span>04</span><div><h3>效果图生成</h3><p>基于原图生成改造效果，尽量保留门窗位置、结构和透视关系。</p></div></div>
+                    <div><span>05</span><div><h3>家具推荐</h3><p>按空间、风格、预算、材质和家庭需求匹配模拟家具清单。</p></div></div>
+                    <div><span>06</span><div><h3>执行建议</h3><p>把方案转成优先购买、可延后购买和三步落地计划。</p></div></div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">SUMMARY</div>
+                    <h2>项目总结</h2>
+                    <p>这个项目展示的是从问题定义到产品取舍、从 AI 能力拆解到原型落地的完整 PM 工作流。</p>
+                </div>
+                <div class="summary-panel">
+                    <div><h3>已完成</h3><p>产品定位、用户场景、MVP 范围、PRD、产品结构、核心流程、AI 工作流、Figma 原型和本地 Demo。</p></div>
+                    <div><h3>下一步</h3><p>如果继续推进，会优先补真实家具库、预算估算、方案对比和用户偏好学习，而不是立刻扩展到施工或社区。</p></div>
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <div class="image-lightbox" aria-hidden="true">
+        <div class="lightbox-toolbar" aria-label="图片缩放工具">
+            <button type="button" class="lightbox-btn" data-zoom-action="out" aria-label="缩小">−</button>
+            <button type="button" class="lightbox-btn" data-zoom-action="reset">100%</button>
+            <button type="button" class="lightbox-btn" data-zoom-action="in" aria-label="放大">+</button>
+            <button type="button" class="lightbox-close" aria-label="关闭大图">×</button>
+        </div>
+        <div class="lightbox-stage">
+            <img class="lightbox-image" src="" alt="">
+        </div>
+    </div>
+
+    <footer>
+        © 2026 KONG XIAOJIE · DESIGNED WITH CARE
+    </footer>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>
