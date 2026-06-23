@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>家plus</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <section class="phone" aria-label="家plus Demo">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div class="status-icons">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div id="app" class="screen"></div>
+
+        <nav class="tabbar" aria-label="底部导航">
+          <button class="tab active" type="button" data-tab="home">
+            <span class="tab-icon">⌂</span>
+            <span>首页</span>
+          </button>
+          <button class="tab" type="button" data-tab="plans">
+            <span class="tab-icon">▣</span>
+            <span>方案</span>
+          </button>
+          <button class="tab" type="button" data-tab="profile">
+            <span class="tab-icon">◌</span>
+            <span>我的</span>
+          </button>
+        </nav>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
