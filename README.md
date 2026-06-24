@@ -76,8 +76,11 @@ npm start
 ```text
 MINIMAX_API_KEY=你的 MiniMax API Key
 MINIMAX_IMAGE_MODEL=image-01
+MINIMAX_IMAGE_ENDPOINT=https://api.minimaxi.com/v1/image_generation
 CORS_ORIGIN=你的个人网站域名
 ```
+
+`MINIMAX_IMAGE_ENDPOINT` 默认使用 MiniMax 中国站接口。如果使用国际站 Key，可以改成 `https://api.minimax.io/v1/image_generation`。
 
 部署完成后先访问：
 

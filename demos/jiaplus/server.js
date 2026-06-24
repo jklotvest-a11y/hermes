@@ -10,6 +10,7 @@ const allowedStaticRoots = [
 ];
 const port = Number(process.env.PORT || 8787);
 const corsOrigin = process.env.CORS_ORIGIN || "*";
+const minimaxImageEndpoint = process.env.MINIMAX_IMAGE_ENDPOINT || "https://api.minimaxi.com/v1/image_generation";
 
 const mime = {
   ".html": "text/html; charset=utf-8",
@@ -99,7 +100,7 @@ async function handleGenerateImage(req, res) {
     ];
   }
 
-  const response = await fetch("https://api.minimax.io/v1/image_generation", {
+  const response = await fetch(minimaxImageEndpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
