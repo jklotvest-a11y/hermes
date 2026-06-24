@@ -453,6 +453,23 @@ h3 {
   margin-top: 12px;
 }
 
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.file-label {
+  display: inline-grid;
+  place-items: center;
+  min-height: 48px;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
 .pill-grid {
   display: flex;
   gap: 8px;
@@ -885,6 +902,12 @@ h3 {
 
 .empty-card .primary {
   width: 100%;
+  margin-top: 18px;
+}
+
+.plan-list {
+  display: grid;
+  gap: 14px;
   margin-top: 18px;
 }
 
