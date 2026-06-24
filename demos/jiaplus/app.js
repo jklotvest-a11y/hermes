@@ -189,6 +189,8 @@ const defaultState = {
   uploadedImage: "",
   uploadedImageName: "",
   generationStatus: "idle",
+  generatedImageUrl: "",
+  imageGenerationNote: "",
   currentPlan: null,
   savedPlans: loadSavedPlans()
 };
@@ -250,7 +252,7 @@ function planImage(plan = state.currentPlan) {
 }
 
 function resultImage(plan = state.currentPlan) {
-  return state.compare === "after" ? afterImage : planImage(plan);
+  return state.compare === "after" ? plan?.generatedImage || afterImage : planImage(plan);
 }
 
 function renderHome() {
@@ -490,6 +492,11 @@ function renderResult() {
         <button class="${state.compare === "after" ? "active" : ""}" type="button" data-compare="after">改造方向</button>
       </div>
       <img class="room-image result-image" src="${image}" alt="${state.compare === "after" ? "改造方向示意图" : "用户上传原图"}" />
+      ${
+        plan.imageGenerationNote
+          ? `<div class="generation-note">${plan.imageGenerationNote}</div>`
+          : ""
+      }
 
       <div class="section summary-card">
         <h3>空间诊断</h3>
@@ -771,6 +778,8 @@ function bindEvents() {
   document.querySelectorAll("[data-generate]").forEach((button) => {
     button.addEventListener("click", () => {
       state.generationStatus = button.dataset.generate === "failed" ? "failed" : "running";
+      state.generatedImageUrl = "";
+      state.imageGenerationNote = "";
       setPage("loading");
     });
   });
@@ -868,9 +877,7 @@ function runLoading() {
       clearInterval(loadingTimer);
       loadingTimer = null;
       state.generationStatus = "success";
-      state.currentPlan = createPlan();
-      state.compare = "after";
-      setPage("result");
+      finishGeneration();
       return;
     }
     if (state.page === "loading" && state.generationStatus === "running") render();
@@ -880,6 +887,48 @@ function runLoading() {
 function ensurePlan() {
   if (!state.currentPlan) state.currentPlan = createPlan({ useExample: true });
   return state.currentPlan;
+}
+
+async function finishGeneration() {
+  try {
+    const generated = await generateMakeoverImage();
+    state.generatedImageUrl = generated.imageUrl || "";
+    state.imageGenerationNote = generated.note || "";
+  } catch (error) {
+    state.generatedImageUrl = "";
+    state.imageGenerationNote = "MiniMax 改造图生成暂不可用，当前展示示例改造图。";
+  }
+
+  state.currentPlan = createPlan();
+  state.compare = "after";
+  setPage("result");
+}
+
+async function generateMakeoverImage() {
+  const response = await fetch("/api/generate-image", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      imageDataUrl: state.uploadedImage,
+      roomType: state.roomType,
+      style: state.style,
+      budget: state.budget,
+      needs: state.needs
+    })
+  });
+
+  if (!response.ok) throw new Error("Image generation request failed");
+  const data = await response.json();
+  if (data.imageBase64) {
+    return {
+      imageUrl: `data:image/png;base64,${data.imageBase64}`,
+      note: ""
+    };
+  }
+  return {
+    imageUrl: data.imageUrl,
+    note: data.fallback ? "未配置 MiniMax API Key，当前展示示例改造图。" : ""
+  };
 }
 
 function createPlan({ useExample = false } = {}) {
@@ -904,6 +953,8 @@ function createPlan({ useExample = false } = {}) {
     diagnosis: buildDiagnosis(),
     styleDirection: buildStyleDirection(),
     palette: paletteForStyle(state.style),
+    generatedImage: state.generatedImageUrl || afterImage,
+    imageGenerationNote: state.imageGenerationNote,
     products: matchedProducts,
     priorityList: unique(high.length ? high : matchedProducts.slice(0, 2).map((item) => item.category)),
     laterList: unique(later.length ? later : matchedProducts.slice(2).map((item) => item.category)),
