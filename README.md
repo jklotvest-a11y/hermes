@@ -57,6 +57,48 @@ python3 -m http.server 8000
 # 然后访问 http://localhost:8000
 ```
 
+## 🧠 家plus MiniMax 后端部署
+
+如果要让家plus Demo 真实调用 MiniMax 生成改造图，可以把本仓库部署为 Render Web Service。
+
+Render 设置：
+
+```text
+Build Command:
+npm install
+
+Start Command:
+npm start
+```
+
+环境变量：
+
+```text
+MINIMAX_API_KEY=你的 MiniMax API Key
+MINIMAX_IMAGE_MODEL=image-01
+CORS_ORIGIN=你的个人网站域名
+```
+
+部署完成后先访问：
+
+```text
+https://你的服务名.onrender.com/health
+```
+
+如果返回 `{"ok":true,"minimaxConfigured":true}`，说明后端已经可以读取 MiniMax Key。
+
+然后把家plus Demo 的 API 地址配置到：
+
+```text
+demos/jiaplus/config.js
+```
+
+示例：
+
+```js
+window.JIAPLUS_API_BASE_URL = "https://你的服务名.onrender.com";
+```
+
 ---
 
 ## 📝 TODO

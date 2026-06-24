@@ -1,0 +1,11 @@
+{
+  "name": "jiaplus-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node demos/jiaplus/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

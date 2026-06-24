@@ -1,6 +1,7 @@
 const beforeImage = "../../assets/demo-images/living-room-before.png";
 const afterImage = "../../assets/demo-images/living-room-after.png";
 const storageKey = "jiaplus.savedPlans.v1";
+const apiBaseUrl = (window.JIAPLUS_API_BASE_URL || "").replace(/\/$/, "");
 
 const products = [
   {
@@ -905,7 +906,7 @@ async function finishGeneration() {
 }
 
 async function generateMakeoverImage() {
-  const response = await fetch("/api/generate-image", {
+  const response = await fetch(`${apiBaseUrl}/api/generate-image`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
