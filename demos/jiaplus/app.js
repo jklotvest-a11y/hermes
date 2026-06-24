@@ -436,7 +436,7 @@ function renderLoading() {
         ${topbar("生成失败", "prefs")}
         <div class="error-state standalone">
           <div class="error-mark">!</div>
-          <h2>AI 生成失败</h2>
+          <h2>方案生成失败</h2>
           <p>当前照片里空间边界不够清晰，建议返回调整偏好或重新生成一版示例方案。</p>
         </div>
         <div class="actions">
@@ -897,7 +897,7 @@ async function finishGeneration() {
     state.imageGenerationNote = generated.note || "";
   } catch (error) {
     state.generatedImageUrl = "";
-    state.imageGenerationNote = "MiniMax 改造图生成暂不可用，当前展示示例改造图。";
+    state.imageGenerationNote = "当前展示示例改造方向图。";
   }
 
   state.currentPlan = createPlan();
@@ -906,6 +906,13 @@ async function finishGeneration() {
 }
 
 async function generateMakeoverImage() {
+  if (!apiBaseUrl) {
+    return {
+      imageUrl: afterImage,
+      note: ""
+    };
+  }
+
   const response = await fetch(`${apiBaseUrl}/api/generate-image`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -928,7 +935,7 @@ async function generateMakeoverImage() {
   }
   return {
     imageUrl: data.imageUrl,
-    note: data.fallback ? "未配置 MiniMax API Key，当前展示示例改造图。" : ""
+    note: ""
   };
 }
 
