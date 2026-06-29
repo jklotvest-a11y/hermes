@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>孔小洁 Jessie · Portfolio</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>孔小洁 Jessie · 作品集</title>
+    <meta name="description" content="孔小洁 Jessie 的产品经理求职作品集，聚焦空间设计经验转向 AI 产品，包含家plus与展迹 App 项目。">
+    <link rel="stylesheet" href="css/style.css?v=20260629-grain-source-breakdown">
 </head>
-<body>
+<body class="home-page">
 
-    <!-- ========== Loading Screen ========== -->
     <div class="loader-screen" aria-label="页面载入中">
         <div class="loader-glass">
             <div class="loader-mark">J</div>
@@ -22,224 +22,360 @@
 
     <canvas id="pond-canvas" class="pond-canvas" aria-hidden="true"></canvas>
 
-    <!-- ========== 导航栏 ========== -->
+    <aside class="home-side-rail" aria-label="主页导航">
+        <a class="rail-logo" href="#intro">JK</a>
+        <span class="rail-dot" aria-hidden="true"></span>
+        <nav class="rail-nav">
+            <a href="#about"><span>♙</span><strong>关于我</strong><small>ABOUT</small></a>
+            <a href="#skills"><span>▱</span><strong>技能</strong><small>SKILLS</small></a>
+            <a href="#experience"><span>▣</span><strong>经历</strong><small>EXPERIENCE</small></a>
+            <a href="#works" class="active"><span>▦</span><strong>作品</strong><small>WORKS</small></a>
+            <a href="#contact"><span>□</span><strong>联系</strong><small>CONTACT</small></a>
+        </nav>
+        <div class="rail-footer">© 2026<br>KONG JESSIE</div>
+    </aside>
+
     <nav class="site-nav">
         <div class="nav-inner">
-            <div class="logo">KONG · JESSIE</div>
+            <a class="logo" href="#intro">KONG · JESSIE</a>
             <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
                 <span></span>
                 <span></span>
             </button>
             <ul class="nav-links" id="nav-menu">
-                <li><a href="#about">ABOUT</a></li>
-                <li><a href="#skills">SKILLS</a></li>
-                <li><a href="#experience">EXPERIENCE</a></li>
-                <li><a href="#works">WORKS</a></li>
-                <li><a href="#contact">CONTACT</a></li>
+                <li><a href="#about">关于我</a></li>
+                <li><a href="#skills">技能</a></li>
+                <li><a href="#experience">经历</a></li>
+                <li><a href="#works">作品</a></li>
+                <li><a href="#contact">联系我</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- ========== 首页 Hero ========== -->
-    <section id="hero">
-        <div class="hero-greeting">PORTFOLIO · 2026</div>
-        <h1 class="hero-name">孔小洁</h1>
-        <div class="hero-name-en">J E S S I E &nbsp; K O N G</div>
-        <p class="hero-tagline">
-            从建筑设计转向 AI 产品经理。<br>
-            我想把空间设计经验和 AI 工具能力结合起来，做一些真正能被普通人用起来的小产品。
-        </p>
-        <a href="#works" class="hero-cta">VIEW MY WORKS</a>
+    <section id="intro" class="interactive-cover" aria-label="设计思维到产品落地的互动封面">
+        <div class="cover-announcement" aria-hidden="true">
+            <span>AI PRODUCT PORTFOLIO</span>
+            <span>Design thinking meets product execution</span>
+            <span>Space experience, AI product direction</span>
+            <span>Prototype, PRD, Demo, delivery</span>
+        </div>
+        <div class="cover-topbar" aria-label="封面导航">
+            <a class="cover-brand" href="#intro">Jessie Kong</a>
+            <nav class="cover-menu" aria-label="封面快捷导航">
+                <a href="#hero-works">Works</a>
+                <a href="#skills">Skills</a>
+                <a href="#experience">Experience</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+
+        <div class="cover-word cover-word-left">
+            <span>DESIGN</span>
+            <strong>Design &</strong>
+            <p>从空间、场景与用户感受出发。</p>
+        </div>
+
+        <div class="cover-orbit" aria-hidden="true">
+            <span class="orbit-line orbit-line-main"></span>
+            <span class="orbit-line orbit-line-soft"></span>
+            <span class="orbit-card orbit-card-1"><b>◎</b><i>用户</i></span>
+            <span class="orbit-card orbit-card-2"><b>□</b><i>需求</i></span>
+            <span class="orbit-card orbit-card-3"><b>▰</b><i>结构</i></span>
+            <span class="orbit-card orbit-card-4"><b>☝</b><i>交互</i></span>
+            <span class="orbit-card orbit-card-5"><b>✦</b><i>AI</i></span>
+            <span class="orbit-card orbit-card-6"><b>◐</b><i>洞察</i></span>
+            <span class="orbit-card orbit-card-7"><b>≈</b><i>流程</i></span>
+            <span class="orbit-card orbit-card-8"><b>◇</b><i>原型</i></span>
+            <span class="orbit-card orbit-card-9"><b>⌁</b><i>测试</i></span>
+            <span class="orbit-card orbit-card-10"><b>▱</b><i>界面</i></span>
+            <span class="orbit-card orbit-card-11"><b>◈</b><i>Demo</i></span>
+            <span class="orbit-card orbit-card-12"><b>✓</b><i>落地</i></span>
+        </div>
+
+        <div class="cover-word cover-word-right">
+            <span>PRODUCT</span>
+            <strong>Products</strong>
+            <p>把问题拆成结构、原型与可验证 Demo。</p>
+        </div>
+
+        <a class="cover-scroll" href="#hero" aria-label="下滑查看个人信息">
+            <span>SCROLL</span>
+            <b></b>
+        </a>
     </section>
 
-    <!-- ========== About ========== -->
+    <section id="hero" class="hero-curated hero-reference">
+        <div class="hero-curated-intro">
+            <h1 class="hero-name">孔小洁</h1>
+            <div class="hero-name-en">J E S S I E &nbsp; K O N G</div>
+            <div class="hero-role">产品经理候选人 · AI 产品方向</div>
+            <p class="hero-one-line">空间经验转 AI 产品，以用户视角定义更好的产品体验。</p>
+            <div class="hero-skill-pills" aria-label="核心能力标签">
+                <span>产品定义</span>
+                <span>需求分析</span>
+                <span>原型设计</span>
+                <span>AI 产品实践</span>
+                <span>跨团队协作</span>
+            </div>
+            <div class="hero-actions">
+                <a href="#hero-works" class="hero-cta">查看我的作品 <span>→</span></a>
+                <a href="mailto:775241621@qq.com" class="hero-text-link">下载简历 <span>⇩</span></a>
+            </div>
+        </div>
+
+        <div class="hero-reference-aside" aria-label="个人亮点">
+            <div class="hero-reference-stats">
+                <div><span>▯</span><strong>8 年+</strong><p>空间与方案经验</p></div>
+                <div><span>▱</span><strong>50+</strong><p>项目参与与交付</p></div>
+                <div><span>✧</span><strong>AI 产品</strong><p>PRD / 原型 / Demo</p></div>
+            </div>
+            <div class="hero-quote-card">
+                <span>“</span>
+                <p>擅长从复杂场景中拆解问题，搭建清晰的产品结构，用原型与 Demo 快速验证想法，推动产品落地。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="hero-works" class="hero-works" aria-label="代表作品">
+        <div class="hero-works-heading">
+            <div>
+                <h2>精选作品</h2>
+                <p>SELECTED WORKS</p>
+            </div>
+        </div>
+        <div class="hero-showcase" aria-label="精选产品项目">
+            <a class="hero-project-card" href="project-jiaplus.html">
+                <div class="hero-project-copy">
+                    <span>AI 家居改造</span>
+                    <strong>家plus</strong>
+                    <em>AI 软装改造助手</em>
+                    <p>面向家居空间改造场景的 AI 产品，帮助用户快速获得软装搭配方案。</p>
+                    <div class="project-tags"><b>AI 产品</b><b>PRD</b><b>Figma</b><b>Demo</b></div>
+                    <i>查看项目详情 →</i>
+                </div>
+                <div class="hero-project-media home-media-jiaplus">
+                    <img class="project-main-room" src="assets/demo-images/living-room-after.png" alt="家plus AI 软装改造效果预览">
+                    <span class="project-compare-line" aria-hidden="true"></span>
+                    <span class="project-compare-handle" aria-hidden="true">↔</span>
+                </div>
+            </a>
+            <a class="hero-project-card" href="project-exhibition-diary.html">
+                <div class="hero-project-copy">
+                    <span>观展日记工具</span>
+                    <strong>展迹 App</strong>
+                    <em>私人观展日记</em>
+                    <p>为看展人群打造的记录工具，围绕“展中轻记录，展后整理分享”完成完整体验闭环。</p>
+                    <div class="project-tags"><b>AI 产品</b><b>PRD</b><b>Figma</b><b>Demo</b></div>
+                    <i>查看项目详情 →</i>
+                </div>
+                <div class="hero-project-media home-media-exhibition">
+                    <img class="phone-shot phone-shot-main" src="assets/screen-exhibition-home.png" alt="展迹 App 展册首页">
+                    <img class="phone-shot phone-shot-mid" src="assets/screen-exhibition-start.png" alt="展迹 App 开始记录页面">
+                    <img class="phone-shot phone-shot-end" src="assets/screen-exhibition-share.png" alt="展迹 App 分享生成页面">
+                </div>
+            </a>
+        </div>
+        <div class="home-collab-strip">
+            <span>▣</span>
+            <strong>开放合作</strong>
+            <p>AI 产品经理 / 远程 / 全职机会</p>
+            <p>欢迎交流产品合作或工作机会</p>
+            <a href="mailto:775241621@qq.com">联系我 →</a>
+        </div>
+    </section>
+
     <section id="about">
         <div class="section-title">ABOUT ME</div>
-        <h2 class="section-heading">关于我</h2>
         <div class="about-content">
-            <div class="about-photo">PHOTO 留白</div>
+            <div class="about-photo about-photo-card">
+                <span>AI PM</span>
+                <strong>Jessie Kong</strong>
+                <small>Space Thinking · Product Execution</small>
+            </div>
             <div class="about-text">
                 <p>
-                    你好，我是孔小洁（Jessie）。
-                    本科是环境设计专业，毕业后一直从事建筑设计工作，长期关注空间、用户需求和真实生活场景之间的关系。
+                    你好，我是孔小洁（Jessie）。我本科毕业于温州大学环境设计专业，过去 8 年在建筑与空间方案领域工作，长期处理用户动线、场景需求、方案表达、投标策略和多专业协作。
                 </p>
                 <p>
-                    今年我开始系统转向 AI 产品经理方向，学习项目管理、传统产品方法和 AI 基础能力，也在用真实项目训练自己的产品判断、原型能力和落地意识。
-                    我目前关注的是 AI 如何进入具体生活场景，帮助用户降低决策成本。
+                    我现在面试产品经理岗位，方向聚焦 AI 应用产品。我希望把自己在空间场景中的用户理解能力，迁移到 AI 产品里：找到具体问题，定义 MVP，画出原型，写清 PRD，并把想法做成能被体验的 Demo。
                 </p>
-                <p>
-                    我希望加入一个重视真实用户问题、鼓励快速验证、愿意探索 AI 产品落地的团队。
-                    对我来说，好的 AI 产品不只是模型能力的展示，而是能在具体场景里帮用户少走一步弯路、多做一个更好的决定。
-                </p>
+                <div class="about-proof-grid">
+                    <div><span>擅长场景</span><strong>家居、空间、生活方式与线下服务数字化</strong></div>
+                    <div><span>工作方式</span><strong>需求拆解、竞品分析、原型验证、跨职能协作</strong></div>
+                    <div><span>求职目标</span><strong>产品经理 / AI 产品经理 / 产品专员</strong></div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== Skills ========== -->
     <section id="skills">
         <div class="section-title">SKILLS</div>
-        <h2 class="section-heading">技能</h2>
+        <h2 class="section-heading">个人技能与证书</h2>
         <div class="skills-grid">
             <div class="skill-card">
-                <div class="skill-card-title">设计工具</div>
+                <div class="skill-card-title">产品经理技能</div>
                 <div class="skill-tags">
+                    <span class="skill-tag">需求拆解</span>
+                    <span class="skill-tag">PRD</span>
+                    <span class="skill-tag">MVP 范围</span>
+                    <span class="skill-tag">竞品分析</span>
+                    <span class="skill-tag">用户流程</span>
                     <span class="skill-tag">Figma</span>
-                    <span class="skill-tag">Sketch</span>
+                    <span class="skill-tag">Axure</span>
+                    <span class="skill-tag">墨刀</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-card-title">平面设计技能</div>
+                <div class="skill-tags">
                     <span class="skill-tag">Photoshop</span>
                     <span class="skill-tag">Illustrator</span>
+                    <span class="skill-tag">InDesign</span>
+                    <span class="skill-tag">CAD</span>
+                    <span class="skill-tag">视觉规范</span>
+                    <span class="skill-tag">方案排版</span>
                 </div>
             </div>
             <div class="skill-card">
-                <div class="skill-card-title">前端开发</div>
+                <div class="skill-card-title">三维设计技能</div>
                 <div class="skill-tags">
-                    <span class="skill-tag">HTML</span>
-                    <span class="skill-tag">CSS</span>
-                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">SketchUp</span>
+                    <span class="skill-tag">Blender</span>
+                    <span class="skill-tag">Cinema 4D</span>
+                    <span class="skill-tag">空间建模</span>
+                    <span class="skill-tag">效果表达</span>
+                    <span class="skill-tag">组件化资源库</span>
                 </div>
             </div>
             <div class="skill-card">
-                <div class="skill-card-title">语言能力</div>
+                <div class="skill-card-title">其他技能与证书</div>
                 <div class="skill-tags">
-                    <span class="skill-tag">中文（母语）</span>
-                    <span class="skill-tag">English</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <div class="skill-card-title">其他</div>
-                <div class="skill-tags">
-                    <span class="skill-tag">原型设计</span>
-                    <span class="skill-tag">用户研究</span>
-                    <span class="skill-tag">团队协作</span>
+                    <span class="skill-tag">Word</span>
+                    <span class="skill-tag">Excel</span>
+                    <span class="skill-tag">PPT</span>
+                    <span class="skill-tag">中级工程师</span>
+                    <span class="skill-tag">普通话二甲</span>
+                    <span class="skill-tag">教师资格证</span>
+                    <span class="skill-tag">计算机一级</span>
+                    <span class="skill-tag">驾驶证</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== Experience ========== -->
     <section id="experience">
         <div class="section-title">EXPERIENCE</div>
         <h2 class="section-heading">经历</h2>
         <div class="timeline">
             <div class="timeline-item">
-                <div class="timeline-period">2024 — PRESENT</div>
-                <div class="timeline-role">职位名称占位</div>
-                <div class="timeline-company">公司名称 · 全职</div>
+                <div class="timeline-period">2025.03 — 2026.03</div>
+                <div class="timeline-role">建筑方案设计师</div>
+                <div class="timeline-company">中南集团</div>
                 <div class="timeline-desc">
-                    在这里简单写 1-2 句话介绍你的工作内容、负责的项目、取得了什么成果。
-                    建议用数字说话，比如「主导 3 个项目」「提升转化率 20%」之类。
+                    负责集团重点招投标项目的全流程视觉策略与演示定义，围绕投标逻辑、用户理解和方案表达进行体验升级；深度参与从需求拆解到最终交付的全过程，协调研发、造价、法务等部门进行敏捷迭代，确保技术方案与用户需求匹配。
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-period">2022 — 2024</div>
-                <div class="timeline-role">职位名称占位</div>
-                <div class="timeline-company">公司名称 · 实习/全职</div>
+                <div class="timeline-period">2020.07 — 2025.02</div>
+                <div class="timeline-role">建筑方案设计师</div>
+                <div class="timeline-company">浙江省省直建筑设计院</div>
                 <div class="timeline-desc">
-                    第二个经历占位文字，简要描述你的职责和成长。
+                    主导 20+ 类智慧城市及未来社区项目的用户路径分析，通过梳理多方交互逻辑定义功能闭环；用高保真动效演示把复杂技术指标具象化为产品愿景，降低跨部门沟通成本，并参与数字化设计文本的标准作业流程建设。
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-period">2018 — 2022</div>
-                <div class="timeline-role">学历</div>
-                <div class="timeline-company">学校 · 专业</div>
+                <div class="timeline-period">2017.07 — 2020.06</div>
+                <div class="timeline-role">建筑方案设计师</div>
+                <div class="timeline-company">浙江经纬工程设计有限公司</div>
                 <div class="timeline-desc">
-                    如果是教育经历，可以写学校、专业、主修课程、或者一些特别的活动。
+                    参与 30+ 重点项目，运用组件化建模思维搭建资源库，通过模型复用与模块化设计缩短从概念到交付的周期；负责重点项目视觉逻辑输出，建立视觉规范并保障方案落地质量。
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== Works ========== -->
     <section id="works">
         <div class="section-title">SELECTED WORKS</div>
         <h2 class="section-heading">作品集</h2>
 
         <div class="works-tabs">
             <button class="works-tab active" data-tab="vibe">
-                VIBE CODING <span class="tab-count">03</span>
+                AI PRODUCTS <span class="tab-count">02</span>
             </button>
             <button class="works-tab" data-tab="spatial">
-                SPATIAL DESIGN <span class="tab-count">03</span>
+                SPACE TO PRODUCT <span class="tab-count">03</span>
             </button>
         </div>
 
-        <!-- VIBE CODING 分类 -->
         <div class="works-panel active" data-panel="vibe">
             <a class="work-card" href="project-jiaplus.html">
-                <div class="work-cover work-cover-image">
-                    <img src="assets/structure-overview.png" alt="家plus 产品结构和页面原型预览">
+                <div class="work-cover work-cover-image work-media-showcase home-media-jiaplus">
+                    <img class="project-main-room" src="assets/demo-images/living-room-after.png" alt="家plus AI 软装改造效果预览">
+                    <span class="project-compare-line" aria-hidden="true"></span>
+                    <span class="project-compare-handle" aria-hidden="true">↔</span>
                 </div>
                 <div class="work-info">
-                    <div class="work-title">家plus</div>
-                    <div class="work-desc">面向精装房业主的 AI 软装改造助手，已完成产品结构、Figma 原型和可交互本地 Demo。</div>
-                    <div class="work-meta">2026 · AI PRODUCT · FIGMA + STATIC DEMO</div>
+                    <div class="work-title">家plus · AI 软装改造助手</div>
+                    <div class="work-desc">面向精装房业主的 AI 产品练习，从真实照片输入出发，完成问题定义、MVP 范围、PRD、Figma 原型和可交互 Demo。</div>
+                    <div class="work-meta">2026 · AI PRODUCT · PRD + FIGMA + DEMO</div>
                 </div>
             </a>
-            <div class="work-card">
-                <div class="work-cover"><span>COVER 02</span></div>
-                <div class="work-info">
-                    <div class="work-title">AI 产品占位 02</div>
-                    <div class="work-desc">一句话简介这个产品解决了什么问题、面向谁、你做了什么。</div>
-                    <div class="work-meta">2025 · TOOL</div>
+            <a class="work-card" href="project-exhibition-diary.html">
+                <div class="work-cover work-cover-image work-media-showcase home-media-exhibition">
+                    <img class="phone-shot phone-shot-main" src="assets/screen-exhibition-home.png" alt="展迹 App 展册首页">
+                    <img class="phone-shot phone-shot-mid" src="assets/screen-exhibition-start.png" alt="展迹 App 开始记录页面">
+                    <img class="phone-shot phone-shot-end" src="assets/screen-exhibition-share.png" alt="展迹 App 分享生成页面">
                 </div>
-            </div>
-            <div class="work-card">
-                <div class="work-cover"><span>COVER 03</span></div>
                 <div class="work-info">
-                    <div class="work-title">AI 产品占位 03</div>
-                    <div class="work-desc">一句话简介这个产品解决了什么问题、面向谁、你做了什么。</div>
-                    <div class="work-meta">2025 · EXPERIMENT</div>
+                    <div class="work-title">展迹 App</div>
+                    <div class="work-desc">面向看展人群的私人观展日记工具，围绕现场轻记录、作品标签补录和展后分享生成，完成高保真移动端产品原型。</div>
+                    <div class="work-meta">2026 · APP PRODUCT · FIGMA + MOBILE UI</div>
                 </div>
-            </div>
+            </a>
         </div>
 
-        <!-- SPATIAL DESIGN 分类 -->
         <div class="works-panel" data-panel="spatial">
-            <div class="work-card">
-                <div class="work-cover"><span>COVER 01</span></div>
+            <article class="work-card">
+                <div class="work-cover"><span>USER PATH</span></div>
                 <div class="work-info">
-                    <div class="work-title">空间设计占位 01</div>
-                    <div class="work-desc">项目类型、规模、你负责的部分、最终成果。</div>
-                    <div class="work-meta">2023 · 商业空间</div>
+                    <div class="work-title">智慧城市与未来社区项目</div>
+                    <div class="work-desc">主导 20+ 类项目的用户路径分析，把多方交互关系整理成可沟通、可演示的功能闭环。</div>
+                    <div class="work-meta">2020-2025 · USER FLOW · SYSTEM THINKING</div>
                 </div>
-            </div>
-            <div class="work-card">
-                <div class="work-cover"><span>COVER 02</span></div>
+            </article>
+            <article class="work-card">
+                <div class="work-cover"><span>PITCH LOGIC</span></div>
                 <div class="work-info">
-                    <div class="work-title">空间设计占位 02</div>
-                    <div class="work-desc">项目类型、规模、你负责的部分、最终成果。</div>
-                    <div class="work-meta">2022 · 住宅</div>
+                    <div class="work-title">重点招投标视觉策略</div>
+                    <div class="work-desc">负责重点项目的视觉策略与演示定义，把复杂方案转成清晰叙事，提升团队在招投标场景中的表达效率。</div>
+                    <div class="work-meta">2025-2026 · BUSINESS STORYTELLING</div>
                 </div>
-            </div>
-            <div class="work-card">
-                <div class="work-cover"><span>COVER 03</span></div>
+            </article>
+            <article class="work-card">
+                <div class="work-cover"><span>MODULES</span></div>
                 <div class="work-info">
-                    <div class="work-title">空间设计占位 03</div>
-                    <div class="work-desc">项目类型、规模、你负责的部分、最终成果。</div>
-                    <div class="work-meta">2021 · 公共空间</div>
+                    <div class="work-title">组件化建模与资源库</div>
+                    <div class="work-desc">参与 30+ 重点项目，通过模型复用、模块化设计和视觉规范，缩短概念到交付的周期。</div>
+                    <div class="work-meta">2017-2020 · MODULAR WORKFLOW</div>
                 </div>
-            </div>
+            </article>
         </div>
     </section>
 
-    <!-- ========== Contact ========== -->
     <section id="contact">
-        <div class="contact-heading">SAY HELLO</div>
-        <div class="contact-sub">欢迎聊聊设计、合作，或者只是打个招呼 ☕</div>
+        <div class="contact-heading">LET'S TALK PRODUCT</div>
+        <div class="contact-sub">如果你在寻找一个懂真实空间场景、能快速学习并落地 AI 产品的产品经理候选人，欢迎联系我。</div>
         <div class="contact-links">
-            <a href="mailto:hello@example.com" class="contact-link">EMAIL</a>
-            <a href="#" class="contact-link">GITHUB</a>
-            <a href="#" class="contact-link">WECHAT</a>
-            <a href="#" class="contact-link">DRIBBBLE</a>
+            <a href="mailto:775241621@qq.com" class="contact-link">775241621@qq.com</a>
+            <a href="https://github.com/jklotvest-a11y" target="_blank" rel="noreferrer" class="contact-link">GitHub</a>
         </div>
     </section>
 
-    <!-- ========== Footer ========== -->
     <footer>
-        © 2026 KONG XIAOJIE · DESIGNED WITH CARE
+        © 2026 KONG XIAOJIE · AI PRODUCT PORTFOLIO
     </footer>
 
-    <!-- ========== Works Tab 切换脚本 ========== -->
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20260629-grain-source-breakdown"></script>
 
 </body>
 </html>

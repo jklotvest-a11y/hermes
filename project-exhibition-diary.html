@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>展迹 App · 私人观展日记 | 孔小洁 Jessie</title>
+    <link rel="stylesheet" href="css/style.css?v=20260629-grain-source-breakdown">
+</head>
+<body>
+
+    <div class="loader-screen" aria-label="页面载入中">
+        <div class="loader-glass">
+            <div class="loader-mark">J</div>
+            <div class="loader-name">JESSIE KONG</div>
+            <div class="loader-line"><span></span></div>
+            <div class="loader-caption">Project is loading</div>
+        </div>
+    </div>
+
+    <canvas id="pond-canvas" class="pond-canvas" aria-hidden="true"></canvas>
+
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a class="logo" href="index.html">KONG · JESSIE</a>
+            <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html#about">ABOUT</a></li>
+                <li><a href="index.html#skills">SKILLS</a></li>
+                <li><a href="index.html#experience">EXPERIENCE</a></li>
+                <li><a href="index.html#works">WORKS</a></li>
+                <li><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="project-page-main">
+        <section class="project-detail">
+            <a class="project-back" href="index.html#works">BACK TO WORKS</a>
+            <div class="section-title">FEATURED PROJECT</div>
+            <h1 class="section-heading">展迹 App · 私人观展日记</h1>
+
+            <div class="project-intro">
+                <div class="project-intro-copy">
+                    <p>
+                        展迹是一个面向看展人群的私人观展日记 App。用户可以在展览现场快速新建展迹、拍摄展品、补拍作品标签，并在看展结束后把照片、票根、作品信息和感受整理成个人展册。
+                    </p>
+                    <p>
+                        这个项目的重点不是做一个通用相册，而是把“展厅现场不适合长时间输入”的限制转化成轻量记录流程，让用户先完成低负担采集，再回到安静场景里整理和分享。
+                    </p>
+                </div>
+                <div class="project-actions" aria-label="项目链接">
+                    <a class="project-action project-action-primary" href="https://www.figma.com/design/Eu47UH7oWXXC3WzCDPOjZ8/%E9%AB%98%E4%BF%9D%E7%9C%9F%E7%A7%BB%E5%8A%A8%E7%AB%AF-App-UI" target="_blank" rel="noreferrer">查看 Figma 原型</a>
+                    <a class="project-action" href="#prototype">查看页面截图</a>
+                    <a class="project-action" href="index.html#contact">联系我</a>
+                </div>
+            </div>
+
+            <section class="project-section project-case-overview">
+                <div class="case-kpi-grid">
+                    <div>
+                        <span>ROLE</span>
+                        <strong>产品定义 / 高保真原型</strong>
+                        <p>负责场景定义、核心流程、页面信息架构、移动端高保真 UI 和展示页面整理。</p>
+                    </div>
+                    <div>
+                        <span>USER</span>
+                        <strong>高频看展与内容分享用户</strong>
+                        <p>喜欢记录展览，但现场时间有限，不想在展厅里被复杂输入打断。</p>
+                    </div>
+                    <div>
+                        <span>OUTPUT</span>
+                        <strong>流程原型 + 高保真 App UI</strong>
+                        <p>完成展册、看展、建档、拍摄、标签补录、分享生成和设置等关键页面。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">PROBLEM DEFINITION</div>
+                    <h2>问题定义</h2>
+                    <p>看展用户不是不想记录，而是记录动作经常打断观看本身。</p>
+                </div>
+                <div class="case-problem-layout">
+                    <div class="case-narrative">
+                        <h3>为什么选择观展记录</h3>
+                        <p>展览现场有强烈的时间、动线和社交限制。用户可能会拍很多照片，但作品名称、作者、年份、票根、地点和当时的感受往往散落在相册、备忘录和社交平台里。</p>
+                        <p>展迹的机会在于把记录拆成两个阶段：现场只做最轻的采集，展后再把内容整理成可回看、可分享的个人展册。</p>
+                    </div>
+                    <div class="case-breakpoint-list">
+                        <h3>核心断点</h3>
+                        <ol>
+                            <li>现场拍照很快，但补充作品信息很麻烦。</li>
+                            <li>展览结束后，照片、票根、感受和作品标签难以归档。</li>
+                            <li>想分享看展体验，但重新排版长图或九宫格成本高。</li>
+                            <li>用户希望保留私人记录，不希望所有内容默认公开。</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">USER SCENARIO</div>
+                    <h2>目标用户与使用场景</h2>
+                    <p>我把场景收敛在“现场轻记录 + 展后整理”的私人展册链路。</p>
+                </div>
+                <div class="scenario-grid">
+                    <div><span>01</span><h3>看展前</h3><p>快速建立展览档案，自动带入日期、地点、天气等基础信息。</p></div>
+                    <div><span>02</span><h3>看展中</h3><p>围绕拍展品、拍标签、记一句和拍票根设计低打扰操作。</p></div>
+                    <div><span>03</span><h3>看展后</h3><p>把展品、票根、心情和笔记整理成长图、九宫格或封面卡。</p></div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">MVP STRATEGY</div>
+                    <h2>MVP 范围与取舍</h2>
+                    <p>优先验证一条完整观展记录链路，不急着做大型社区或展览票务平台。</p>
+                </div>
+                <div class="scope-columns">
+                    <div>
+                        <h3>MVP 包含</h3>
+                        <ul>
+                            <li>新建一条展迹</li>
+                            <li>日期、地点、天气等基础信息录入</li>
+                            <li>展中拍摄展品、标签、票根和一句感受</li>
+                            <li>作品标签 OCR / 待确认机制</li>
+                            <li>展记详情、作品详情和分享图生成</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>暂不包含</h3>
+                        <ul>
+                            <li>真实票务购买和展览日历</li>
+                            <li>开放社区、关注关系和评论体系</li>
+                            <li>复杂图片编辑器和多端协同</li>
+                            <li>真实 OCR 接口、云备份和账号支付</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>取舍原因</h3>
+                        <p>看展场景的核心不是“功能越多越好”，而是现场操作越轻越好。MVP 先验证用户是否愿意把展览记录集中沉淀到一个专门工具里。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">PRD</div>
+                    <h2>功能定义</h2>
+                    <p>功能围绕“建档、采集、补全、整理、分享”五个动作组织，减少现场输入成本。</p>
+                </div>
+                <div class="prd-grid">
+                    <div class="prd-card">
+                        <h3>展册首页</h3>
+                        <p>展示正在展中的记录和最近展记，让用户可以继续未完成的展迹，也能快速回看历史展册。</p>
+                    </div>
+                    <div class="prd-card">
+                        <h3>看展入口</h3>
+                        <p>以“新建展迹”和“继续未结束的展”为核心，减少现场寻找入口的负担。</p>
+                    </div>
+                    <div class="prd-card">
+                        <h3>展中采集</h3>
+                        <p>把拍展品作为主动作，标签、票根和一句感受作为辅助动作，支持跳过与展后补全。</p>
+                    </div>
+                    <div class="prd-card">
+                        <h3>分享生成</h3>
+                        <p>提供长图、九宫格、封面卡三种模式，把私人记录转成适合社交平台分享的视觉内容。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section project-structure">
+                <div class="project-section-header">
+                    <div class="project-label">PRODUCT STRUCTURE</div>
+                    <h2>产品页面总览</h2>
+                </div>
+                <button class="project-hero zoom-trigger" type="button" data-zoom-src="assets/exhibition-overview.png" aria-label="放大展迹产品页面总览">
+                    <img src="assets/exhibition-overview.png" alt="展迹 App 四个关键页面总览">
+                    <span class="zoom-hint">点击查看页面总览</span>
+                </button>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">USER FLOW</div>
+                    <h2>核心用户流程</h2>
+                    <p>用户先建立展迹，再在现场轻量采集，最后回到展册里整理和分享。</p>
+                </div>
+                <div class="flow-steps">
+                    <div><span>01</span><div><strong>进入展册</strong><p>查看正在展中和最近展记，明确记录沉淀位置。</p></div></div>
+                    <div><span>02</span><div><strong>开始看展</strong><p>新建展迹，填入展名、日期、地点、天气、同行人和心情。</p></div></div>
+                    <div><span>03</span><div><strong>展中采集</strong><p>拍展品为主，支持补拍标签、记一句、拍票根和结束看展。</p></div></div>
+                    <div><span>04</span><div><strong>标签补录</strong><p>作品标签识别进入待确认，不要求用户现场完成校对。</p></div></div>
+                    <div><span>05</span><div><strong>展记详情</strong><p>沉淀精选作品、展览信息、感受和作品详情。</p></div></div>
+                    <div><span>06</span><div><strong>生成分享图</strong><p>按长图、九宫格或封面卡导出，完成从私人记录到分享表达的转化。</p></div></div>
+                </div>
+            </section>
+
+            <section class="project-section" id="prototype">
+                <div class="project-section-header">
+                    <div class="project-label">PROTOTYPE DESIGN</div>
+                    <h2>原型设计</h2>
+                    <p>原型按看展前、看展中、看展后拆成四个关键界面，覆盖完整 MVP 闭环。</p>
+                </div>
+                <div class="prototype-groups">
+                    <article>
+                        <div class="prototype-copy">
+                            <span>RECORDING</span>
+                            <h3>展册与建档</h3>
+                            <p>首页让用户看到正在展中的记录；看展入口降低新建成本；建档页把必填信息控制在最小范围。</p>
+                        </div>
+                        <div class="case-gallery case-gallery-three">
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-home.png">
+                                <img src="assets/screen-exhibition-home.png" alt="展迹 展册首页">
+                                <span>展册首页</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-start.png">
+                                <img src="assets/screen-exhibition-start.png" alt="展迹 看展入口">
+                                <span>看展入口</span>
+                            </button>
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-create.png">
+                                <img src="assets/screen-exhibition-create.png" alt="展迹 新建展迹">
+                                <span>新建展迹</span>
+                            </button>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="prototype-copy">
+                            <span>OUTPUT</span>
+                            <h3>整理与分享</h3>
+                            <p>分享生成页把展览封面、精选展品和观展感受组织成可导出的长图，服务用户的复盘与社交表达。</p>
+                        </div>
+                        <div class="case-gallery">
+                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-share.png">
+                                <img src="assets/screen-exhibition-share.png" alt="展迹 分享生成页">
+                                <span>分享生成</span>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">PRODUCT WORKFLOW</div>
+                    <h2>把观展记录拆成产品闭环</h2>
+                    <p>这个项目展示的是对真实场景限制的理解：少打扰、可补全、能沉淀、可分享。</p>
+                </div>
+                <div class="workflow-grid">
+                    <div><span>01</span><div><h3>轻量建档</h3><p>先建立展览容器，自动带入基础信息，减少用户开局成本。</p></div></div>
+                    <div><span>02</span><div><h3>现场采集</h3><p>把拍展品作为主任务，其他信息允许跳过，避免打断观展。</p></div></div>
+                    <div><span>03</span><div><h3>标签识别</h3><p>作品标签进入待确认状态，把校对留到展后完成。</p></div></div>
+                    <div><span>04</span><div><h3>私人展册</h3><p>按展览维度归档作品、票根、心情和文字记录。</p></div></div>
+                    <div><span>05</span><div><h3>分享模板</h3><p>提供长图、九宫格和封面卡，降低内容二次整理成本。</p></div></div>
+                    <div><span>06</span><div><h3>隐私边界</h3><p>默认私人记录，分享由用户主动触发，避免社区化过早干扰核心体验。</p></div></div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <div class="project-section-header">
+                    <div class="project-label">SUMMARY</div>
+                    <h2>项目总结</h2>
+                    <p>展迹展示的是我对垂直生活场景的产品拆解能力：先理解现场限制，再定义低负担流程。</p>
+                </div>
+                <div class="summary-panel">
+                    <div><h3>已完成</h3><p>产品定位、用户场景、MVP 范围、核心流程、高保真移动端 UI、分享模式和设置页框架。</p></div>
+                    <div><h3>下一步</h3><p>如果继续推进，会优先补真实 OCR、展览信息自动识别、图片导出质量和展后整理编辑器，而不是立刻扩展社区。</p></div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <div class="image-lightbox" aria-hidden="true">
+        <div class="lightbox-toolbar" aria-label="图片缩放工具">
+            <button type="button" class="lightbox-btn" data-zoom-action="out" aria-label="缩小">−</button>
+            <button type="button" class="lightbox-btn" data-zoom-action="reset">100%</button>
+            <button type="button" class="lightbox-btn" data-zoom-action="in" aria-label="放大">+</button>
+            <button type="button" class="lightbox-close" aria-label="关闭大图">×</button>
+        </div>
+        <div class="lightbox-stage">
+            <img class="lightbox-image" src="" alt="">
+        </div>
+    </div>
+
+    <footer>
+        © 2026 KONG XIAOJIE · DESIGNED WITH CARE
+    </footer>
+
+    <script src="js/main.js?v=20260629-grain-source-breakdown"></script>
+
+</body>
+</html>

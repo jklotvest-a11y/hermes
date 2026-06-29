@@ -12,7 +12,18 @@
     const lightboxImage = document.querySelector('.lightbox-image');
     const lightboxStage = document.querySelector('.lightbox-stage');
     const zoomTriggers = document.querySelectorAll('.zoom-trigger');
+    const interactiveCover = document.querySelector('.interactive-cover');
+    const introOrbit = interactiveCover?.querySelector('.cover-orbit');
+    const introOrbitCards = interactiveCover ? [...interactiveCover.querySelectorAll('.orbit-card')] : [];
     let lightboxZoom = 1;
+
+    const updateIntroState = () => {
+        if (!interactiveCover) return;
+        const threshold = Math.max(120, interactiveCover.offsetHeight - 90);
+        document.body.classList.toggle('intro-active', window.scrollY < threshold);
+    };
+
+    document.body.classList.add('intro-active');
 
     const hideLoader = () => {
         if (!loader) return;
@@ -60,8 +71,56 @@
 
         window.addEventListener('scroll', () => {
             nav.classList.toggle('nav-scrolled', window.scrollY > 24);
+            updateIntroState();
         }, { passive: true });
     }
+
+    updateIntroState();
+
+    if (interactiveCover && !prefersReducedMotion) {
+        interactiveCover.addEventListener('pointermove', event => {
+            const rect = interactiveCover.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width - 0.5) * 28;
+            const y = ((event.clientY - rect.top) / rect.height - 0.5) * 22;
+            interactiveCover.style.setProperty('--cover-mx', `${x.toFixed(2)}px`);
+            interactiveCover.style.setProperty('--cover-my', `${y.toFixed(2)}px`);
+        });
+
+        interactiveCover.addEventListener('pointerleave', () => {
+            interactiveCover.style.setProperty('--cover-mx', '0px');
+            interactiveCover.style.setProperty('--cover-my', '0px');
+        });
+    }
+
+    if (introOrbit && introOrbitCards.length && !prefersReducedMotion) {
+        const baseAngles = [-155, -126, -96, -66, -36, -6, 24, 54, 84, 114, 144, 174];
+
+        const moveOrbitCards = time => {
+            const size = introOrbit.clientWidth;
+            const center = size / 2;
+            const radius = size * 0.455;
+            const spin = time * 0.009;
+
+            introOrbitCards.forEach((card, index) => {
+                const angle = (baseAngles[index % baseAngles.length] + spin) * Math.PI / 180;
+                const bob = Math.sin(time * 0.0025 + index) * 4;
+                const x = center + Math.cos(angle) * radius - card.offsetWidth / 2;
+                const y = center + Math.sin(angle) * radius - card.offsetHeight / 2 + bob;
+
+                card.style.left = `${x}px`;
+                card.style.top = `${y}px`;
+                card.style.right = 'auto';
+                card.style.bottom = 'auto';
+            });
+
+            window.requestAnimationFrame(moveOrbitCards);
+        };
+
+        window.requestAnimationFrame(moveOrbitCards);
+    }
+
+    window.addEventListener('load', updateIntroState);
+    window.addEventListener('pageshow', updateIntroState);
 
     if (lightbox && lightboxImage) {
         const setZoom = value => {
