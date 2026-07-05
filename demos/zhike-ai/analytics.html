@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据分析 · 智客 AI</title>
+<link rel="stylesheet" href="css/common.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  .period-selector { display: inline-flex; background: white; border-radius: 8px; padding: 3px; border: 1px solid var(--color-border); }
+  .period-selector button { padding: 6px 16px; font-size: 13px; border-radius: 6px; color: var(--color-text-soft); }
+  .period-selector button.active { background: linear-gradient(135deg, #FF6B35, #FF8A5B); color: white; font-weight: 500; }
+  .insight-card { padding: 16px 20px; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); background: linear-gradient(135deg, #FFF8F3 0%, #FFFFFF 100%); margin-bottom: 12px; }
+  .insight-card.success { border-left-color: var(--color-success); background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%); }
+  .insight-card.warning { border-left-color: var(--color-warning); background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%); }
+  .channel-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--color-border-light); }
+  .channel-row:last-child { border-bottom: none; }
+  .channel-name { width: 100px; font-size: 13px; }
+  .channel-bar { flex: 1; height: 8px; background: var(--color-bg); border-radius: 4px; overflow: hidden; }
+  .channel-fill { height: 100%; border-radius: 4px; }
+  .flip-number { font-size: 28px; font-weight: 700; font-family: -apple-system, "SF Pro Display", sans-serif; }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <div id="sidebar-container"></div>
+  <div class="main-wrapper">
+    <div class="top-header">
+      <div class="breadcrumb"><span>数据</span><span>/</span><span class="current">数据分析</span></div>
+      <div class="header-right">
+        <button class="btn btn-secondary" onclick="loadAll()">🔄 刷新</button>
+        <button class="btn btn-primary">⤓ 导出报表</button>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">📈 数据分析中心</div>
+          <div class="page-desc">多维度分析对话数据，AI 智能洞察业务趋势</div>
+        </div>
+        <div class="period-selector">
+          <button>今日</button>
+          <button class="active">本周</button>
+          <button>本月</button>
+          <button>本季</button>
+        </div>
+      </div>
+
+      <!-- 4 个核心指标 -->
+      <div class="grid grid-4 gap-4 mb-4">
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">总对话量</div>
+          <div class="flip-number mt-1" id="m-conv">-</div>
+          <div class="text-xs text-soft mt-2">今日 <span id="m-conv-today">-</span></div>
+        </div>
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">AI 解决率</div>
+          <div class="flip-number mt-1 text-success" id="m-bot">-</div>
+          <div class="text-xs text-soft mt-2">机器人独立解决</div>
+        </div>
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">总解决率</div>
+          <div class="flip-number mt-1" id="m-resolved">-</div>
+          <div class="text-xs text-soft mt-2">含人工协助</div>
+        </div>
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">总消息数</div>
+          <div class="flip-number mt-1" id="m-msg">-</div>
+          <div class="text-xs text-soft mt-2">今日 <span id="m-msg-today">-</span></div>
+        </div>
+      </div>
+
+      <!-- 图表行 -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px" class="mb-4">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📊 业务概览</div></div>
+          <div class="card-body"><div id="chart-main" style="height:300px"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">🎯 会话状态分布</div></div>
+          <div class="card-body"><div id="chart-status" style="height:300px"></div></div>
+        </div>
+      </div>
+
+      <!-- 平台分布 + AI 洞察 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="mb-4">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🛒 店铺平台分布</div></div>
+          <div class="card-body" id="platform-list">
+            <div style="text-align:center;color:var(--color-text-soft);padding:40px">加载中...</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">💡 AI 智能洞察</div></div>
+          <div class="card-body" id="insights">
+            <div class="insight-card success">
+              <div class="text-bold">✅ 系统运行良好</div>
+              <div class="text-sm text-soft mt-1">所有核心服务在线，无异常事件</div>
+            </div>
+            <div class="insight-card">
+              <div class="text-bold">📊 数据概览</div>
+              <div class="text-sm text-soft mt-1" id="insight-text">加载中...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 业务数据 -->
+      <div class="grid grid-4 gap-4 mb-4">
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">注册用户</div>
+          <div class="flip-number mt-1" id="m-users">-</div>
+        </div>
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">店铺总数</div>
+          <div class="flip-number mt-1" id="m-shops">-</div>
+        </div>
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">商品数量</div>
+          <div class="flip-number mt-1" id="m-products">-</div>
+        </div>
+        <div class="card" style="padding:18px 20px">
+          <div class="text-soft text-sm">知识库条目</div>
+          <div class="flip-number mt-1" id="m-knowledge">-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!requireAuth()) return;
+  document.getElementById('sidebar-container').innerHTML = renderSidebar('analytics');
+  await initUser();
+  await loadAll();
+});
+
+async function loadAll() {
+  try {
+    const stats = await DashboardAPI.analytics();
+    document.getElementById('m-conv').textContent = stats.total_conversations.toLocaleString();
+    document.getElementById('m-conv-today').textContent = stats.today_conversations;
+    document.getElementById('m-bot').textContent = stats.bot_resolution_rate + '%';
+    document.getElementById('m-resolved').textContent = stats.resolved_rate + '%';
+    document.getElementById('m-msg').textContent = stats.total_messages.toLocaleString();
+    document.getElementById('m-msg-today').textContent = stats.today_messages;
+    document.getElementById('m-users').textContent = stats.total_users.toLocaleString();
+    document.getElementById('m-shops').textContent = stats.total_shops.toLocaleString();
+    document.getElementById('m-products').textContent = stats.total_products.toLocaleString();
+
+    // AI 洞察
+    const botRate = stats.bot_resolution_rate || 0;
+    const insightText = `本周总对话量 ${stats.total_conversations.toLocaleString()} 条，AI 解决率 ${botRate}%。${
+      botRate >= 80 ? 'AI 表现优秀！' : botRate >= 50 ? 'AI 表现良好，仍有提升空间。' : '建议优化知识库内容。'
+    }`;
+    document.getElementById('insight-text').textContent = insightText;
+  } catch (e) { console.warn('加载统计失败', e); }
+
+  try {
+    const shops = await ShopAPI.list({ limit: 200 });
+    renderPlatformList(shops || []);
+  } catch (e) { console.warn('加载店铺失败', e); }
+
+  try {
+    const kb = await KnowledgeAPI.list({ limit: 1 });
+    // 用所有数据估算条目数
+    const allKb = await KnowledgeAPI.list({ limit: 500 });
+    document.getElementById('m-knowledge').textContent = (allKb || []).length;
+  } catch (e) { console.warn('加载知识库失败', e); }
+
+  // 加载会话数据用于状态分布
+  try {
+    const convs = await ConversationAPI.list({ limit: 500 });
+    renderStatusChart(convs || []);
+    renderMainChart(stats, convs || []);
+  } catch (e) {
+    console.warn('加载会话失败', e);
+    renderMainChart({ total_conversations: 0, total_messages: 0, total_users: 0, total_shops: 0 }, []);
+  }
+}
+
+function renderPlatformList(shops) {
+  const counts = {};
+  shops.forEach(s => { const p = s.platform || 'unknown'; counts[p] = (counts[p] || 0) + 1; });
+  const total = shops.length || 1;
+  const platforms = { taobao: '淘宝', jd: '京东', pinduoduo: '拼多多', unknown: '其他' };
+  const colors = { taobao: '#FF6B35', jd: '#E1251B', pinduoduo: '#E02E2E', unknown: '#9CA3AF' };
+  const html = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([p, c]) => {
+    const pct = ((c / total) * 100).toFixed(1);
+    return `
+      <div class="channel-row">
+        <div class="channel-name">${platforms[p] || p}</div>
+        <div class="channel-bar"><div class="channel-fill" style="width:${pct}%;background:${colors[p] || '#9CA3AF'}"></div></div>
+        <div class="text-xs text-soft" style="width:80px;text-align:right">${c} 家 (${pct}%)</div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('platform-list').innerHTML = html || '<div style="text-align:center;color:var(--color-text-soft);padding:20px">暂无数据</div>';
+}
+
+function renderStatusChart(convs) {
+  const statusCount = { active: 0, resolved: 0, escalated: 0 };
+  convs.forEach(c => { if (statusCount[c.status] !== undefined) statusCount[c.status]++; });
+  const chart = echarts.init(document.getElementById('chart-status'));
+  chart.setOption({
+    tooltip: { trigger: 'item' },
+    legend: { bottom: 0, textStyle: { fontSize: 12 } },
+    series: [{
+      type: 'pie', radius: ['45%', '70%'], avoidLabelOverlap: false,
+      itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
+      label: { formatter: '{b}\n{d}%', fontSize: 12 },
+      data: [
+        { value: statusCount.resolved, name: '已解决', itemStyle: { color: '#10B981' } },
+        { value: statusCount.active, name: '进行中', itemStyle: { color: '#F59E0B' } },
+        { value: statusCount.escalated, name: '转人工', itemStyle: { color: '#EF4444' } }
+      ]
+    }]
+  });
+}
+
+function renderMainChart(stats, convs) {
+  const chart = echarts.init(document.getElementById('chart-main'));
+  const botConvs = convs.filter(c => c.agent_type === 'bot').length;
+  const humanConvs = convs.filter(c => c.agent_type === 'human').length;
+  chart.setOption({
+    grid: { top: 30, right: 20, bottom: 30, left: 50 },
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['总数', 'AI处理', '人工处理'], top: 0 },
+    xAxis: { type: 'category', data: ['用户', '店铺', '商品', '会话', '消息'], axisLine: { lineStyle: { color: '#E5E7EB' } } },
+    yAxis: { type: 'value', splitLine: { lineStyle: { color: '#F3F4F6' } } },
+    series: [
+      {
+        name: '总数', type: 'bar', barWidth: 20,
+        itemStyle: { color: '#FF6B35', borderRadius: [4, 4, 0, 0] },
+        data: [
+          stats.total_users, stats.total_shops, stats.total_products,
+          stats.total_conversations, stats.total_messages
+        ]
+      },
+      {
+        name: 'AI处理', type: 'bar', barWidth: 20,
+        itemStyle: { color: '#FFB627', borderRadius: [4, 4, 0, 0] },
+        data: [0, 0, 0, botConvs, 0]
+      },
+      {
+        name: '人工处理', type: 'bar', barWidth: 20,
+        itemStyle: { color: '#FF8A5B', borderRadius: [4, 4, 0, 0] },
+        data: [0, 0, 0, humanConvs, 0]
+      }
+    ]
+  });
+}
+</script>
+</body>
+</html>

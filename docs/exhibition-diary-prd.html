@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>展迹 App 私人观展日记｜PRD 文档</title>
+<style>
+:root{color-scheme:light;--bg:#f5efe4;--paper:#fffaf0;--ink:#111;--text:#333;--muted:#666;--line:#e4dac9;--olive:#7f875c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.6}main{max-width:980px;margin:0 auto;padding:48px 28px 72px;background:linear-gradient(135deg,rgba(255,250,240,.72),rgba(245,239,228,.62));min-height:100vh}h1,h2,h3{color:var(--ink);letter-spacing:-.02em;margin:0 0 24px}h1{font-size:40px;line-height:1.2;font-weight:700}h2{font-size:32px;line-height:1.25;font-weight:600;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}h3{font-size:24px;line-height:1.3;font-weight:600;margin-top:32px}p{margin:0 0 24px}ul,ol{margin:0 0 24px;padding-left:1.35em}li{margin:8px 0}table{width:100%;border-collapse:collapse;margin:0 0 28px;background:var(--paper);border:1px solid var(--line)}td{padding:12px 14px;border:1px solid var(--line);vertical-align:top}pre{overflow:auto;background:#eee4d4;border:1px solid var(--line);border-radius:8px;padding:18px;margin:0 0 28px;color:#2d2a24}code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}.doc-meta{display:inline-flex;gap:10px;align-items:center;margin-bottom:24px;color:var(--olive);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.doc-meta::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--olive)}@media(max-width:768px){main{padding:34px 18px 56px}h1{font-size:32px}h2{font-size:26px}h3{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<div class="doc-meta">Product Requirement Document</div>
+<h1>展迹 App 私人观展日记｜PRD 文档</h1>
+<h2>1. 项目背景</h2>
+<p>看展用户通常会拍很多照片，也会保存票根、展签、展览信息和当下感受。但这些信息经常分散在相册、备忘录和社交平台里，展后想回看或分享时，需要重新选图、补文字、查作品信息和排版。</p>
+<p>本项目以“高频看展用户、艺术展爱好者、内容分享用户”为核心用户，设计一个围绕观展现场轻记录和展后整理分享的移动端 App 原型。</p>
+<h2>2. 用户与问题</h2>
+<p>目标用户是在城市中较高频率看展、喜欢拍照记录、也有一定内容分享需求的人群。</p>
+<p>核心痛点：</p>
+<ul>
+<li>展厅现场不适合长时间打字，记录动作容易打断观看</li>
+<li>展品照片、票根、展签、地点和感受分散，展后难归档</li>
+<li>作品名称、作者、年代等信息如果现场没记，后续很难补全</li>
+<li>想发社交平台时，还要重新选图、排版和整理文字</li>
+<li>通用相册不理解“展览、作品、展签、观展感受”的结构</li>
+</ul>
+<h2>3. 产品目标</h2>
+<p>本项目将目标拆成三个层次：</p>
+<ul>
+<li>现场低负担：让用户在展厅中用最少操作完成必要采集</li>
+<li>展后可整理：把照片、标签、票根和感受沉淀成可回看的私人展册</li>
+<li>分享可生成：降低用户二次排版成本，生成适合分享的图文内容</li>
+</ul>
+<p>关键指标：</p>
+<table><tbody>
+<tr><td>指标</td><td>含义</td></tr>
+<tr><td>新建展迹完成率</td><td>用户是否能顺利创建一次观展记录</td></tr>
+<tr><td>展品记录数量</td><td>单次看展中用户记录的作品数量</td></tr>
+<tr><td>标签补录完成率</td><td>展后用户是否完成作品标签或信息补充</td></tr>
+<tr><td>分享生成率</td><td>用户是否使用长图、九宫格或封面卡生成分享内容</td></tr>
+<tr><td>回看率</td><td>用户是否在展后再次打开展册查看记录</td></tr>
+</tbody></table>
+<h2>4. 方案设计</h2>
+<p>产品采用“现场轻记录 + 展后整理 + 分享生成”的闭环：</p>
+<pre><code>flowchart LR
+  A[&quot;新建展迹&quot;] --&gt; B[&quot;填写展名、日期、地点&quot;]
+  B --&gt; C[&quot;现场拍展品&quot;]
+  C --&gt; D[&quot;补拍标签或记录一句感受&quot;]
+  D --&gt; E[&quot;展后整理作品信息&quot;]
+  E --&gt; F[&quot;生成分享内容&quot;]
+  F --&gt; G[&quot;沉淀为私人展册&quot;]</code></pre>
+<h2>5. 核心页面</h2>
+<h3>展册首页</h3>
+<p>展示最近的展记、正在整理的展览和历史观展记录。这个页面用于回答“我的观展记录沉淀在哪里”。</p>
+<h3>新建展迹页</h3>
+<p>输入展名、日期、地点、天气和心情。MVP 中不强制用户输入完整信息，避免在现场开始前形成负担。</p>
+<h3>现场记录页</h3>
+<p>以拍展品为主动作，支持补拍展签、票根和记录一句感受。这个页面强调快速采集，而不是完整整理。</p>
+<h3>标签补录页</h3>
+<p>展后统一处理待确认作品信息，支持补充作品名称、作者、年份、展区和个人备注。</p>
+<h3>分享生成页</h3>
+<p>提供长图、九宫格和封面卡三种分享模式，把私人记录转成社交平台可用内容。</p>
+<h2>6. 技术实现</h2>
+<p>当前项目以高保真移动端原型展示核心体验，重点验证信息结构和交互路径。</p>
+<p>MVP 可采用本地数据模拟：</p>
+<ol>
+<li>新建展迹后生成一条展览记录</li>
+<li>现场采集阶段保存作品照片、展签和一句话感受</li>
+<li>展后整理阶段补充作品字段</li>
+<li>分享页根据记录内容生成不同版式预览</li>
+</ol>
+<p>后续如果进入真实开发，可接入 OCR 识别展签文字，并用图片聚类或时间线帮助用户自动整理观展素材。</p>
+<h2>7. 产品取舍</h2>
+<p>本项目没有优先做展览社区和复杂社交，而是先服务私人记录闭环。原因是看展用户最稳定的需求不是“发给别人看”，而是先把自己的观看体验保存下来。</p>
+<p>MVP 保留：</p>
+<ul>
+<li>展册首页</li>
+<li>新建展迹</li>
+<li>现场拍展品和补拍标签</li>
+<li>展后标签补录</li>
+<li>分享生成</li>
+<li>私人展册沉淀</li>
+</ul>
+<p>MVP 暂不做：</p>
+<ul>
+<li>展览票务购买</li>
+<li>展览社区动态流</li>
+<li>关注、点赞和评论</li>
+<li>复杂 OCR 校对流程</li>
+<li>多人协作看展</li>
+<li>商业化会员体系</li>
+</ul>
+<h2>8. 我的产出</h2>
+<ul>
+<li>完成观展场景拆解和用户痛点定义</li>
+<li>设计看展前、看展中、看展后的核心流程</li>
+<li>输出移动端高保真 UI 原型</li>
+<li>设计展册首页、现场记录、标签补录和分享生成页面</li>
+<li>将线下观展节奏转译成低打扰移动端交互</li>
+<li>整理为作品集案例页面</li>
+</ul>
+<h2>9. 后续优化方向</h2>
+<ul>
+<li>增加 OCR 展签识别，自动提取作品名称、作者和年份</li>
+<li>增加展览信息库，自动补全展览地点、展期和主办方</li>
+<li>支持同一次展览下的时间线回看</li>
+<li>优化分享模板，适配小红书、朋友圈和长图发布</li>
+<li>通过真实看展用户测试现场记录是否足够低负担</li>
+</ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家plus AI 软装改造助手｜PRD 文档</title>
+<style>
+:root{color-scheme:light;--bg:#f5efe4;--paper:#fffaf0;--ink:#111;--text:#333;--muted:#666;--line:#e4dac9;--olive:#7f875c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.6}main{max-width:980px;margin:0 auto;padding:48px 28px 72px;background:linear-gradient(135deg,rgba(255,250,240,.72),rgba(245,239,228,.62));min-height:100vh}h1,h2,h3{color:var(--ink);letter-spacing:-.02em;margin:0 0 24px}h1{font-size:40px;line-height:1.2;font-weight:700}h2{font-size:32px;line-height:1.25;font-weight:600;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}h3{font-size:24px;line-height:1.3;font-weight:600;margin-top:32px}p{margin:0 0 24px}ul,ol{margin:0 0 24px;padding-left:1.35em}li{margin:8px 0}table{width:100%;border-collapse:collapse;margin:0 0 28px;background:var(--paper);border:1px solid var(--line)}td{padding:12px 14px;border:1px solid var(--line);vertical-align:top}pre{overflow:auto;background:#eee4d4;border:1px solid var(--line);border-radius:8px;padding:18px;margin:0 0 28px;color:#2d2a24}code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}.doc-meta{display:inline-flex;gap:10px;align-items:center;margin-bottom:24px;color:var(--olive);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.doc-meta::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--olive)}@media(max-width:768px){main{padding:34px 18px 56px}h1{font-size:32px}h2{font-size:26px}h3{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<div class="doc-meta">Product Requirement Document</div>
+<h1>家plus AI 软装改造助手｜PRD 文档</h1>
+<h2>1. 项目背景</h2>
+<p>精装修新房业主在入住前经常会遇到软装决策问题：房子已经交付，但空间缺少个性；内容平台上案例很多，却很难判断某个风格是否适合自己的户型、采光、墙地面颜色和预算。</p>
+<p>本项目以“刚收房、准备入住、正在购买家具软装的人群”为核心用户，设计一个基于真实房间照片生成软装方案的 AI 产品 Demo。它不只生成一张好看的效果图，而是继续给出空间诊断、家具推荐、预算优先级和分步落地建议。</p>
+<h2>2. 用户与问题</h2>
+<p>目标用户是精装修新房业主，尤其是刚收房、准备入住或正在购买沙发、茶几、电视柜、床、窗帘等软装大件的人群。</p>
+<p>核心痛点：</p>
+<ul>
+<li>灵感案例很多，但很难迁移到自己的真实空间</li>
+<li>家具购买决策成本高，担心颜色、尺寸、比例和风格不协调</li>
+<li>AI 生图结果如果缺少预算和家具清单，用户仍然不知道下一步怎么执行</li>
+<li>用户想分阶段改造，但不知道哪些家具应该优先购买</li>
+<li>设计师咨询门槛高，普通用户更需要轻量、低成本的初步方案</li>
+</ul>
+<h2>3. 产品目标</h2>
+<p>本项目将目标拆成三个层次：</p>
+<ul>
+<li>决策效率：让用户快速获得基于真实房间照片的软装方向</li>
+<li>方案可理解：把 AI 结果拆成效果图、空间诊断、家具推荐和执行步骤</li>
+<li>落地可执行：用预算档位和购买优先级帮助用户做下一步决策</li>
+</ul>
+<p>关键指标：</p>
+<table><tbody>
+<tr><td>指标</td><td>含义</td></tr>
+<tr><td>完整流程完成率</td><td>用户从上传照片到查看结果页的完成比例</td></tr>
+<tr><td>方案保存率</td><td>用户对生成方案感兴趣并保存的比例</td></tr>
+<tr><td>家具推荐点击率</td><td>用户查看家具推荐详情或清单的比例</td></tr>
+<tr><td>重新生成率</td><td>用户对当前方案不满意并再次生成的比例</td></tr>
+<tr><td>Demo 可理解度</td><td>面试官或体验者是否能在 1-2 分钟内理解产品闭环</td></tr>
+</tbody></table>
+<h2>4. 方案设计</h2>
+<p>产品采用“真实照片输入 + 结构化偏好 + AI 方案生成 + 执行清单”的闭环：</p>
+<pre><code>flowchart LR
+  A[&quot;上传房间照片&quot;] --&gt; B[&quot;选择空间类型&quot;]
+  B --&gt; C[&quot;选择风格、预算和家庭需求&quot;]
+  C --&gt; D[&quot;AI 理解空间&quot;]
+  D --&gt; E[&quot;生成软装方案&quot;]
+  E --&gt; F[&quot;查看效果图与空间诊断&quot;]
+  F --&gt; G[&quot;查看家具推荐与购买优先级&quot;]
+  G --&gt; H[&quot;保存方案&quot;]</code></pre>
+<h2>5. 核心页面</h2>
+<h3>首页</h3>
+<p>说明产品价值，强调“拍一张精装房照片，生成你的软装改造方案”，并提供开始改造和查看示例方案入口。</p>
+<h3>上传页</h3>
+<p>获取用户真实空间照片，展示上传要求和隐私说明。照片是 AI 理解空间条件的关键输入。</p>
+<h3>偏好选择页</h3>
+<p>收集空间类型、风格偏好、预算档位和家庭需求。这个页面用于把用户偏好转成可计算的生成约束。</p>
+<h3>生成页</h3>
+<p>展示 AI 处理过程，例如理解空间结构、匹配软装风格、生成效果图、推荐家具清单和整理改造步骤，用过程反馈降低等待焦虑。</p>
+<h3>结果页</h3>
+<p>展示原图 / 改造图对比、空间问题诊断、风格方案说明、家具推荐清单、购买优先级和分步改造建议。</p>
+<h3>家具详情页</h3>
+<p>解释单件家具为什么被推荐，包括品类、价格区间、材质、颜色、推荐理由和适合放置位置。</p>
+<h3>方案保存页</h3>
+<p>完成产品闭环，展示保存成功、方案名称、生成时间，并提供再生成一个方案和返回首页入口。</p>
+<h2>6. 技术实现</h2>
+<p>当前 Demo 采用静态前端实现核心体验流程，页面包括上传、偏好选择、生成状态、结果展示和保存反馈。</p>
+<p>AI 生成链路在 MVP 中采用可解释的模拟方案：</p>
+<ol>
+<li>用户输入空间类型、风格、预算和家庭需求</li>
+<li>前端根据结构化输入匹配预置方案数据</li>
+<li>结果页展示空间诊断、家具推荐和执行步骤</li>
+<li>用本地状态模拟方案保存</li>
+</ol>
+<p>这种实现方式适合作品集展示：先验证产品链路、页面信息架构和用户理解成本，后续再接入真实图像理解和文生图能力。</p>
+<h2>7. 产品取舍</h2>
+<p>本项目没有一开始做完整家装平台，而是优先验证 AI 软装建议是否能帮助用户从“看灵感”走向“做决策”。</p>
+<p>MVP 保留：</p>
+<ul>
+<li>拍照 / 上传照片</li>
+<li>空间、风格、预算和家庭需求选择</li>
+<li>AI 生成状态展示</li>
+<li>改造效果图与空间诊断</li>
+<li>家具推荐清单和推荐理由</li>
+<li>分步改造建议和方案保存</li>
+</ul>
+<p>MVP 暂不做：</p>
+<ul>
+<li>登录注册和多设备同步</li>
+<li>真实电商购买和支付</li>
+<li>真实施工报价</li>
+<li>设计师咨询</li>
+<li>AR 量房和 3D 建模</li>
+<li>社区分享和 App Store 上架</li>
+</ul>
+<h2>8. 我的产出</h2>
+<ul>
+<li>定义精装房软装改造场景和目标用户</li>
+<li>梳理用户痛点、MVP 范围和产品闭环</li>
+<li>输出 PRD、页面结构和核心流程</li>
+<li>设计 AI 输入、AI 输出和结果页信息架构</li>
+<li>搭建本地可交互静态 Demo</li>
+<li>将项目整理为作品集案例页面</li>
+</ul>
+<h2>9. 后续优化方向</h2>
+<ul>
+<li>接入真实图像识别能力，自动识别空间类型、主色、采光和家具布局</li>
+<li>增加多方案对比，支持同一空间下不同预算和风格方案</li>
+<li>增加家具替换和收藏功能</li>
+<li>引入真实商品库，验证推荐清单的购买转化</li>
+<li>通过用户访谈验证结果页是否真的降低软装决策压力</li>
+</ul>
+</main>
+</body>
+</html>

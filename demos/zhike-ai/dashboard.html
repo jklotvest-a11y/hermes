@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工作台 · 智客 AI</title>
+<link rel="stylesheet" href="css/common.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  .metric-card { background: white; border-radius: var(--radius-lg); padding: 18px 20px; border: 1px solid var(--color-border-light); position: relative; overflow: hidden; }
+  .metric-card::before { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; background: var(--color-primary-50); border-radius: 50%; transform: translate(30%, -30%); }
+  .metric-card .label { font-size: 12px; color: var(--color-text-soft); }
+  .metric-card .value { font-size: 26px; font-weight: 700; margin: 8px 0 6px; font-family: -apple-system, "SF Pro Display", sans-serif; }
+  .metric-card .trend { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+  .metric-card .trend .up { color: var(--color-success); }
+  .metric-card .trend .down { color: var(--color-danger); }
+  .metric-card .icon-bg { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--color-border-light); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .activity-text { font-size: 13px; line-height: 1.5; }
+  .activity-text .highlight { color: var(--color-primary); font-weight: 500; }
+  .activity-time { font-size: 11px; color: var(--color-text-light); margin-top: 2px; }
+  .progress-row { margin-bottom: 16px; }
+  .progress-row:last-child { margin-bottom: 0; }
+  .progress-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .progress-bar { height: 6px; background: var(--color-bg); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #FF6B35, #FF8A5B); border-radius: 3px; }
+  .progress-fill.yellow { background: linear-gradient(90deg, #FFB627, #FF8A5B); }
+  .progress-fill.green { background: linear-gradient(90deg, #10B981, #34D399); }
+  .progress-fill.blue { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+  .todo-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; background: var(--color-bg); font-size: 13px; }
+  .todo-item:hover { background: var(--color-primary-50); }
+  .todo-priority { width: 4px; height: 16px; border-radius: 2px; }
+  .todo-priority.high { background: var(--color-danger); }
+  .todo-priority.mid { background: var(--color-warning); }
+  .todo-priority.low { background: var(--color-info); }
+  .loading-overlay { text-align: center; padding: 40px; color: var(--color-text-soft); }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <div id="sidebar-container"></div>
+  <div class="main-wrapper">
+    <div class="top-header">
+      <div class="breadcrumb"><span>工作台</span><span>/</span><span class="current">数据概览</span></div>
+      <div class="header-right">
+        <div class="header-icon-btn" title="通知">🔔<span class="dot"></span></div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title" id="welcome-text">加载中...</div>
+          <div class="page-desc" id="page-desc">正在加载数据...</div>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary" onclick="refreshData()">🔄 刷新</button>
+        </div>
+      </div>
+
+      <!-- 4 个核心指标 -->
+      <div class="grid grid-4 gap-4 mb-4" id="metrics-row">
+        <div class="loading-overlay">加载中...</div>
+      </div>
+
+      <!-- 图表 + 活动 -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;" class="mb-4">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📈 对话量趋势</div></div>
+          <div class="card-body"><div id="chart-trend" style="height: 280px;"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">🔴 实时动态</div></div>
+          <div class="card-body" style="max-height: 320px; overflow-y: auto;" id="activity-list">
+            <div class="loading-overlay">加载中...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 问题类型 + 待办 -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;" class="mb-4">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🥧 问题类型分布</div></div>
+          <div class="card-body"><div id="chart-pie" style="height: 200px;"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📌 最近会话</div></div>
+          <div class="card-body" style="max-height: 260px; overflow-y: auto;" id="recent-convs">
+            <div class="loading-overlay">加载中...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+// 页面加载
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!requireAuth()) return;
+  document.getElementById('sidebar-container').innerHTML = renderSidebar('dashboard');
+  await loadUserData();
+  await refreshData();
+});
+
+async function loadUserData() {
+  const me = await initUser();
+  if (me) {
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? '早上好' : hour < 18 ? '下午好' : '晚上好';
+    document.getElementById('welcome-text').textContent = `${greeting}，${me.nickname} 👋`;
+    document.getElementById('page-desc').textContent = `欢迎回来，这是你的数据概览`;
+  }
+}
+
+async function refreshData() {
+  try {
+    const stats = await DashboardAPI.analytics();
+    renderMetrics(stats);
+  } catch(e) {
+    console.error('加载数据失败', e);
+    document.getElementById('metrics-row').innerHTML = `<div class="loading-overlay" style="color:var(--color-danger)">数据加载失败: ${e.message}</div>`;
+  }
+  try {
+    const convos = await DashboardAPI.conversations({ limit: 5 });
+    renderRecentConvs(convos || []);
+  } catch(e) { console.warn('加载会话失败', e); }
+  initCharts();
+}
+
+function renderMetrics(stats) {
+  if (!stats) return;
+  const totalConv = stats.total_conversations || 0;
+  const totalMsg = stats.total_messages || 0;
+  const botRate = stats.bot_resolution_rate || 0;
+  const resolvedRate = stats.resolved_rate || 0;
+
+  document.getElementById('metrics-row').innerHTML = `
+    <div class="metric-card">
+      <div class="icon-bg" style="background:#FFF0E8;color:#FF6B35;">💬</div>
+      <div class="label">总会话量</div>
+      <div class="value">${totalConv.toLocaleString()}</div>
+      <div class="trend"><span class="text-light">今日 ${stats.today_conversations || 0}</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="icon-bg" style="background:#D1FAE5;color:#047857;">🤖</div>
+      <div class="label">AI 解决率</div>
+      <div class="value">${botRate}%</div>
+      <div class="trend"><span class="up">↑</span><span class="text-light">机器人处理</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="icon-bg" style="background:#FEF3C7;color:#B45309;">✅</div>
+      <div class="label">总解决率</div>
+      <div class="value">${resolvedRate}%</div>
+      <div class="trend"><span class="text-light">含人工</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="icon-bg" style="background:#DBEAFE;color:#1D4ED8;">📨</div>
+      <div class="label">总消息数</div>
+      <div class="value">${totalMsg.toLocaleString()}</div>
+      <div class="trend"><span class="text-light">今日 ${stats.today_messages || 0}</span></div>
+    </div>
+  `;
+}
+
+function renderRecentConvs(convs) {
+  const el = document.getElementById('recent-convs');
+  if (!convs.length) {
+    el.innerHTML = '<div class="loading-overlay">暂无会话</div>';
+    return;
+  }
+  el.innerHTML = convs.map(c => `
+    <div class="todo-item">
+      <div class="todo-priority ${c.status === 'active' ? 'mid' : 'low'}"></div>
+      <span class="flex-1">买家 ${c.buyer_id || '?'} · ${c.platform || ''}</span>
+      <span class="tag ${c.status === 'active' ? 'tag-yellow' : 'tag-green'}">${c.status}</span>
+    </div>
+  `).join('');
+}
+
+function initCharts() {
+  // 趋势图 - 用 mock 数据
+  try {
+    const trendEl = document.getElementById('chart-trend');
+    if (trendEl && typeof echarts !== 'undefined') {
+      const chart = echarts.init(trendEl);
+      chart.setOption({
+        grid: { top: 30, right: 20, bottom: 30, left: 40 },
+        tooltip: { trigger: 'axis' },
+        xAxis: { type: 'category', data: ['6/14','6/15','6/16','6/17','6/18','6/19','6/20'], axisLine: { lineStyle: { color: '#E5E7EB' } }, axisLabel: { color: '#9CA3AF' } },
+        yAxis: { type: 'value', splitLine: { lineStyle: { color: '#F3F4F6' } }, axisLabel: { color: '#9CA3AF' } },
+        series: [{
+          name: '对话量', type: 'line', smooth: true,
+          data: [820, 932, 901, 1134, 1290, 1156, 1286],
+          lineStyle: { color: '#FF6B35', width: 3 }, itemStyle: { color: '#FF6B35' },
+          areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: 'rgba(255, 107, 53, 0.3)' },
+            { offset: 1, color: 'rgba(255, 107, 53, 0)' }
+          ]) }
+        }]
+      });
+      window.addEventListener('resize', () => chart.resize());
+    }
+  } catch(e) { console.warn('趋势图加载失败', e); }
+
+  // 饼图
+  try {
+    const pieEl = document.getElementById('chart-pie');
+    if (pieEl && typeof echarts !== 'undefined') {
+      const chart = echarts.init(pieEl);
+      chart.setOption({
+        tooltip: { trigger: 'item' },
+        legend: { bottom: 0, left: 'center', textStyle: { fontSize: 12 } },
+        series: [{
+          type: 'pie', radius: ['40%', '70%'], avoidLabelOverlap: false,
+          itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
+          label: { show: false },
+          data: [
+            { value: 35, name: '售前', itemStyle: { color: '#FF6B35' } },
+            { value: 28, name: '售后', itemStyle: { color: '#FFB627' } },
+            { value: 18, name: '物流', itemStyle: { color: '#FF8A5B' } },
+            { value: 12, name: '支付', itemStyle: { color: '#FF4757' } },
+            { value: 7, name: '其他', itemStyle: { color: '#10B981' } }
+          ]
+        }]
+      });
+      window.addEventListener('resize', () => chart.resize());
+    }
+  } catch(e) { console.warn('饼图加载失败', e); }
+}
+</script>
+</body>
+</html>

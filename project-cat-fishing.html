@@ -21,6 +21,8 @@
         .case-summary-grid div { padding: 22px; border-radius: 22px; background: rgba(255,255,255,.66); border: 1px solid rgba(138,175,196,.22); }
         .case-summary-grid strong { display: block; font-size: 30px; line-height: 1; color: #2c3e50; margin-bottom: 10px; }
         .case-summary-grid span { color: #7a8a99; }
+        .prd-reader { margin-top: 36px; border: 1px solid #e4dac9; border-radius: 18px; overflow: hidden; background: linear-gradient(135deg, rgba(250, 246, 237, 0.92), rgba(244, 237, 224, 0.82)); box-shadow: 0 18px 44px rgba(96,78,48,.08); }
+        .prd-reader iframe { display: block; width: 100%; height: 760px; border: 0; background: #f5efe4; }
         @media (max-width: 860px) { .case-screen-row, .case-system-map, .case-summary-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -61,7 +63,7 @@
                 </div>
                 <div class="project-actions" aria-label="项目链接">
                     <a class="project-action project-action-primary" href="#game-loop">查看玩法循环</a>
-                    <a class="project-action" href="#rules">查看规则拆解</a>
+                    <a class="project-action" href="#prd">查看 PRD 文档</a>
                     <a class="project-action" href="#run">运行方式</a>
                 </div>
             </div>
@@ -71,6 +73,8 @@
                 <div><span>USER</span><strong>碎片时间休闲玩家</strong><p>希望快速开始、轻松理解，但每次咬钩和拉扯都有一点紧张感。</p></div>
                 <div><span>OUTPUT</span><strong>可运行微信小游戏 Demo</strong><p>完成 Canvas 渲染、触摸输入、倒计时、鱼类概率、结算和最高分保存。</p></div>
             </div></section>
+
+            <section class="project-section" id="prd"><div class="project-section-header"><div class="project-label">PRD</div><h2>小猫咪休闲垂钓 PRD 文档</h2><p>点击按钮后在当前页面阅读完整 PRD，不再打开新页面或下载文件。</p></div><div class="prd-reader"><iframe src="docs/cat-fishing-prd.html" title="小猫咪休闲垂钓 PRD 文档"></iframe></div></section>
 
             <section class="project-section project-game-hero"><div class="project-section-header"><div class="project-label">GAME PREVIEW</div><h2>核心体验预览</h2><p>用真实项目素材重建游戏氛围：岸边角色、水面浮标、隐藏鱼和即时反馈 UI。</p></div><div class="game-fishing-preview game-fishing-preview-large" aria-label="小猫咪休闲垂钓游戏视觉预览"><div class="game-fishing-scene"><span class="game-sky"></span><span class="game-shore"></span><img class="game-grass" src="assets/game-fishing/grass.png" alt=""><span class="game-cat"></span><span class="game-rod"></span><span class="game-line"></span><span class="game-bobber"></span><span class="game-water"></span><img class="game-fish-sheet" src="assets/game-fishing/fish-sheet.png" alt=""><span class="game-ui game-ui-score">30s · 0 fish</span><span class="game-ui game-ui-tip">上钩了！按住拉竿</span></div></div></section>
 

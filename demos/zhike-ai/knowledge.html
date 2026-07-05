@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识库管理 · 智客 AI</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+  .kb-layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; }
+  .category-tree { background: white; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); padding: 16px; height: fit-content; }
+  .tree-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; color: var(--color-text); }
+  .tree-item:hover { background: var(--color-bg); }
+  .tree-item.active { background: var(--color-primary-50); color: var(--color-primary); font-weight: 500; }
+  .tree-item .count { margin-left: auto; font-size: 11px; color: var(--color-text-light); background: var(--color-bg); padding: 1px 6px; border-radius: 999px; }
+  .tree-item.active .count { background: var(--color-primary-100); color: var(--color-primary); }
+  .question-cell { max-width: 360px; }
+  .question-cell .q { font-weight: 500; color: var(--color-text); }
+  .question-cell .a { color: var(--color-text-soft); font-size: 12px; margin-top: 4px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; }
+  .modal-mask.open { display: flex; }
+  .modal { background: white; border-radius: var(--radius-xl); width: 720px; max-width: 90%; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); }
+  .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--color-border-light); display: flex; justify-content: space-between; align-items: center; }
+  .modal-body { padding: 24px; overflow-y: auto; }
+  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--color-border-light); display: flex; justify-content: flex-end; gap: 8px; background: var(--color-bg); }
+  .tag-input { min-height: 36px; padding: 4px 8px; background: white; border: 1px solid var(--color-border); border-radius: var(--radius-md); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tag-input input { flex: 1; min-width: 100px; border: none; outline: none; font-size: 13px; }
+  .tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: var(--color-primary-50); color: var(--color-primary); border-radius: 4px; font-size: 12px; }
+  .tag-chip .x { cursor: pointer; opacity: 0.6; }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--color-text-soft); }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <div id="sidebar-container"></div>
+  <div class="main-wrapper">
+    <div class="top-header">
+      <div class="breadcrumb"><span>知识库</span><span>/</span><span class="current">FAQ 管理</span></div>
+      <div class="header-right">
+        <div class="search-box" style="width:280px;height:36px">
+          <span>🔍</span>
+          <input id="search-input" placeholder="搜索问题、关键词..." onkeydown="if(event.key==='Enter')doSearch()">
+        </div>
+        <button class="btn btn-primary" onclick="openModal()">+ 新增 FAQ</button>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">📚 知识库管理</div>
+          <div class="page-desc">管理所有 FAQ、分类标签和扩展问法，AI 会自动调用匹配</div>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary" onclick="loadList()">🔄 刷新</button>
+        </div>
+      </div>
+
+      <div class="grid grid-4 gap-4 mb-4">
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">总 FAQ 数</div>
+          <div class="text-2xl text-bold mt-1" id="stat-total">-</div>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">启用中</div>
+          <div class="text-2xl text-bold mt-1 text-success" id="stat-active">-</div>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">已停用</div>
+          <div class="text-2xl text-bold mt-1 text-light" id="stat-inactive">-</div>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">分类数</div>
+          <div class="text-2xl text-bold mt-1" id="stat-categories">-</div>
+        </div>
+      </div>
+
+      <div class="kb-layout">
+        <div class="category-tree" id="category-tree">
+          <div class="text-sm text-bold mb-3">📂 问题分类</div>
+          <div class="tree-item active" data-cat="">
+            <span>📋 全部</span>
+            <span class="count" id="cnt-all">-</span>
+          </div>
+          <div id="category-list"></div>
+        </div>
+
+        <div class="card">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--color-border-light);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="text-sm text-soft" id="list-info">加载中...</div>
+            <div style="margin-left:auto">
+              <select class="select" style="width:130px;height:30px;font-size:12px" id="page-size" onchange="loadList()">
+                <option value="20">20 条/页</option>
+                <option value="50">50 条/页</option>
+                <option value="100">100 条/页</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="table-container">
+            <div class="empty-state"><div class="icon">⏳</div>加载中...</div>
+          </div>
+
+          <div style="padding:12px 16px;border-top:1px solid var(--color-border-light);display:flex;justify-content:space-between;align-items:center">
+            <div class="text-sm text-soft" id="page-info">-</div>
+            <div class="flex gap-1" id="pagination"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 新增/编辑 FAQ 弹窗 -->
+<div class="modal-mask" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="text-lg text-bold" id="modal-title">+ 新增 FAQ</div>
+        <div class="text-xs text-soft mt-1">填写问题与答案，AI 将自动学习并匹配用户提问</div>
+      </div>
+      <button class="btn btn-text" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="grid grid-2 gap-4">
+        <div class="form-group">
+          <label class="form-label">问题分类 <span class="req">*</span></label>
+          <select class="select" id="f-category">
+            <option value="shipping">物流-发货</option>
+            <option value="return">售后-退换</option>
+            <option value="refund">售后-退款</option>
+            <option value="product">售前-商品</option>
+            <option value="price">售前-价格</option>
+            <option value="size">售前-尺码</option>
+            <option value="activity">售前-活动</option>
+            <option value="payment">支付-异常</option>
+            <option value="other">其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">状态</label>
+          <select class="select" id="f-status">
+            <option value="true">启用</option>
+            <option value="false">停用</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">问题标题 <span class="req">*</span></label>
+        <input class="input" id="f-title" placeholder="如：什么时候发货？">
+      </div>
+      <div class="form-group">
+        <label class="form-label">标准答案 <span class="req">*</span></label>
+        <textarea class="textarea" id="f-content" rows="5" placeholder="亲～本店现货商品 24 小时内发货..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">扩展问法（关键词）</label>
+        <div class="tag-input" id="tags-container">
+          <input id="f-keyword-input" placeholder="输入后回车添加" onkeydown="addKeyword(event)">
+        </div>
+        <div class="text-xs text-soft mt-1">💡 添加更多关键词可提高 AI 匹配准确率</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveKnowledge()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+let currentCategory = '';
+let currentPage = 1;
+let currentEditingId = null;
+let currentKeywords = [];
+let allItems = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!requireAuth()) return;
+  document.getElementById('sidebar-container').innerHTML = renderSidebar('knowledge');
+  await initUser();
+  await loadList();
+});
+
+async function loadList() {
+  const size = document.getElementById('page-size').value;
+  const container = document.getElementById('table-container');
+  container.innerHTML = '<div class="empty-state"><div class="icon">⏳</div>加载中...</div>';
+
+  try {
+    const params = { limit: parseInt(size), offset: 0 };
+    if (currentCategory) params.category = currentCategory;
+    const items = await KnowledgeAPI.list(params);
+    allItems = items || [];
+    renderTable(allItems);
+    updateStats(allItems);
+  } catch (e) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">❌</div>加载失败: ${e.message}</div>`;
+  }
+}
+
+function renderTable(items) {
+  const container = document.getElementById('table-container');
+  if (!items.length) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">📭</div>暂无数据，点击右上角"新增 FAQ"创建第一条</div>';
+    return;
+  }
+  container.innerHTML = `
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width:30px"><input type="checkbox"></th>
+          <th>问题 / 答案</th>
+          <th>分类</th>
+          <th>关键词</th>
+          <th>状态</th>
+          <th>更新时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${items.map(item => `
+          <tr>
+            <td><input type="checkbox"></td>
+            <td class="question-cell">
+              <div class="q">${escapeHtml(item.title || '(无标题)')}</div>
+              <div class="a">${escapeHtml(item.content || '')}</div>
+            </td>
+            <td><span class="tag tag-blue">${item.category || '未分类'}</span></td>
+            <td>
+              <div class="text-xs text-soft">${(item.keywords || []).slice(0,3).map(k => '·' + escapeHtml(k)).join(' ')}</div>
+            </td>
+            <td>
+              <span class="tag ${item.is_active ? 'tag-green' : 'tag-gray'}">${item.is_active ? '启用' : '停用'}</span>
+            </td>
+            <td class="text-xs text-soft">${formatTime(item.created_at)}</td>
+            <td>
+              <button class="btn btn-text" onclick="editKnowledge(${item.id})">编辑</button>
+              <button class="btn btn-text" onclick="searchByTitle('${escapeAttr(item.title || '')}')">测试</button>
+              <button class="btn btn-text text-danger" onclick="deleteKnowledge(${item.id})">删除</button>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function updateStats(items) {
+  document.getElementById('stat-total').textContent = items.length;
+  document.getElementById('stat-active').textContent = items.filter(i => i.is_active).length;
+  document.getElementById('stat-inactive').textContent = items.filter(i => !i.is_active).length;
+  const categories = new Set(items.map(i => i.category).filter(Boolean));
+  document.getElementById('stat-categories').textContent = categories.size;
+  document.getElementById('cnt-all').textContent = items.length;
+
+  // 渲染分类树
+  const catCount = {};
+  items.forEach(i => { if (i.category) catCount[i.category] = (catCount[i.category] || 0) + 1; });
+  const catList = document.getElementById('category-list');
+  catList.innerHTML = Object.entries(catCount).sort((a,b) => b[1]-a[1]).map(([cat, count]) => `
+    <div class="tree-item ${currentCategory === cat ? 'active' : ''}" onclick="filterCategory('${cat}')">
+      <span>${cat}</span>
+      <span class="count">${count}</span>
+    </div>
+  `).join('');
+
+  document.getElementById('list-info').textContent = `共 ${items.length} 条${currentCategory ? ` · 分类：${currentCategory}` : ''}`;
+  document.getElementById('page-info').textContent = `第 1 页 · 共 ${items.length} 条`;
+}
+
+function filterCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('#category-tree .tree-item').forEach(el => el.classList.remove('active'));
+  if (!cat) document.querySelector('#category-tree .tree-item[data-cat=""]').classList.add('active');
+  else {
+    const target = document.querySelector(`#category-tree .tree-item[onclick*="${cat}"]`);
+    if (target) target.classList.add('active');
+  }
+  loadList();
+}
+
+async function searchByTitle(title) {
+  if (!title) return;
+  try {
+    const results = await KnowledgeAPI.search(title, 3);
+    if (results.length) {
+      alert(`搜索 "${title}" 找到 ${results.length} 条结果：\n\n` + results.map(r => `· ${r.title} (相关度 ${(r.score*100).toFixed(0)}%)`).join('\n'));
+    } else {
+      alert(`搜索 "${title}" 没有找到匹配结果`);
+    }
+  } catch (e) { alert('搜索失败：' + e.message); }
+}
+
+async function doSearch() {
+  const q = document.getElementById('search-input').value.trim();
+  if (!q) { loadList(); return; }
+  try {
+    const results = await KnowledgeAPI.search(q, 20);
+    document.getElementById('list-info').textContent = `搜索 "${q}" 找到 ${results.length} 条结果`;
+    renderTable(results);
+  } catch (e) { alert('搜索失败：' + e.message); }
+}
+
+function openModal(id) {
+  currentEditingId = id || null;
+  currentKeywords = [];
+  document.getElementById('modal-title').textContent = id ? '✏️ 编辑 FAQ' : '+ 新增 FAQ';
+  document.getElementById('tags-container').innerHTML = '<input id="f-keyword-input" placeholder="输入后回车添加" onkeydown="addKeyword(event)">';
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-content').value = '';
+  document.getElementById('f-category').value = 'shipping';
+  document.getElementById('f-status').value = 'true';
+
+  if (id) {
+    KnowledgeAPI.list({ limit: 200 }).then(items => {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        document.getElementById('f-title').value = item.title || '';
+        document.getElementById('f-content').value = item.content || '';
+        document.getElementById('f-category').value = item.category || 'other';
+        document.getElementById('f-status').value = item.is_active ? 'true' : 'false';
+        currentKeywords = [...(item.keywords || [])];
+        renderKeywords();
+      }
+    });
+  }
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+function editKnowledge(id) { openModal(id); }
+
+async function deleteKnowledge(id) {
+  if (!confirm('确定要删除这条 FAQ 吗？')) return;
+  try {
+    await KnowledgeAPI.delete(id);
+    alert('删除成功');
+    loadList();
+  } catch (e) { alert('删除失败：' + e.message); }
+}
+
+function addKeyword(e) {
+  if (e.key !== 'Enter') return;
+  const input = e.target;
+  const v = input.value.trim();
+  if (v && !currentKeywords.includes(v)) {
+    currentKeywords.push(v);
+    renderKeywords();
+  }
+  input.value = '';
+  e.preventDefault();
+}
+
+function removeKeyword(k) {
+  currentKeywords = currentKeywords.filter(x => x !== k);
+  renderKeywords();
+}
+
+function renderKeywords() {
+  const c = document.getElementById('tags-container');
+  c.innerHTML = currentKeywords.map(k => `<span class="tag-chip">${escapeHtml(k)}<span class="x" onclick="removeKeyword('${escapeAttr(k)}')">✕</span></span>`).join('') +
+    '<input id="f-keyword-input" placeholder="输入后回车添加" onkeydown="addKeyword(event)">';
+}
+
+async function saveKnowledge() {
+  const title = document.getElementById('f-title').value.trim();
+  const content = document.getElementById('f-content').value.trim();
+  const category = document.getElementById('f-category').value;
+  const is_active = document.getElementById('f-status').value === 'true';
+
+  if (!title || !content) { alert('请填写问题和答案'); return; }
+
+  const data = { title, content, category, keywords: currentKeywords, is_active };
+
+  try {
+    if (currentEditingId) {
+      await KnowledgeAPI.update(currentEditingId, data);
+    } else {
+      await KnowledgeAPI.create(data);
+    }
+    closeModal();
+    alert('保存成功');
+    loadList();
+  } catch (e) { alert('保存失败：' + e.message); }
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function escapeAttr(s) {
+  return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+</script>
+</body>
+</html>

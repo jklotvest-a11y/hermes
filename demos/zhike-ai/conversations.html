@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会话管理 · 智客 AI</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+  .conv-layout { display: grid; grid-template-columns: 360px 1fr; gap: 16px; height: calc(100vh - 60px - 48px - 80px); }
+  .conv-list { background: white; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); display: flex; flex-direction: column; overflow: hidden; }
+  .conv-list-header { padding: 12px 16px; border-bottom: 1px solid var(--color-border-light); }
+  .conv-list-body { flex: 1; overflow-y: auto; }
+  .conv-item { padding: 12px 16px; border-bottom: 1px solid var(--color-border-light); cursor: pointer; transition: background 0.15s; }
+  .conv-item:hover { background: var(--color-bg-hover); }
+  .conv-item.active { background: var(--color-primary-50); border-left: 3px solid var(--color-primary); }
+  .conv-item-top { display: flex; justify-content: space-between; align-items: center; }
+  .conv-item-buyer { font-weight: 500; font-size: 13px; }
+  .conv-item-time { font-size: 11px; color: var(--color-text-light); }
+  .conv-item-preview { font-size: 12px; color: var(--color-text-soft); margin-top: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .conv-item-meta { display: flex; gap: 6px; margin-top: 6px; }
+
+  .conv-detail { background: white; border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); display: flex; flex-direction: column; overflow: hidden; }
+  .conv-detail-header { padding: 14px 20px; border-bottom: 1px solid var(--color-border-light); display: flex; justify-content: space-between; align-items: center; }
+  .conv-messages { flex: 1; padding: 20px; overflow-y: auto; background: var(--color-bg); }
+  .message { display: flex; gap: 10px; margin-bottom: 16px; }
+  .message.buyer { flex-direction: row; }
+  .message.bot, .message.human { flex-direction: row-reverse; }
+  .message-bubble { max-width: 70%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
+  .message.buyer .message-bubble { background: white; border: 1px solid var(--color-border-light); }
+  .message.bot .message-bubble { background: var(--color-primary-50); color: var(--color-primary-dark); }
+  .message.human .message-bubble { background: linear-gradient(135deg, #FF6B35, #FF8A5B); color: white; }
+  .message-meta { font-size: 11px; color: var(--color-text-light); margin-top: 4px; text-align: center; }
+
+  .filter-row { display: flex; gap: 8px; padding: 8px 16px; background: var(--color-bg); border-bottom: 1px solid var(--color-border-light); }
+  .filter-tag { padding: 4px 12px; border-radius: 999px; font-size: 12px; cursor: pointer; }
+  .filter-tag.active { background: var(--color-primary); color: white; }
+  .filter-tag:not(.active) { background: white; color: var(--color-text-soft); border: 1px solid var(--color-border); }
+
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--color-text-soft); }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <div id="sidebar-container"></div>
+  <div class="main-wrapper">
+    <div class="top-header">
+      <div class="breadcrumb"><span>工作台</span><span>/</span><span class="current">会话管理</span></div>
+      <div class="header-right">
+        <button class="btn btn-secondary" onclick="loadList()">🔄 刷新</button>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">💬 会话管理</div>
+          <div class="page-desc">查看所有客户会话、AI 自动回复记录及人工介入情况</div>
+        </div>
+      </div>
+
+      <div class="grid grid-4 gap-4 mb-4">
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">总会话数</div>
+          <div class="text-2xl text-bold mt-1" id="stat-total">-</div>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">进行中</div>
+          <div class="text-2xl text-bold mt-1 text-warning" id="stat-active">-</div>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">已解决</div>
+          <div class="text-2xl text-bold mt-1 text-success" id="stat-resolved">-</div>
+        </div>
+        <div class="card" style="padding:16px 20px">
+          <div class="text-soft text-sm">升级人工</div>
+          <div class="text-2xl text-bold mt-1 text-danger" id="stat-escalated">-</div>
+        </div>
+      </div>
+
+      <div class="conv-layout">
+        <div class="conv-list">
+          <div class="conv-list-header">
+            <input class="input" id="search-input" placeholder="搜索买家ID、平台..." onkeydown="if(event.key==='Enter')loadList()">
+          </div>
+          <div class="filter-row">
+            <div class="filter-tag active" data-status="" onclick="filterStatus('')">全部</div>
+            <div class="filter-tag" data-status="active" onclick="filterStatus('active')">进行中</div>
+            <div class="filter-tag" data-status="resolved" onclick="filterStatus('resolved')">已解决</div>
+            <div class="filter-tag" data-status="escalated" onclick="filterStatus('escalated')">转人工</div>
+          </div>
+          <div class="conv-list-body" id="conv-list">
+            <div class="empty-state">⏳ 加载中...</div>
+          </div>
+        </div>
+
+        <div class="conv-detail">
+          <div class="conv-detail-header">
+            <div>
+              <div class="text-bold" id="detail-buyer">选择会话</div>
+              <div class="text-xs text-soft mt-1" id="detail-meta">-</div>
+            </div>
+            <div id="detail-actions"></div>
+          </div>
+          <div class="conv-messages" id="messages">
+            <div class="empty-state">
+              <div style="font-size:48px;opacity:0.3;margin-bottom:12px">💬</div>
+              选择左侧的会话查看详情
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+let allConvs = [];
+let currentFilter = '';
+let currentConv = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!requireAuth()) return;
+  document.getElementById('sidebar-container').innerHTML = renderSidebar('conversations');
+  await initUser();
+  await loadList();
+});
+
+async function loadList() {
+  const list = document.getElementById('conv-list');
+  list.innerHTML = '<div class="empty-state">⏳ 加载中...</div>';
+  try {
+    const items = await ConversationAPI.list({ limit: 50 });
+    allConvs = items || [];
+    applyFilter();
+    updateStats(allConvs);
+  } catch (e) {
+    list.innerHTML = `<div class="empty-state">❌ 加载失败: ${e.message}</div>`;
+  }
+}
+
+function applyFilter() {
+  let filtered = allConvs;
+  if (currentFilter) {
+    filtered = allConvs.filter(c => c.status === currentFilter);
+  }
+  const search = document.getElementById('search-input').value.trim();
+  if (search) {
+    filtered = filtered.filter(c =>
+      (c.buyer_id && c.buyer_id.includes(search)) ||
+      (c.platform && c.platform.includes(search)) ||
+      (c.order_id && c.order_id.includes(search))
+    );
+  }
+  renderList(filtered);
+}
+
+function renderList(items) {
+  const list = document.getElementById('conv-list');
+  if (!items.length) {
+    list.innerHTML = '<div class="empty-state">📭 暂无会话</div>';
+    return;
+  }
+  list.innerHTML = items.map(c => `
+    <div class="conv-item ${currentConv && currentConv.id === c.id ? 'active' : ''}" onclick="selectConv(${c.id})">
+      <div class="conv-item-top">
+        <div class="conv-item-buyer">${escapeHtml(c.buyer_id || '匿名用户')}</div>
+        <div class="conv-item-time">${formatDate(c.created_at)}</div>
+      </div>
+      <div class="conv-item-preview">平台: ${c.platform || '?'} ${c.order_id ? '· 订单: ' + c.order_id : ''}</div>
+      <div class="conv-item-meta">
+        <span class="tag ${c.status === 'active' ? 'tag-yellow' : c.status === 'resolved' ? 'tag-green' : 'tag-red'}">${statusText(c.status)}</span>
+        <span class="tag ${c.agent_type === 'bot' ? 'tag-blue' : 'tag-gray'}">${c.agent_type === 'bot' ? '🤖 AI' : '👤 人工'}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStats(items) {
+  document.getElementById('stat-total').textContent = items.length;
+  document.getElementById('stat-active').textContent = items.filter(i => i.status === 'active').length;
+  document.getElementById('stat-resolved').textContent = items.filter(i => i.status === 'resolved').length;
+  document.getElementById('stat-escalated').textContent = items.filter(i => i.status === 'escalated').length;
+}
+
+function filterStatus(status) {
+  currentFilter = status;
+  document.querySelectorAll('.filter-tag').forEach(el => el.classList.remove('active'));
+  document.querySelector(`.filter-tag[data-status="${status}"]`).classList.add('active');
+  applyFilter();
+}
+
+async function selectConv(id) {
+  const conv = allConvs.find(c => c.id === id);
+  if (!conv) return;
+  currentConv = conv;
+  document.querySelectorAll('.conv-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  document.getElementById('detail-buyer').textContent = `买家 ${conv.buyer_id}`;
+  document.getElementById('detail-meta').textContent = `平台: ${conv.platform || '?'} · 订单: ${conv.order_id || '无'} · 创建于 ${formatTime(conv.created_at)}`;
+  document.getElementById('detail-actions').innerHTML = `
+    <span class="tag ${conv.status === 'active' ? 'tag-yellow' : conv.status === 'resolved' ? 'tag-green' : 'tag-red'}">${statusText(conv.status)}</span>
+  `;
+
+  const messagesEl = document.getElementById('messages');
+  messagesEl.innerHTML = '<div class="empty-state">⏳ 加载消息...</div>';
+  try {
+    const msgs = await ConversationAPI.messages(id, 100);
+    renderMessages(msgs || []);
+  } catch (e) {
+    messagesEl.innerHTML = `<div class="empty-state">❌ 加载失败: ${e.message}</div>`;
+  }
+}
+
+function renderMessages(msgs) {
+  const messagesEl = document.getElementById('messages');
+  if (!msgs.length) {
+    messagesEl.innerHTML = '<div class="empty-state">📭 暂无消息</div>';
+    return;
+  }
+  messagesEl.innerHTML = msgs.map(m => {
+    const sender = m.sender || 'unknown';
+    const cls = ['buyer', 'bot', 'human'].includes(sender) ? sender : 'buyer';
+    const avatar = cls === 'buyer' ? '👤' : cls === 'bot' ? '🤖' : '👨‍💼';
+    return `
+      <div class="message ${cls}">
+        <div style="font-size:24px">${avatar}</div>
+        <div>
+          <div class="message-bubble">${escapeHtml(m.content || '')}</div>
+          <div class="message-meta">${senderLabel(cls)} · ${formatTime(m.created_at)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function statusText(s) {
+  return { active: '进行中', resolved: '已解决', escalated: '转人工' }[s] || s;
+}
+function senderLabel(s) {
+  return { buyer: '买家', bot: 'AI机器人', human: '客服' }[s] || s;
+}
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+</script>
+</body>
+</html>

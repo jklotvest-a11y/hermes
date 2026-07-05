@@ -222,6 +222,8 @@
   .outcome-item { padding: 22px; border-radius: 8px; background: #fff; border: 1px solid var(--line); }
   .outcome-item strong { display: block; font-size: 28px; line-height: 1; margin-bottom: 10px; }
   .outcome-item span { color: var(--muted); font-size: 14px; }
+  .prd-reader { margin-top: 36px; border: 1px solid #e4dac9; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(250, 246, 237, 0.92), rgba(244, 237, 224, 0.82)); box-shadow: 0 18px 44px rgba(96, 78, 48, 0.08); }
+  .prd-reader iframe { display: block; width: 100%; height: 760px; border: 0; background: #f5efe4; }
   .cta { background: #111827; color: #fff; }
   .cta-inner { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
   .cta p { color: rgba(255,255,255,0.72); max-width: 720px; }
@@ -262,8 +264,8 @@
         <h1>家plus · AI 软装改造助手</h1>
         <p class="hero-copy">面向精装修新房业主的 AI 软装改造 App Demo，把“上传真实照片、选择偏好、生成效果图、推荐家具、分步落地”串成一个可理解的决策流程。</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="demos/jiaplus/index.html">打开本地 Demo</a>
-          <a class="btn btn-ghost" href="docs/prd.md">查看 PRD</a>
+          <a class="btn btn-primary" href="demos/jiaplus/index.html">查看原型</a>
+          <a class="btn btn-ghost" href="#prd">查看 PRD 文档</a>
         </div>
         <div class="hero-meta">
           <div class="meta-item"><span class="meta-value">0-1</span><span class="meta-label">产品定义到 Demo</span></div><div class="meta-item"><span class="meta-value">7</span><span class="meta-label">核心原型页面</span></div><div class="meta-item"><span class="meta-value">4</span><span class="meta-label">输入到落地阶段</span></div>
@@ -296,6 +298,17 @@
       </div>
       <div class="facts">
         <div class="fact"><span>项目类型</span><strong>AI 家居产品 / App Demo / 产品经理作品集</strong></div><div class="fact"><span>目标用户</span><strong>精装修新房业主、准备入住或准备购买家具的人群</strong></div><div class="fact"><span>我的角色</span><strong>产品定义、MVP 范围、PRD、AI 工作流、原型设计</strong></div><div class="fact"><span>核心产出</span><strong>PRD、产品结构图、Figma 原型、本地静态 Demo</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prd" class="section-soft">
+    <div class="wrap">
+      <div class="section-label">PRD</div>
+      <h2>家plus · AI 软装改造助手 PRD 文档</h2>
+      <p class="lead">点击按钮后在当前页面阅读完整 PRD，不再打开新页面或下载文件。</p>
+      <div class="prd-reader">
+        <iframe src="docs/prd.html" title="家plus · AI 软装改造助手 PRD 文档"></iframe>
       </div>
     </div>
   </section>
@@ -357,7 +370,7 @@
       </div>
       <div class="hero-actions" style="margin-top:0">
         <a class="btn btn-primary" href="index.html#works">返回作品集</a>
-        <a class="btn btn-ghost" href="demos/jiaplus/index.html">打开本地 Demo</a>
+        <a class="btn btn-ghost" href="#prd">查看 PRD 文档</a>
       </div>
     </div>
   </section>

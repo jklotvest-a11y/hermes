@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小猫咪休闲垂钓｜PRD 文档</title>
+<style>
+:root{color-scheme:light;--bg:#f5efe4;--paper:#fffaf0;--ink:#111;--text:#333;--muted:#666;--line:#e4dac9;--olive:#7f875c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.6}main{max-width:980px;margin:0 auto;padding:48px 28px 72px;background:linear-gradient(135deg,rgba(255,250,240,.72),rgba(245,239,228,.62));min-height:100vh}h1,h2,h3{color:var(--ink);letter-spacing:-.02em;margin:0 0 24px}h1{font-size:40px;line-height:1.2;font-weight:700}h2{font-size:32px;line-height:1.25;font-weight:600;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}h3{font-size:24px;line-height:1.3;font-weight:600;margin-top:32px}p{margin:0 0 24px}ul,ol{margin:0 0 24px;padding-left:1.35em}li{margin:8px 0}table{width:100%;border-collapse:collapse;margin:0 0 28px;background:var(--paper);border:1px solid var(--line)}td{padding:12px 14px;border:1px solid var(--line);vertical-align:top}pre{overflow:auto;background:#eee4d4;border:1px solid var(--line);border-radius:8px;padding:18px;margin:0 0 28px;color:#2d2a24}code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}.doc-meta{display:inline-flex;gap:10px;align-items:center;margin-bottom:24px;color:var(--olive);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.doc-meta::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--olive)}@media(max-width:768px){main{padding:34px 18px 56px}h1{font-size:32px}h2{font-size:26px}h3{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<div class="doc-meta">Product Requirement Document</div>
+<h1>小猫咪休闲垂钓｜PRD 文档</h1>
+<h2>1. 项目背景</h2>
+<p>休闲小游戏通常依赖简单规则、即时反馈和短局时循环来吸引用户反复游玩。钓鱼题材天然包含等待、观察、反应、收获和不确定性，但如果直接把鱼显示出来，玩法会变成简单点击目标，削弱钓鱼的等待感和惊喜感。</p>
+<p>本项目以“碎片时间休闲玩家”为核心用户，设计一个 30 秒一局的微信小游戏 Demo，让玩家通过观察浮标、在咬钩瞬间按住屏幕完成拉扯判定。</p>
+<h2>2. 用户与问题</h2>
+<p>目标用户是希望快速开始、操作简单、但每局仍有轻微紧张感和收获反馈的休闲玩家。</p>
+<p>核心痛点：</p>
+<ul>
+<li>玩法如果过于直白，很快失去新鲜感</li>
+<li>鱼一直可见会让玩家只是在点目标，而不是体验钓鱼</li>
+<li>咬钩反馈不明显时，玩家不知道什么时候该操作</li>
+<li>拉扯没有风险时，成功缺少成就感</li>
+<li>局时过长会降低碎片时间打开的意愿</li>
+</ul>
+<h2>3. 产品目标</h2>
+<p>本项目将目标拆成三个层次：</p>
+<ul>
+<li>易理解：玩家无需复杂教程即可知道等待浮标、咬钩操作和结算规则</li>
+<li>有反馈：通过浮标、水花、提示语、分数和倒计时建立即时反馈</li>
+<li>可重玩：用鱼类分值、稀有度、时间奖惩和最高分制造重复游玩动力</li>
+</ul>
+<p>关键指标：</p>
+<table><tbody>
+<tr><td>指标</td><td>含义</td></tr>
+<tr><td>首局完成率</td><td>玩家是否能完整完成 30 秒一局</td></tr>
+<tr><td>咬钩响应成功率</td><td>玩家是否能理解并响应浮标反馈</td></tr>
+<tr><td>单局平均收获</td><td>玩家一局内钓到的鱼数量和分数</td></tr>
+<tr><td>再来一局率</td><td>玩家结算后是否再次开始</td></tr>
+<tr><td>最高分刷新率</td><td>玩家是否被分数目标驱动继续尝试</td></tr>
+</tbody></table>
+<h2>4. 方案设计</h2>
+<p>产品采用“等待浮标 + 咬钩反应 + 拉扯判定 + 奖励惩罚”的核心循环：</p>
+<pre><code>flowchart LR
+  A[&quot;点击开始&quot;] --&gt; B[&quot;30 秒倒计时&quot;]
+  B --&gt; C[&quot;观察浮标&quot;]
+  C --&gt; D{&quot;是否咬钩&quot;}
+  D --&gt;|否| C
+  D --&gt;|是| E[&quot;按住屏幕拉扯&quot;]
+  E --&gt; F{&quot;是否成功&quot;}
+  F --&gt;|成功| G[&quot;获得鱼、分数和时间奖励&quot;]
+  F --&gt;|失败| H[&quot;扣时间或错过&quot;]
+  G --&gt; C
+  H --&gt; C</code></pre>
+<h2>5. 核心页面 / 玩法</h2>
+<h3>开始界面</h3>
+<p>展示游戏标题、开始按钮和基础规则提示，让玩家知道一局时间短、目标是尽可能钓到更多鱼。</p>
+<h3>等待阶段</h3>
+<p>鱼隐藏在水下，玩家主要观察浮标。等待阶段浮标轻微漂动，制造钓鱼节奏。</p>
+<h3>咬钩反馈</h3>
+<p>系统随机触发咬钩，浮标剧烈抖动并出现水花，同时出现“上钩了”的提示，引导玩家按住屏幕。</p>
+<h3>拉扯判定</h3>
+<p>玩家持续按住屏幕，让指针尽量保持在安全区域。成功后获得鱼和分数，失败则扣时间或错过。</p>
+<h3>结算页</h3>
+<p>时间归零后展示本局收获、总分和最高分，提供再次开始入口。</p>
+<h2>6. 技术实现</h2>
+<p>项目采用微信小游戏 Canvas 实现，零依赖运行。</p>
+<p>当前 Demo 包含：</p>
+<ol>
+<li>Canvas 场景渲染</li>
+<li>触摸输入和按住判定</li>
+<li>倒计时和局内状态管理</li>
+<li>随机咬钩时间</li>
+<li>鱼类概率、分值、难度和奖励时间</li>
+<li>失败惩罚和最高分本地保存</li>
+</ol>
+<p>核心状态可拆为：未开始、等待、咬钩、拉扯、结算。状态机清晰后，后续可以继续扩展鱼竿、地图、图鉴和任务系统。</p>
+<h2>7. 产品取舍</h2>
+<p>本项目没有优先做复杂养成和商业化，而是先验证一局游戏的核心循环是否成立。</p>
+<p>MVP 保留：</p>
+<ul>
+<li>开始、倒计时和结算</li>
+<li>浮标等待与咬钩反馈</li>
+<li>按住拉扯进度判定</li>
+<li>鱼类概率、分数和时间奖惩</li>
+<li>最高分本地保存</li>
+</ul>
+<p>MVP 暂不做：</p>
+<ul>
+<li>金币商城和付费系统</li>
+<li>复杂鱼竿升级</li>
+<li>多地图、多天气和任务系统</li>
+<li>排行榜和社交分享</li>
+<li>图鉴收集和长期养成</li>
+</ul>
+<h2>8. 我的产出</h2>
+<ul>
+<li>拆解休闲钓鱼小游戏的核心体验循环</li>
+<li>将“可见鱼点击”调整为“隐藏鱼 + 浮标反馈”</li>
+<li>设计咬钩、拉扯、奖励和惩罚规则</li>
+<li>定义鱼类概率、分值、难度和时间奖惩</li>
+<li>完成微信小游戏 Demo 的 Canvas 渲染和交互实现</li>
+<li>将项目整理为作品集案例页面</li>
+</ul>
+<h2>9. 后续优化方向</h2>
+<ul>
+<li>增加新手引导，降低第一次游玩的理解成本</li>
+<li>增加图鉴和稀有鱼收集，提升长期目标</li>
+<li>增加不同地图、水域和天气变化</li>
+<li>优化拉扯判定曲线，让难度更平滑</li>
+<li>增加结算页分享和好友排行，验证社交传播可能性</li>
+</ul>
+</main>
+</body>
+</html>
