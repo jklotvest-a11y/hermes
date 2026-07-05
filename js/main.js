@@ -26,9 +26,9 @@
     document.body.classList.add('intro-active');
 
     const hideLoader = () => {
+        document.body.classList.remove('is-loading');
         if (!loader) return;
         loader.classList.add('is-hidden');
-        document.body.classList.remove('is-loading');
         window.setTimeout(() => {
             loader.remove();
         }, 800);

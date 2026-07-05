@@ -1,326 +1,366 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家plus · AI 软装改造助手 | 孔小洁 Jessie</title>
-    <link rel="stylesheet" href="css/style.css?v=20260629-grain-source-breakdown">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家plus · AI 软装改造助手 | 孔小洁 Jessie</title>
+<style>
+  :root {
+    --ink: #16202a;
+    --muted: #667085;
+    --soft: #f6f8fb;
+    --paper: #ffffff;
+    --line: #dfe5ec;
+    --orange: #ff6b35;
+    --yellow: #ffb627;
+    --blue: #2f80ed;
+    --green: #12a87a;
+    --red: #e5484d;
+    --mist: #8aafc4;
+    --deep: #2c3e50;
+    --shadow: 0 18px 50px rgba(22, 32, 42, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .page { min-height: 100vh; overflow: hidden; }
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    padding: 28px 28px 70px;
+    background:
+      linear-gradient(rgba(15, 23, 42, 0.48), rgba(15, 23, 42, 0.32)),
+      linear-gradient(130deg, #263241 0%, #f7f3ee 48%, #f4f8fb 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .nav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--mist), #5d8499);
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .nav-links { display: flex; gap: 18px; font-size: 14px; color: rgba(255,255,255,0.78); }
+  .nav-links a:hover { color: #fff; }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    width: 100%;
+    margin: 54px auto 0;
+    display: grid;
+    grid-template-columns: minmax(0, 0.94fr) minmax(520px, 1.06fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 7px 11px;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.88);
+    font-size: 13px;
+  }
+  .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  h1 {
+    margin: 20px 0 18px;
+    max-width: 760px;
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+  .hero-copy { max-width: 650px; margin: 0; color: rgba(255,255,255,0.84); font-size: 18px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid transparent;
+    transition: transform 0.18s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: #fff; color: var(--ink); }
+  .btn-ghost { color: #fff; border-color: rgba(255,255,255,0.32); background: rgba(255,255,255,0.08); }
+  .hero-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 42px; max-width: 700px; }
+  .meta-item { border-top: 1px solid rgba(255,255,255,0.28); padding-top: 14px; }
+  .meta-value { display: block; font-size: 23px; line-height: 1.1; font-weight: 800; }
+  .meta-label { display: block; margin-top: 5px; color: rgba(255,255,255,0.72); font-size: 13px; }
+  .product-visual { position: relative; min-height: 560px; }
+  .visual-shell {
+    position: absolute;
+    inset: 0 0 auto auto;
+    width: min(720px, 100%);
+    min-height: 500px;
+    border: 1px solid rgba(255,255,255,0.32);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.92);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    backdrop-filter: blur(14px);
+  }
+  .browser-bar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--line);
+    background: #f8fafc;
+  }
+  .traffic { width: 10px; height: 10px; border-radius: 50%; }
+  .traffic.red { background: #ff5f57; }
+  .traffic.yellow { background: #febc2e; }
+  .traffic.green { background: #28c840; }
+  .visual-body { min-height: 458px; background: #f3f6fa; padding: 24px; }
+  .phone-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: end; height: 100%; }
+  .phone-row img {
+    width: 100%;
+    border-radius: 26px;
+    box-shadow: 0 18px 44px rgba(22,32,42,.18);
+    background: #fff;
+  }
+  .phone-row img:nth-child(2) { transform: translateY(-20px); }
+  .room-preview { display: grid; grid-template-columns: 1.08fr .92fr; gap: 18px; align-items: stretch; }
+  .room-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(22,32,42,.12);
+  }
+  .room-card img { width: 100%; display: block; }
+  .result-panel { padding: 18px; border-radius: 18px; background: #fff; box-shadow: 0 16px 36px rgba(22,32,42,.1); }
+  .result-panel h3 { margin: 0 0 10px; font-size: 18px; }
+  .result-panel p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+  .mini-stat { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini-stat span { min-height: 64px; border-radius: 12px; background: #f3f6fa; display: grid; place-items: center; color: #5d8499; font-weight: 800; font-size: 13px; }
+  .scroll-hint { position: relative; z-index: 2; max-width: 1180px; width: 100%; margin: 34px auto 0; color: rgba(255,255,255,0.72); font-size: 13px; }
+  section { padding: 82px 28px; }
+  .section-soft { background: var(--soft); }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .section-label { color: var(--orange); font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+  h2 { margin: 0 0 18px; font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; }
+  .lead { max-width: 760px; margin: 0; color: var(--muted); font-size: 17px; }
+  .overview { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 46px; align-items: start; }
+  .facts { display: grid; gap: 12px; }
+  .fact { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .fact span { color: var(--muted); font-size: 14px; }
+  .fact strong { font-size: 15px; }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+  .problem { border-top: 3px solid var(--ink); padding-top: 18px; }
+  .problem h3 { margin: 0 0 8px; font-size: 19px; }
+  .problem p { margin: 0; color: var(--muted); }
+  .flow { margin-top: 36px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .step { min-height: 134px; padding: 17px; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  .step-number { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; font-weight: 800; font-size: 12px; margin-bottom: 14px; }
+  .step h3 { margin: 0 0 7px; font-size: 16px; }
+  .step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+  .screens { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 20px; margin-top: 40px; }
+  .screen-shot { min-height: 360px; border-radius: 8px; border: 1px solid var(--line); background: #fff; overflow: hidden; box-shadow: 0 10px 30px rgba(22, 32, 42, 0.08); }
+  .screen-shot.large { min-height: 520px; }
+  .screen-top { height: 42px; display: flex; align-items: center; padding: 0 14px; background: #101828; color: #fff; font-size: 13px; font-weight: 800; }
+  .screen-content { padding: 18px; background: #f5f7fa; min-height: inherit; }
+  .screen-content img { width: 100%; border-radius: 18px; box-shadow: 0 18px 42px rgba(22,32,42,.12); background: #fff; }
+  .insight-list { display: grid; gap: 12px; }
+  .insight { background: #fff; border: 1px solid #e8eef5; border-left: 4px solid var(--blue); border-radius: 8px; padding: 14px; }
+  .insight:nth-child(2) { border-left-color: var(--orange); }
+  .insight:nth-child(3) { border-left-color: var(--green); }
+  .insight b { display: block; margin-bottom: 4px; }
+  .insight span { color: var(--muted); font-size: 14px; }
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 40px; }
+  .tech-box { padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .tech-box h3 { margin: 0 0 14px; }
+  .tech-box ul { margin: 0; padding-left: 18px; color: var(--muted); }
+  .tech-box li + li { margin-top: 8px; }
+  .outcome { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+  .outcome-item { padding: 22px; border-radius: 8px; background: #fff; border: 1px solid var(--line); }
+  .outcome-item strong { display: block; font-size: 28px; line-height: 1; margin-bottom: 10px; }
+  .outcome-item span { color: var(--muted); font-size: 14px; }
+  .cta { background: #111827; color: #fff; }
+  .cta-inner { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+  .cta p { color: rgba(255,255,255,0.72); max-width: 720px; }
+  @media (max-width: 980px) {
+    .hero { min-height: auto; }
+    .hero-inner, .overview, .screens, .tech-grid, .cta-inner { grid-template-columns: 1fr; }
+    .product-visual { min-height: 510px; }
+    .visual-shell { position: relative; width: 100%; }
+    .flow, .problem-grid, .outcome { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 22px 18px 54px; }
+    section { padding: 62px 18px; }
+    .hero-meta, .problem-grid, .flow, .screens, .tech-grid, .outcome, .phone-row, .room-preview { grid-template-columns: 1fr; }
+    .product-visual { min-height: auto; }
+    .visual-body { padding: 16px; }
+    .phone-row img:nth-child(2) { transform: none; }
+    .fact { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
 </head>
 <body>
-
-    <div class="loader-screen" aria-label="页面载入中">
-        <div class="loader-glass">
-            <div class="loader-mark">J</div>
-            <div class="loader-name">JESSIE KONG</div>
-            <div class="loader-line">
-                <span></span>
-            </div>
-            <div class="loader-caption">Project is loading</div>
-        </div>
-    </div>
-
-    <canvas id="pond-canvas" class="pond-canvas" aria-hidden="true"></canvas>
-
-    <nav class="site-nav">
-        <div class="nav-inner">
-            <a class="logo" href="index.html">KONG · JESSIE</a>
-            <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="nav-menu">
-                <li><a href="index.html#about">ABOUT</a></li>
-                <li><a href="index.html#skills">SKILLS</a></li>
-                <li><a href="index.html#experience">EXPERIENCE</a></li>
-                <li><a href="index.html#works">WORKS</a></li>
-                <li><a href="index.html#contact">CONTACT</a></li>
-            </ul>
-        </div>
+<main class="page">
+  <header class="hero">
+    <nav class="nav" aria-label="项目页导航">
+      <a class="brand" href="index.html#works"><span class="brand-mark">JK</span><span>Portfolio Case Study</span></a>
+      <div class="nav-links">
+        <a href="#overview">概览</a>
+        <a href="#solution">方案</a>
+        <a href="#screens">界面</a>
+        <a href="#tech">思考</a>
+      </div>
     </nav>
-
-    <main class="project-page-main">
-        <section class="project-detail">
-            <a class="project-back" href="index.html#works">BACK TO WORKS</a>
-            <div class="section-title">FEATURED PROJECT</div>
-            <h1 class="section-heading">家plus · AI 软装改造助手</h1>
-
-            <div class="project-intro">
-                <div class="project-intro-copy">
-                    <p>
-                        家plus 是一个面向精装修新房业主的 AI 软装改造 App Demo。用户上传真实房间照片后，选择空间、风格、预算和家庭需求，AI 会生成保留原空间结构的软装改造效果图，并输出家具推荐和分步落地建议。
-                    </p>
-                    <p>
-                        我的目标不是做一个“生成好看图片”的工具，而是把 AI 生图能力转化成一个可理解、可购买、可执行的软装决策流程。
-                    </p>
-                </div>
-                <div class="project-actions" aria-label="项目链接">
-                    <a class="project-action project-action-primary" href="demos/jiaplus/index.html">打开本地 Demo</a>
-                    <a class="project-action" href="https://www.figma.com/design/Pkc0q6HsdznQFPSrPJgt6Y" target="_blank" rel="noreferrer">查看 Figma 原型</a>
-                    <a class="project-action" href="docs/prd.md">查看 PRD 文档</a>
-                </div>
-            </div>
-
-            <section class="project-section project-case-overview">
-                <div class="case-kpi-grid">
-                    <div>
-                        <span>ROLE</span>
-                        <strong>AI 产品经理 / 原型设计</strong>
-                        <p>负责产品定义、MVP 范围、AI 工作流、页面流程、Figma 原型和本地 Demo。</p>
-                    </div>
-                    <div>
-                        <span>USER</span>
-                        <strong>精装修新房业主</strong>
-                        <p>刚收房或准备入住，希望改善空间质感，但缺少软装搭配和预算判断经验。</p>
-                    </div>
-                    <div>
-                        <span>OUTPUT</span>
-                        <strong>PRD + 结构图 + 原型 + Demo</strong>
-                        <p>完成 PRD、产品结构、核心流程、7 个关键页面截图和可交互静态 Demo。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">PROBLEM DEFINITION</div>
-                    <h2>问题定义</h2>
-                    <p>精装房用户不缺灵感，真正困难的是判断“别人家的案例能不能落到自己家”。</p>
-                </div>
-                <div class="case-problem-layout">
-                    <div class="case-narrative">
-                        <h3>为什么选择精装房软装</h3>
-                        <p>精装修降低了入住门槛，但很多房子交付后风格统一、缺少个性。用户会在内容平台收藏大量案例，却很难判断这些图片是否适合自己的户型、采光、墙地面颜色和预算。</p>
-                        <p>因此，家plus 的机会不是继续提供更多灵感，而是基于用户自己的真实照片，生成一套能理解、能购买、能分步执行的软装方案。</p>
-                    </div>
-                    <div class="case-breakpoint-list">
-                        <h3>核心断点</h3>
-                        <ol>
-                            <li>看到了喜欢的风格，但不知道是否适合自己家。</li>
-                            <li>担心家具买错，和墙面、地面、采光不协调。</li>
-                            <li>预算有限时，不知道应该先买什么。</li>
-                            <li>看到效果图之后，不知道下一步怎么落地。</li>
-                        </ol>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">USER SCENARIO</div>
-                    <h2>目标用户与使用场景</h2>
-                    <p>我把用户收敛在“刚收房、想软装、不想大拆大改”的轻量改造场景里。</p>
-                </div>
-                <div class="scenario-grid">
-                    <div><span>01</span><h3>刚收房</h3><p>基础硬装已完成，用户希望快速看到自己家的改造可能性。</p></div>
-                    <div><span>02</span><h3>准备买家具</h3><p>用户需要知道哪些家具更适合当前空间，以及预算应该如何排序。</p></div>
-                    <div><span>03</span><h3>分阶段落地</h3><p>不追求一次性装修完成，而是先买最关键的单品，再逐步补齐软装。</p></div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">MVP STRATEGY</div>
-                    <h2>MVP 范围与取舍</h2>
-                    <p>先验证“照片输入 → AI 方案 → 家具推荐 → 保存方案”的闭环，不急着做完整家装平台。</p>
-                </div>
-                <div class="scope-columns">
-                    <div>
-                        <h3>MVP 包含</h3>
-                        <ul>
-                            <li>上传真实房间照片</li>
-                            <li>选择空间、风格、预算和家庭需求</li>
-                            <li>AI 生成过程展示</li>
-                            <li>原图 / 改造图、空间诊断和家具推荐</li>
-                            <li>预算优先级、分步建议和方案保存</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>暂不包含</h3>
-                        <ul>
-                            <li>登录注册、真实支付和电商购买</li>
-                            <li>施工报价、硬装拆改和 AR 量房</li>
-                            <li>3D 建模、社区分享和完整装修服务</li>
-                            <li>复杂账号体系和真实商品库存</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>取舍原因</h3>
-                        <p>这些能力会显著拉长链路。MVP 阶段更重要的是证明用户是否愿意基于自己的照片理解方案，并把 AI 结果继续转化成家具清单和执行步骤。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">PRD</div>
-                    <h2>PRD 功能定义</h2>
-                    <p>PRD 用来把产品判断落成团队可执行的需求：页面目标、输入输出、交互规则、异常情况和验收标准。</p>
-                </div>
-                <div class="prd-grid">
-                    <div class="prd-card">
-                        <h3>文档范围</h3>
-                        <p>当前版本为 MVP v0.1，围绕“上传照片 → 选择偏好 → AI 生成方案 → 查看推荐 → 保存方案”的核心链路定义需求。</p>
-                    </div>
-                    <div class="prd-card">
-                        <h3>页面定义</h3>
-                        <ul>
-                            <li>首页：说明产品价值并进入核心流程。</li>
-                            <li>上传页：获取真实空间照片并提示拍摄要求。</li>
-                            <li>偏好页：收集空间、风格、预算和家庭需求。</li>
-                            <li>结果页：展示效果图、空间诊断、家具推荐和落地建议。</li>
-                        </ul>
-                    </div>
-                    <div class="prd-card">
-                        <h3>异常与边界</h3>
-                        <ul>
-                            <li>图片过暗、非室内空间或遮挡严重时提示重新上传。</li>
-                            <li>必填项未完成时，生成按钮置灰或提示补全。</li>
-                            <li>AI 生成失败时，提供重试和返回修改偏好的路径。</li>
-                        </ul>
-                    </div>
-                    <div class="prd-card">
-                        <h3>验收标准</h3>
-                        <ul>
-                            <li>用户可以完整完成一次核心流程。</li>
-                            <li>结果页同时包含效果图、问题诊断、家具推荐和执行步骤。</li>
-                            <li>推荐理由具体，预算档位能影响推荐内容。</li>
-                        </ul>
-                    </div>
-                </div>
-                <a class="prd-link" href="docs/prd.md">查看完整 PRD 文档</a>
-            </section>
-
-            <section class="project-section project-structure">
-                <div class="project-section-header">
-                    <div class="project-label">PRODUCT STRUCTURE</div>
-                    <h2>产品结构图</h2>
-                </div>
-                <button class="project-hero zoom-trigger" type="button" data-zoom-src="assets/structure-overview.png" aria-label="放大家plus产品结构图">
-                    <img src="assets/structure-overview.png" alt="家plus 产品结构图与页面原型总览">
-                    <span class="zoom-hint">点击查看结构大图</span>
-                </button>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">USER FLOW</div>
-                    <h2>核心用户流程</h2>
-                    <p>用户从真实空间照片出发，逐步完成输入、生成、理解方案和保存方案。</p>
-                </div>
-                <div class="flow-steps">
-                    <div><span>01</span><div><strong>理解价值</strong><p>首页说明产品能基于真实房间生成软装方案。</p></div></div>
-                    <div><span>02</span><div><strong>提供空间</strong><p>上传或拍摄房间照片，让 AI 获得真实空间输入。</p></div></div>
-                    <div><span>03</span><div><strong>补充偏好</strong><p>选择空间、风格、预算和家庭需求，约束生成方向。</p></div></div>
-                    <div><span>04</span><div><strong>等待生成</strong><p>展示 AI 正在理解空间、匹配风格、生成效果和整理清单。</p></div></div>
-                    <div><span>05</span><div><strong>查看方案</strong><p>查看改造图、空间诊断、家具推荐和落地建议。</p></div></div>
-                    <div><span>06</span><div><strong>保存方案</strong><p>把满意方案沉淀到我的方案，方便后续继续比较和执行。</p></div></div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">PROTOTYPE DESIGN</div>
-                    <h2>原型设计</h2>
-                    <p>原型按用户流程分成输入、生成、结果和沉淀四个阶段，每组页面都对应一个产品任务。</p>
-                </div>
-                <div class="prototype-groups">
-                    <article>
-                        <div class="prototype-copy">
-                            <span>INPUT</span>
-                            <h3>输入阶段</h3>
-                            <p>首页建立产品价值，上传页获取真实空间，偏好页把用户需求结构化，帮助 AI 收敛生成方向。</p>
-                        </div>
-                        <div class="case-gallery case-gallery-three">
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-home.png">
-                                <img src="assets/screen-home.png" alt="家plus 首页">
-                                <span>首页</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-upload.png">
-                                <img src="assets/screen-upload.png" alt="家plus 上传照片页">
-                                <span>上传照片</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-prefs.png">
-                                <img src="assets/screen-prefs.png" alt="家plus 偏好选择页">
-                                <span>偏好选择</span>
-                            </button>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="prototype-copy">
-                            <span>OUTPUT</span>
-                            <h3>结果阶段</h3>
-                            <p>生成页降低等待不确定感；结果页把视觉效果、空间诊断和家具推荐放在一起；详情页解释推荐理由；我的方案承接保存后的复看。</p>
-                        </div>
-                        <div class="case-gallery">
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-loading.png">
-                                <img src="assets/screen-loading.png" alt="家plus AI 生成中页面">
-                                <span>AI 生成中</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-result.png">
-                                <img src="assets/screen-result.png" alt="家plus 改造结果页">
-                                <span>改造结果</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-product.png">
-                                <img src="assets/screen-product.png" alt="家plus 家具详情页">
-                                <span>家具详情</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-plans.png">
-                                <img src="assets/screen-plans.png" alt="家plus 我的方案页">
-                                <span>我的方案</span>
-                            </button>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">AI WORKFLOW</div>
-                    <h2>把生图能力拆成产品闭环</h2>
-                    <p>这个项目不只展示一张效果图，而是把多模态 AI 放进真实的软装决策链路里。</p>
-                </div>
-                <div class="workflow-grid">
-                    <div><span>01</span><div><h3>图片理解</h3><p>识别空间类型、采光、墙地面主色、已有家具和可改造区域。</p></div></div>
-                    <div><span>02</span><div><h3>问题诊断</h3><p>输出视觉中心、收纳、层次、比例等空间软装问题。</p></div></div>
-                    <div><span>03</span><div><h3>风格策略</h3><p>结合风格、预算和家庭需求，确定主色调、材质和重点区域。</p></div></div>
-                    <div><span>04</span><div><h3>效果图生成</h3><p>基于原图生成改造效果，尽量保留门窗位置、结构和透视关系。</p></div></div>
-                    <div><span>05</span><div><h3>家具推荐</h3><p>按空间、风格、预算、材质和家庭需求匹配模拟家具清单。</p></div></div>
-                    <div><span>06</span><div><h3>执行建议</h3><p>把方案转成优先购买、可延后购买和三步落地计划。</p></div></div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">SUMMARY</div>
-                    <h2>项目总结</h2>
-                    <p>这个项目展示的是从问题定义到产品取舍、从 AI 能力拆解到原型落地的完整 PM 工作流。</p>
-                </div>
-                <div class="summary-panel">
-                    <div><h3>已完成</h3><p>产品定位、用户场景、MVP 范围、PRD、产品结构、核心流程、AI 工作流、Figma 原型和本地 Demo。</p></div>
-                    <div><h3>下一步</h3><p>如果继续推进，会优先补真实家具库、预算估算、方案对比和用户偏好学习，而不是立刻扩展到施工或社区。</p></div>
-                </div>
-            </section>
-
-        </section>
-    </main>
-
-    <div class="image-lightbox" aria-hidden="true">
-        <div class="lightbox-toolbar" aria-label="图片缩放工具">
-            <button type="button" class="lightbox-btn" data-zoom-action="out" aria-label="缩小">−</button>
-            <button type="button" class="lightbox-btn" data-zoom-action="reset">100%</button>
-            <button type="button" class="lightbox-btn" data-zoom-action="in" aria-label="放大">+</button>
-            <button type="button" class="lightbox-close" aria-label="关闭大图">×</button>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span>AI 家居 / 软装决策 / 产品原型</div>
+        <h1>家plus · AI 软装改造助手</h1>
+        <p class="hero-copy">面向精装修新房业主的 AI 软装改造 App Demo，把“上传真实照片、选择偏好、生成效果图、推荐家具、分步落地”串成一个可理解的决策流程。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="demos/jiaplus/index.html">打开本地 Demo</a>
+          <a class="btn btn-ghost" href="docs/prd.md">查看 PRD</a>
         </div>
-        <div class="lightbox-stage">
-            <img class="lightbox-image" src="" alt="">
+        <div class="hero-meta">
+          <div class="meta-item"><span class="meta-value">0-1</span><span class="meta-label">产品定义到 Demo</span></div><div class="meta-item"><span class="meta-value">7</span><span class="meta-label">核心原型页面</span></div><div class="meta-item"><span class="meta-value">4</span><span class="meta-label">输入到落地阶段</span></div>
         </div>
+      </div>
+      <div class="product-visual" aria-label="家plus · AI 软装改造助手 产品界面示意">
+        <div class="visual-shell">
+          <div class="browser-bar"><span class="traffic red"></span><span class="traffic yellow"></span><span class="traffic green"></span></div>
+          <div class="visual-body">
+  <div class="room-preview">
+    <div class="room-card"><img src="assets/demo-images/living-room-after.png" alt="家plus AI 软装改造效果预览"></div>
+    <div class="result-panel">
+      <h3>AI 软装方案</h3>
+      <p>基于真实房间照片，生成风格方向、预算优先级、家具推荐和三步落地建议。</p>
+      <div class="mini-stat"><span>照片输入</span><span>风格偏好</span><span>预算分层</span><span>家具清单</span></div>
     </div>
+  </div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">向下查看项目背景、核心方案和设计产出</div>
+  </header>
 
-    <footer>
-        © 2026 KONG XIAOJIE · DESIGNED WITH CARE
-    </footer>
+  <section id="overview">
+    <div class="wrap overview">
+      <div>
+        <div class="section-label">Project Overview</div>
+        <h2>把 AI 生图从“好看图片”变成用户可以执行的软装方案。</h2>
+        <p class="lead">项目聚焦刚收房、想软装、不想大拆大改的用户，通过真实房间照片和结构化偏好，让 AI 结果不只停留在视觉灵感，而能继续转化为预算判断、家具清单和执行步骤。</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>项目类型</span><strong>AI 家居产品 / App Demo / 产品经理作品集</strong></div><div class="fact"><span>目标用户</span><strong>精装修新房业主、准备入住或准备购买家具的人群</strong></div><div class="fact"><span>我的角色</span><strong>产品定义、MVP 范围、PRD、AI 工作流、原型设计</strong></div><div class="fact"><span>核心产出</span><strong>PRD、产品结构图、Figma 原型、本地静态 Demo</strong></div>
+      </div>
+    </div>
+  </section>
 
-    <script src="js/main.js?v=20260629-grain-source-breakdown"></script>
+  <section class="section-soft">
+    <div class="wrap">
+      <div class="section-label">Problem</div>
+      <h2>用户不缺灵感，真正困难的是判断“案例能不能落到自己家”。</h2>
+      <div class="problem-grid">
+        <div class="problem"><h3>灵感无法迁移</h3><p>内容平台案例很多，但户型、采光、墙地面颜色和预算都不一样。</p></div><div class="problem"><h3>购买决策焦虑</h3><p>用户担心家具买错，和现有硬装、比例、动线不协调。</p></div><div class="problem"><h3>效果图难落地</h3><p>看到漂亮图片后，仍不知道先买什么、花多少钱、怎么一步步执行。</p></div>
+      </div>
+    </div>
+  </section>
 
+  <section id="solution">
+    <div class="wrap">
+      <div class="section-label">Solution</div>
+      <h2>用“真实照片输入 + 结构化偏好 + AI 方案 + 家具清单”形成闭环。</h2>
+      <p class="lead">MVP 不做完整家装平台，先验证用户是否愿意基于自己的真实空间理解 AI 方案，并继续转化成可购买、可执行的软装决策。</p>
+      <div class="flow">
+        <div class="step"><div class="step-number">01</div><h3>理解价值</h3><p>首页说明产品能基于真实房间生成软装方案。</p></div><div class="step"><div class="step-number">02</div><h3>上传照片</h3><p>让 AI 获得真实空间输入，减少泛泛而谈的灵感推荐。</p></div><div class="step"><div class="step-number">03</div><h3>补充偏好</h3><p>选择空间、风格、预算和家庭需求，收敛生成方向。</p></div><div class="step"><div class="step-number">04</div><h3>生成方案</h3><p>输出改造效果、空间诊断、家具推荐和落地建议。</p></div><div class="step"><div class="step-number">05</div><h3>保存执行</h3><p>把满意方案沉淀到我的方案，方便后续比较和采购。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens" class="section-soft">
+    <div class="wrap">
+      <div class="section-label">Interface</div>
+      <h2>界面围绕“输入、生成、结果、沉淀”四个阶段展开。</h2>
+      <p class="lead">每个页面都对应一个明确任务：让用户提供有效输入，降低等待不确定感，理解 AI 结果，并将结果转成下一步行动。</p>
+      <div class="screens">
+        
+      <div class="screen-shot large"><div class="screen-top">结果页 / 改造方案</div><div class="screen-content"><img src="assets/screen-result.png" alt="家plus 改造结果页"></div></div>
+      <div class="screen-shot"><div class="screen-top">输入链路 / 偏好选择</div><div class="screen-content"><div class="insight-list"><div class="insight"><b>真实照片</b><span>让 AI 理解空间基础条件。</span></div><div class="insight"><b>预算与风格</b><span>把用户偏好转成可计算约束。</span></div><div class="insight"><b>家具推荐</b><span>把效果图继续转成购买清单。</span></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <div class="wrap">
+      <div class="section-label">Product Thinking</div>
+      <h2>产品思考重点在于把 AI 能力放进真实决策链路。</h2>
+      <p class="lead">这个项目不是展示一次生成效果，而是把 AI 输出拆成用户看得懂、能比较、能执行的方案结构。</p>
+      <div class="tech-grid">
+        <div class="tech-box"><h3>产品层</h3><ul><li>围绕真实照片输入设计生成约束。</li><li>用预算、风格、家庭需求降低结果随机性。</li><li>把结果页拆成视觉效果、诊断、推荐和落地建议。</li></ul></div><div class="tech-box"><h3>AI 工作流</h3><ul><li>图片理解：识别空间类型、采光、主色和可改造区域。</li><li>风格策略：结合预算和偏好生成软装方向。</li><li>执行建议：把生成结果转成购买优先级和三步落地计划。</li></ul></div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-item"><strong>7</strong><span>核心原型页面</span></div><div class="outcome-item"><strong>1</strong><span>本地可交互 Demo</span></div><div class="outcome-item"><strong>4</strong><span>核心流程阶段</span></div><div class="outcome-item"><strong>1</strong><span>AI 软装决策闭环</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-inner">
+      <div>
+        <div class="section-label">Next</div>
+        <h2>从真实空间照片出发，完成一次 AI 软装决策流程验证。</h2>
+        <p>继续查看 PRD、原型页面和 Demo，了解这个方案如何从用户痛点走向可体验的产品闭环。</p>
+      </div>
+      <div class="hero-actions" style="margin-top:0">
+        <a class="btn btn-primary" href="index.html#works">返回作品集</a>
+        <a class="btn btn-ghost" href="demos/jiaplus/index.html">打开本地 Demo</a>
+      </div>
+    </div>
+  </section>
+</main>
 </body>
 </html>

@@ -950,6 +950,146 @@ section {
     }
 }
 
+/* ========== Typography Strict Lock ========== */
+body :is(h1, .section-heading, .hero-name),
+.home-page .hero-reference .hero-name,
+.project-page-main .section-heading {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h1) !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+body :is(h2),
+.home-page .hero-works-heading h2,
+.project-page-main .project-section-header h2 {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h2) !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+}
+
+body :is(h3),
+.project-page-main :is(.case-narrative h3, .case-breakpoint-list h3, .scenario-grid h3, .scope-columns h3, .prd-card h3, .prototype-copy h3, .summary-panel h3, .workflow-grid h3),
+.home-page :is(.skills-card h3, .skill-card h3, .hero-project-copy h3) {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h3) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+}
+
+body :is(h4),
+.project-page-main :is(.project-intro strong, .case-kpi-grid strong, .flow-steps strong),
+.home-page :is(.hero-reference-stats strong, .about-card strong, .timeline-card h4, .work-card-title) {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h4) !important;
+    font-weight: 500 !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.02em !important;
+}
+
+body :is(p, li),
+.home-page :is(.hero-one-line, .about-text p, .hero-project-copy p),
+.project-page-main :is(.project-intro-copy p, .project-section-header p, .project-section p, .project-section li, .case-kpi-grid p, .summary-panel p, .workflow-grid p, .prd-card p, .flow-steps p, .scope-columns p, .scenario-grid p, .case-narrative p, .case-breakpoint-list li, .prototype-copy p) {
+    color: #333 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-body) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
+}
+
+.home-page .hero-one-line,
+.project-page-main .project-intro-copy p {
+    font-size: var(--type-body-lg) !important;
+    line-height: 1.55 !important;
+}
+
+body :is(small, .nav-links a, .cover-menu a, .hero-skill-pills span, .skill-tags span, .work-tags span, .project-action, .project-back, .hero-text-link, .hero-cta, .prd-link, .work-meta, .timeline-period, .zoom-hint) {
+    color: #666 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-small) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+body :is(.section-title, .project-label, .case-kpi-grid span, .scenario-grid span, .flow-steps span, .workflow-grid span, .prototype-copy span, .rail-nav small, .rail-footer, .loader-caption, .loader-name, .hero-name-en, .cover-announcement, .home-page .hero-works-heading p, .work-year, .meta-note) {
+    color: #999 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-note) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+/* Final color and body-size locks for legacy themed selectors. */
+body.home-page .hero-reference .hero-name,
+body:not(.home-page) .section-heading,
+body:not(.home-page) .project-section-header h2,
+body:not(.home-page) .project-section h3,
+body:not(.home-page) .case-narrative h3,
+body:not(.home-page) .case-breakpoint-list h3,
+body:not(.home-page) .scenario-grid h3,
+body:not(.home-page) .scope-columns h3,
+body:not(.home-page) .prd-card h3,
+body:not(.home-page) .prototype-copy h3,
+body:not(.home-page) .workflow-grid h3,
+body:not(.home-page) .summary-panel h3 {
+    color: #111 !important;
+}
+
+body.home-page .hero-reference .hero-one-line,
+body:not(.home-page) .project-intro-copy p {
+    color: #333 !important;
+    font-size: var(--type-body-lg) !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
+}
+
+body.home-page .hero-reference .hero-text-link,
+body.home-page .hero-reference .hero-skill-pills span,
+body:not(.home-page) .project-action:not(.project-action-primary),
+body:not(.home-page) .project-back,
+body:not(.home-page) .prd-link {
+    color: #666 !important;
+}
+
+body:not(.home-page) .project-section p,
+body:not(.home-page) .project-section li,
+body:not(.home-page) .case-kpi-grid p,
+body:not(.home-page) .summary-panel p,
+body:not(.home-page) .workflow-grid p,
+body:not(.home-page) .prd-card p,
+body:not(.home-page) .flow-steps p,
+body:not(.home-page) .scope-columns p,
+body:not(.home-page) .scenario-grid p,
+body:not(.home-page) .case-narrative p,
+body:not(.home-page) .case-breakpoint-list li,
+body:not(.home-page) .prototype-copy p {
+    color: #333 !important;
+}
+
+body:not(.home-page) .section-title,
+body:not(.home-page) .project-label,
+body:not(.home-page) .case-kpi-grid span,
+body:not(.home-page) .scenario-grid span,
+body:not(.home-page) .flow-steps span,
+body:not(.home-page) .workflow-grid span,
+body:not(.home-page) .prototype-copy span {
+    color: #999 !important;
+}
+
 /* ========== Warm Ivory Theme Refinement ========== */
 :root {
     --ivory-bg: #f7f2e8;
@@ -6462,5 +6602,1028 @@ body:not(.home-page) .nav-links a:hover {
         top: calc(49% + 12px) !important;
         right: 5vw !important;
         left: auto !important;
+    }
+}
+
+/* ========== Portfolio Typography Specification ========== */
+:root {
+    --font-portfolio: "Inter", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    --text-title: #111;
+    --text-body: #333;
+    --text-support: #666;
+    --text-muted: #999;
+    --type-h1: 40px;
+    --type-h2: 32px;
+    --type-h3: 24px;
+    --type-h4: 20px;
+    --type-body-lg: 18px;
+    --type-body: 16px;
+    --type-small: 14px;
+    --type-note: 12px;
+}
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+    font-family: var(--font-portfolio) !important;
+}
+
+body {
+    color: var(--text-body) !important;
+    font-size: var(--type-body) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+/* ========== Hero Typography Lock ========== */
+.home-page #hero.hero-reference .hero-name {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h1) !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    text-align: left !important;
+}
+
+.home-page #hero.hero-reference .hero-role,
+.home-page #hero.hero-reference .hero-reference-stats strong {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h4) !important;
+    font-weight: 500 !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.02em !important;
+    text-align: left !important;
+}
+
+.home-page #hero.hero-reference .hero-one-line,
+.home-page #hero.hero-reference .hero-quote-card p {
+    color: #333 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-body-lg) !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
+}
+
+.home-page #hero.hero-reference .hero-reference-stats p {
+    color: #333 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-body) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+}
+
+.home-page #hero.hero-reference .hero-skill-pills span,
+.home-page #hero.hero-reference .hero-text-link,
+.home-page #hero.hero-reference .hero-cta {
+    color: #666 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-small) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+.home-page #hero.hero-reference .hero-name-en,
+.home-page #hero.hero-reference .hero-reference-stats span,
+.home-page #hero.hero-reference .hero-quote-card span {
+    color: #999 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-note) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+.home-page #hero.hero-reference .hero-cta {
+    color: #fff !important;
+    font-weight: 500 !important;
+}
+
+/* ========== Cat Fishing Project Showcase ========== */
+.home-page #hero-works .hero-project-card-wide {
+    grid-column: 1 / -1 !important;
+    grid-template-columns: 40% 60% !important;
+}
+
+.game-fishing-preview {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.88), transparent 32%),
+        linear-gradient(180deg, #dff6ff 0%, #dff6ff 46%, #79d0d2 46%, #4db1bd 100%) !important;
+}
+
+.game-fishing-scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    image-rendering: pixelated;
+}
+
+.game-sky {
+    position: absolute;
+    inset: 0 0 46%;
+    background:
+        radial-gradient(circle at 20% 28%, rgba(255, 255, 255, 0.86) 0 22px, transparent 23px),
+        radial-gradient(circle at 31% 18%, rgba(255, 255, 255, 0.72) 0 16px, transparent 17px),
+        linear-gradient(180deg, #b9e7ff, #e5fbff);
+}
+
+.game-shore {
+    position: absolute;
+    left: -8%;
+    right: -8%;
+    top: 38%;
+    height: 24%;
+    background:
+        linear-gradient(180deg, rgba(132, 192, 75, 0.98), rgba(82, 143, 61, 0.98) 42%, #d6b474 43%, #b98953 100%);
+    clip-path: polygon(0 8%, 30% 0, 58% 13%, 100% 3%, 100% 100%, 0 100%);
+}
+
+.game-water {
+    position: absolute;
+    inset: 56% 0 0;
+    background:
+        url("../assets/game-fishing/water.png") repeat,
+        linear-gradient(180deg, rgba(126, 211, 218, 0.95), rgba(67, 159, 180, 0.96));
+    background-size: 96px 24px, auto;
+    opacity: 0.92;
+}
+
+.game-grass {
+    position: absolute;
+    left: 5%;
+    top: 31%;
+    width: 34%;
+    max-width: 180px;
+    image-rendering: pixelated;
+}
+
+.game-cat {
+    position: absolute;
+    left: 19%;
+    top: 25%;
+    width: 96px;
+    height: 96px;
+    background: url("../assets/game-fishing/character.png") 0 0 / 384px 384px no-repeat;
+    image-rendering: pixelated;
+    transform: translateZ(0);
+    filter: drop-shadow(0 10px 10px rgba(25, 74, 93, 0.12));
+}
+
+.game-rod {
+    position: absolute;
+    left: 40%;
+    top: 37%;
+    width: 34%;
+    height: 4px;
+    border-radius: 999px;
+    background: #7a4a24;
+    transform: rotate(13deg);
+    transform-origin: left center;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.game-line {
+    position: absolute;
+    left: 69%;
+    top: 43%;
+    width: 1px;
+    height: 28%;
+    background: rgba(42, 47, 56, 0.48);
+}
+
+.game-bobber {
+    position: absolute;
+    left: calc(69% - 8px);
+    top: 69%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #fff 0 46%, #e83e46 47% 100%);
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 0 18px rgba(232, 62, 70, 0.3);
+    animation: bobberShake 1.8s ease-in-out infinite;
+}
+
+.game-fish-sheet {
+    position: absolute;
+    right: 12%;
+    bottom: 15%;
+    width: 96px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 14px 16px rgba(25, 74, 93, 0.18));
+    opacity: 0.86;
+}
+
+.game-ui {
+    position: absolute;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 12px;
+    border: 1px solid rgba(24, 50, 74, 0.12);
+    border-radius: 999px;
+    color: #18324a;
+    background: rgba(248, 251, 255, 0.86);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: 0 10px 20px rgba(25, 74, 93, 0.08);
+}
+
+.game-ui-score {
+    top: 22px;
+    left: 22px;
+}
+
+.game-ui-tip {
+    right: 22px;
+    bottom: 24px;
+}
+
+.game-fishing-preview-large {
+    position: relative;
+    min-height: 420px;
+    border: 1px solid rgba(90, 78, 61, 0.12);
+    border-radius: 8px;
+    box-shadow: 0 18px 46px rgba(67, 55, 38, 0.07);
+}
+
+.game-fishing-preview-large .game-fishing-scene {
+    position: absolute;
+}
+
+.home-page #works .works-panel.active {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.home-page #works .work-media-showcase.game-fishing-preview {
+    min-height: 400px !important;
+}
+
+.home-page #works .work-media-showcase.game-fishing-preview .game-fishing-scene {
+    position: absolute;
+}
+
+@keyframes bobberShake {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-8deg); }
+    50% { transform: translateY(2px) rotate(6deg); }
+    75% { transform: translateY(-3px) rotate(10deg); }
+}
+
+@media (max-width: 980px) {
+    .home-page #hero-works .hero-project-card-wide,
+    .home-page #hero-works .hero-project-card {
+        grid-column: auto !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .home-page #works .works-panel.active {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+h1,
+.section-heading,
+.hero-name {
+    margin: 0 0 32px !important;
+    color: var(--text-title) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h1) !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+h2,
+.home-page .hero-works-heading h2,
+.project-section-header h2,
+.skills-section h2,
+.section-heading-alt {
+    margin: 0 0 32px !important;
+    color: var(--text-title) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h2) !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+}
+
+h3,
+.case-narrative h3,
+.case-breakpoint-list h3,
+.scenario-grid h3,
+.scope-columns h3,
+.prd-card h3,
+.prototype-copy h3,
+.summary-panel h3,
+.workflow-grid h3,
+.skills-card h3,
+.skill-card h3,
+.hero-project-copy h3 {
+    margin: 0 0 12px !important;
+    color: var(--text-title) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h3) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+}
+
+h4,
+.project-intro strong,
+.case-kpi-grid strong,
+.flow-steps strong,
+.hero-reference-stats strong,
+.about-card strong,
+.timeline-card h4,
+.work-card-title {
+    margin: 0 0 12px !important;
+    color: var(--text-title) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-h4) !important;
+    font-weight: 500 !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.02em !important;
+}
+
+p,
+li,
+.project-section p,
+.project-section li,
+.about-text p,
+.hero-one-line,
+.hero-project-copy p,
+.project-intro-copy p,
+.project-section-header p,
+.case-kpi-grid p,
+.summary-panel p,
+.workflow-grid p,
+.prd-card p,
+.flow-steps p,
+.scope-columns p,
+.scenario-grid p,
+.case-narrative p,
+.case-breakpoint-list li,
+.prototype-copy p,
+.contact p {
+    margin-top: 0 !important;
+    margin-bottom: 24px !important;
+    color: var(--text-body) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-body) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
+}
+
+.body-large,
+.project-intro-copy p,
+.hero-one-line {
+    font-size: var(--type-body-lg) !important;
+    line-height: 1.55 !important;
+}
+
+small,
+.nav-links a,
+.cover-menu a,
+.hero-skill-pills span,
+.skill-tags span,
+.work-tags span,
+.project-action,
+.project-back,
+.hero-text-link,
+.hero-cta,
+.prd-link,
+.work-meta,
+.hero-project-kicker,
+.hero-project-copy small,
+.timeline-period,
+.zoom-hint {
+    color: var(--text-support) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-small) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+.section-title,
+.project-label,
+.case-kpi-grid span,
+.scenario-grid span,
+.flow-steps span,
+.workflow-grid span,
+.prototype-copy span,
+.rail-nav small,
+.rail-footer,
+.loader-caption,
+.loader-name,
+.hero-name-en,
+.cover-announcement,
+.home-page .hero-works-heading p,
+.work-year,
+.meta-note {
+    color: var(--text-muted) !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-note) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+.logo,
+.cover-brand,
+.rail-logo {
+    color: var(--text-title) !important;
+    font-family: var(--font-portfolio) !important;
+    font-weight: 600 !important;
+}
+
+.hero-curated-intro > *:last-child,
+.project-section-header > *:last-child,
+.project-intro-copy > *:last-child,
+.case-narrative > *:last-child,
+.prd-card > *:last-child,
+.workflow-grid p:last-child,
+.summary-panel p:last-child,
+.prototype-copy > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --type-h1: 32px;
+        --type-h2: 26px;
+        --type-h3: 22px;
+        --type-h4: 18px;
+    }
+
+    body,
+    p,
+    li,
+    .project-section p,
+    .project-section li,
+    .about-text p,
+    .hero-one-line,
+    .project-intro-copy p,
+    .project-section-header p {
+        font-size: var(--type-body) !important;
+    }
+}
+
+/* ========== Final Typography Lock At EOF ========== */
+body.home-page .hero-reference .hero-name,
+body:not(.home-page) .section-heading,
+body:not(.home-page) .project-section-header h2,
+body:not(.home-page) .project-section h3,
+body:not(.home-page) .case-narrative h3,
+body:not(.home-page) .case-breakpoint-list h3,
+body:not(.home-page) .scenario-grid h3,
+body:not(.home-page) .scope-columns h3,
+body:not(.home-page) .prd-card h3,
+body:not(.home-page) .prototype-copy h3,
+body:not(.home-page) .workflow-grid h3,
+body:not(.home-page) .summary-panel h3 {
+    color: #111 !important;
+    font-family: var(--font-portfolio) !important;
+}
+
+body.home-page .hero-reference .hero-one-line,
+body:not(.home-page) .project-intro-copy p {
+    color: #333 !important;
+    font-size: var(--type-body-lg) !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
+}
+
+body.home-page .hero-reference .hero-text-link,
+body.home-page .hero-reference .hero-skill-pills span,
+body:not(.home-page) .project-action:not(.project-action-primary),
+body:not(.home-page) .project-back,
+body:not(.home-page) .prd-link {
+    color: #666 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-small) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+body:not(.home-page) .project-section p,
+body:not(.home-page) .project-section li,
+body:not(.home-page) .project-section-header p,
+body:not(.home-page) .case-kpi-grid p,
+body:not(.home-page) .summary-panel p,
+body:not(.home-page) .workflow-grid p,
+body:not(.home-page) .prd-card p,
+body:not(.home-page) .flow-steps p,
+body:not(.home-page) .scope-columns p,
+body:not(.home-page) .scenario-grid p,
+body:not(.home-page) .case-narrative p,
+body:not(.home-page) .case-breakpoint-list li,
+body:not(.home-page) .prototype-copy p {
+    color: #333 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-body) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
+}
+
+body:not(.home-page) .section-title,
+body:not(.home-page) .project-label,
+body:not(.home-page) .case-kpi-grid span,
+body:not(.home-page) .scenario-grid span,
+body:not(.home-page) .flow-steps span,
+body:not(.home-page) .workflow-grid span,
+body:not(.home-page) .prototype-copy span {
+    color: #999 !important;
+    font-family: var(--font-portfolio) !important;
+    font-size: var(--type-note) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+
+.home-page #hero-works .hero-project-media-zhike {
+    background: #fff4eb;
+    padding: 0;
+}
+
+.home-page #hero-works .hero-project-media-zhike .zhike-demo-shot {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transform: none;
+}
+
+.work-media-zhike {
+    background: #f4eee3 !important;
+    padding: 0 !important;
+}
+
+.work-media-zhike img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    display: block !important;
+    transform: none !important;
+}
+
+/* ========== Homepage Hello Cover Refresh ========== */
+body.home-page #intro.hello-cover {
+    --cover-mx: 0px;
+    --cover-my: 0px;
+    position: relative !important;
+    z-index: 160 !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    color: #070707 !important;
+    background:
+        linear-gradient(rgba(15, 40, 46, 0.08) 1px, transparent 1px) 0 0 / 25vw 34.8vh,
+        linear-gradient(90deg, rgba(15, 40, 46, 0.08) 1px, transparent 1px) 0 0 / 25vw 34.8vh,
+        radial-gradient(circle at 31% 24%, rgba(247, 250, 222, 0.86), transparent 31%),
+        radial-gradient(circle at 70% 45%, rgba(184, 233, 248, 0.86), transparent 35%),
+        linear-gradient(115deg, #b9e4ef 0%, #edf4df 43%, #b6e4f3 100%) !important;
+    border: 0 !important;
+}
+
+body.home-page #intro.hello-cover::before,
+body.home-page #intro.hello-cover::after {
+    position: absolute !important;
+    content: "" !important;
+    display: block !important;
+    pointer-events: none !important;
+}
+
+body.home-page #intro.hello-cover::before {
+    inset: 0 !important;
+    z-index: 0 !important;
+    background:
+        radial-gradient(circle at calc(52% + var(--cover-mx)) calc(49% + var(--cover-my)), rgba(255, 255, 255, 0.48), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.04)) !important;
+}
+
+body.home-page #intro.hello-cover::after {
+    right: max(34px, 3.4vw) !important;
+    bottom: 26px !important;
+    z-index: 8 !important;
+    width: 42px !important;
+    height: 20px !important;
+    border: 2px solid rgba(6, 18, 18, 0.78) !important;
+    border-radius: 50% !important;
+    background:
+        linear-gradient(90deg, transparent calc(50% - 1px), rgba(6, 18, 18, 0.65) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(transparent calc(50% - 1px), rgba(6, 18, 18, 0.65) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) !important;
+}
+
+body.home-page #intro.hello-cover .cover-announcement,
+body.home-page #intro.hello-cover .cover-topbar,
+body.home-page #intro.hello-cover .cover-orbit,
+body.home-page #intro.hello-cover .cover-word,
+body.home-page #intro.hello-cover .cover-scroll {
+    display: none !important;
+}
+
+.hello-cover-top,
+.hello-cover-note,
+.hello-glass-word,
+.hello-cover-title,
+.hello-cover-meta,
+.hello-cover-scroll {
+    position: absolute;
+    z-index: 4;
+}
+
+.hello-cover-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(28px, 3vw, 56px);
+}
+
+.hello-cover-brand {
+    color: #0b1112;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+}
+
+.hello-cover-menu {
+    display: flex;
+    align-items: center;
+    gap: clamp(22px, 2.4vw, 42px);
+}
+
+.hello-cover-menu a {
+    color: #0b1112;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0;
+}
+
+.hello-cover-note {
+    top: 14.5vh;
+    max-width: 420px;
+    color: #0b1112;
+}
+
+.hello-cover-note span {
+    display: block;
+    margin-bottom: 12px;
+    color: rgba(5, 16, 18, 0.9);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+}
+
+.hello-cover-note p {
+    margin: 0;
+    color: rgba(5, 16, 18, 0.74);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: 0;
+}
+
+.hello-cover-note-left {
+    left: 26.2vw;
+    width: min(270px, 18vw);
+}
+
+.hello-cover-note-right {
+    left: 50.2vw;
+    width: min(560px, 36vw);
+}
+
+.hello-glass-word {
+    left: 50%;
+    top: 55%;
+    z-index: 2;
+    width: min(84vw, 1560px);
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--cover-mx) * 0.45), calc(var(--cover-my) * 0.28));
+    text-align: center;
+    pointer-events: none;
+}
+
+.hello-glass-word span {
+    position: relative;
+    display: block;
+    color: rgba(232, 248, 255, 0.26);
+    font-family: "Inter", "Noto Sans SC", system-ui, sans-serif;
+    font-size: clamp(240px, 31vw, 590px);
+    font-weight: 700;
+    line-height: 0.72;
+    letter-spacing: -0.08em;
+    filter:
+        drop-shadow(0 38px 30px rgba(42, 119, 150, 0.12))
+        drop-shadow(-18px -18px 30px rgba(255, 255, 255, 0.62))
+        blur(0.08px);
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.42);
+    text-shadow:
+        0 -10px 20px rgba(255, 255, 255, 0.88),
+        0 10px 28px rgba(93, 156, 184, 0.18),
+        0 0 70px rgba(255, 255, 255, 0.28);
+}
+
+.hello-glass-word span::before,
+.hello-glass-word span::after {
+    position: absolute;
+    content: "";
+    display: block;
+    pointer-events: none;
+}
+
+.hello-glass-word span::before {
+    left: 23%;
+    top: 13%;
+    width: 6.5%;
+    height: 2.4%;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.86);
+    filter: blur(1px);
+    transform: rotate(-12deg);
+}
+
+.hello-glass-word span::after {
+    right: 7%;
+    top: 52%;
+    width: 11%;
+    height: 3%;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    filter: blur(2px);
+    transform: rotate(-8deg);
+}
+
+.hello-cover-title {
+    left: clamp(28px, 2.7vw, 58px);
+    bottom: clamp(92px, 8.7vh, 132px);
+    z-index: 5;
+    max-width: min(560px, 42vw);
+}
+
+.hello-cover-title p {
+    margin: 0 !important;
+    color: #050505 !important;
+    font-size: clamp(46px, 5vw, 88px) !important;
+    font-weight: 700 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.05em !important;
+}
+
+.hello-cover-meta {
+    bottom: 25px;
+    color: #071010;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+}
+
+.hello-cover-meta-left {
+    left: clamp(28px, 2.7vw, 58px);
+}
+
+.hello-cover-meta-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hello-cover-scroll {
+    left: 50%;
+    bottom: 54px;
+    z-index: 7;
+    transform: translateX(-50%);
+    color: #0b1112;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: 0.18em;
+}
+
+body.home-page.intro-active .site-nav,
+body.home-page.intro-active .home-side-rail {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-14px) !important;
+}
+
+@media (max-width: 980px) {
+    .hello-cover-note-left {
+        left: 7vw;
+        width: 34vw;
+    }
+
+    .hello-cover-note-right {
+        left: 48vw;
+        width: 42vw;
+    }
+
+    .hello-glass-word {
+        top: 51%;
+        width: 92vw;
+    }
+
+    .hello-cover-title {
+        bottom: 92px;
+    }
+}
+
+@media (max-width: 760px) {
+    body.home-page #intro.hello-cover {
+        min-height: 760px !important;
+        background:
+            linear-gradient(rgba(15, 40, 46, 0.08) 1px, transparent 1px) 0 0 / 50vw 25vh,
+            linear-gradient(90deg, rgba(15, 40, 46, 0.08) 1px, transparent 1px) 0 0 / 50vw 25vh,
+            radial-gradient(circle at 35% 24%, rgba(247, 250, 222, 0.86), transparent 30%),
+            radial-gradient(circle at 72% 48%, rgba(184, 233, 248, 0.86), transparent 38%),
+            linear-gradient(115deg, #b9e4ef 0%, #edf4df 47%, #b6e4f3 100%) !important;
+    }
+
+    .hello-cover-top {
+        height: 64px;
+        padding: 0 22px;
+    }
+
+    .hello-cover-menu {
+        gap: 16px;
+    }
+
+    .hello-cover-menu a {
+        font-size: 12px;
+    }
+
+    .hello-cover-note {
+        top: 106px;
+    }
+
+    .hello-cover-note-left {
+        left: 22px;
+        width: 42vw;
+    }
+
+    .hello-cover-note-right {
+        left: auto;
+        right: 22px;
+        width: 46vw;
+    }
+
+    .hello-cover-note p {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .hello-glass-word {
+        top: 48%;
+        width: 106vw;
+    }
+
+    .hello-glass-word span {
+        font-size: clamp(170px, 46vw, 270px);
+        letter-spacing: -0.09em;
+    }
+
+    .hello-cover-title {
+        left: 22px;
+        bottom: 94px;
+        max-width: 72vw;
+    }
+
+    .hello-cover-title p {
+        font-size: clamp(38px, 12vw, 60px) !important;
+        line-height: 1.03 !important;
+    }
+
+    .hello-cover-meta-center {
+        display: none;
+    }
+}
+
+/* ========== About Profile Photo ========== */
+.home-page .about-photo-card {
+    position: relative !important;
+    display: flex !important;
+    min-height: 430px !important;
+    padding: 0 !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: #efe6d7 !important;
+}
+
+.home-page .about-photo-card img {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 30% !important;
+    transform: none !important;
+    filter: saturate(0.96) contrast(1.02) !important;
+}
+
+.home-page .about-photo-card::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    display: block;
+    background: linear-gradient(180deg, transparent 46%, rgba(28, 24, 18, 0.42) 100%);
+    pointer-events: none;
+}
+
+.home-page .about-photo-caption {
+    position: relative !important;
+    z-index: 2 !important;
+    width: calc(100% - 32px) !important;
+    margin: 0 16px 16px !important;
+    padding: 16px 18px !important;
+    border: 1px solid rgba(220, 211, 195, 0.82) !important;
+    border-radius: 8px !important;
+    background: rgba(255, 252, 246, 0.82) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.home-page .about-photo-caption span,
+.home-page .about-photo-caption strong,
+.home-page .about-photo-caption small {
+    display: block !important;
+}
+
+.home-page .about-photo-caption span {
+    margin-bottom: 6px !important;
+    color: #7f784f !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0.12em !important;
+}
+
+.home-page .about-photo-caption strong {
+    margin-bottom: 4px !important;
+    color: #111 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.home-page .about-photo-caption small {
+    color: #666 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+
+@media (max-width: 760px) {
+    .home-page .about-photo-card {
+        min-height: 390px !important;
+    }
+
+    .home-page .about-photo-card img {
+        width: 100% !important;
+        object-position: center 28% !important;
     }
 }

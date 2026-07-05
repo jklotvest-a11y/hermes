@@ -1,297 +1,363 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>展迹 App · 私人观展日记 | 孔小洁 Jessie</title>
-    <link rel="stylesheet" href="css/style.css?v=20260629-grain-source-breakdown">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>展迹 App · 私人观展日记 | 孔小洁 Jessie</title>
+<style>
+  :root {
+    --ink: #16202a;
+    --muted: #667085;
+    --soft: #f6f8fb;
+    --paper: #ffffff;
+    --line: #dfe5ec;
+    --orange: #ff6b35;
+    --yellow: #ffb627;
+    --blue: #2f80ed;
+    --green: #12a87a;
+    --red: #e5484d;
+    --mist: #8aafc4;
+    --deep: #2c3e50;
+    --shadow: 0 18px 50px rgba(22, 32, 42, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .page { min-height: 100vh; overflow: hidden; }
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    padding: 28px 28px 70px;
+    background:
+      linear-gradient(rgba(15, 23, 42, 0.48), rgba(15, 23, 42, 0.32)),
+      linear-gradient(130deg, #263241 0%, #f7f3ee 48%, #f4f8fb 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .nav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--mist), #5d8499);
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .nav-links { display: flex; gap: 18px; font-size: 14px; color: rgba(255,255,255,0.78); }
+  .nav-links a:hover { color: #fff; }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    width: 100%;
+    margin: 54px auto 0;
+    display: grid;
+    grid-template-columns: minmax(0, 0.94fr) minmax(520px, 1.06fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 7px 11px;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.88);
+    font-size: 13px;
+  }
+  .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  h1 {
+    margin: 20px 0 18px;
+    max-width: 760px;
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+  .hero-copy { max-width: 650px; margin: 0; color: rgba(255,255,255,0.84); font-size: 18px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid transparent;
+    transition: transform 0.18s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: #fff; color: var(--ink); }
+  .btn-ghost { color: #fff; border-color: rgba(255,255,255,0.32); background: rgba(255,255,255,0.08); }
+  .hero-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 42px; max-width: 700px; }
+  .meta-item { border-top: 1px solid rgba(255,255,255,0.28); padding-top: 14px; }
+  .meta-value { display: block; font-size: 23px; line-height: 1.1; font-weight: 800; }
+  .meta-label { display: block; margin-top: 5px; color: rgba(255,255,255,0.72); font-size: 13px; }
+  .product-visual { position: relative; min-height: 560px; }
+  .visual-shell {
+    position: absolute;
+    inset: 0 0 auto auto;
+    width: min(720px, 100%);
+    min-height: 500px;
+    border: 1px solid rgba(255,255,255,0.32);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.92);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    backdrop-filter: blur(14px);
+  }
+  .browser-bar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--line);
+    background: #f8fafc;
+  }
+  .traffic { width: 10px; height: 10px; border-radius: 50%; }
+  .traffic.red { background: #ff5f57; }
+  .traffic.yellow { background: #febc2e; }
+  .traffic.green { background: #28c840; }
+  .visual-body { min-height: 458px; background: #f3f6fa; padding: 24px; }
+  .phone-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: end; height: 100%; }
+  .phone-row img {
+    width: 100%;
+    border-radius: 26px;
+    box-shadow: 0 18px 44px rgba(22,32,42,.18);
+    background: #fff;
+  }
+  .phone-row img:nth-child(2) { transform: translateY(-20px); }
+  .room-preview { display: grid; grid-template-columns: 1.08fr .92fr; gap: 18px; align-items: stretch; }
+  .room-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(22,32,42,.12);
+  }
+  .room-card img { width: 100%; display: block; }
+  .result-panel { padding: 18px; border-radius: 18px; background: #fff; box-shadow: 0 16px 36px rgba(22,32,42,.1); }
+  .result-panel h3 { margin: 0 0 10px; font-size: 18px; }
+  .result-panel p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+  .mini-stat { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini-stat span { min-height: 64px; border-radius: 12px; background: #f3f6fa; display: grid; place-items: center; color: #5d8499; font-weight: 800; font-size: 13px; }
+  .scroll-hint { position: relative; z-index: 2; max-width: 1180px; width: 100%; margin: 34px auto 0; color: rgba(255,255,255,0.72); font-size: 13px; }
+  section { padding: 82px 28px; }
+  .section-soft { background: var(--soft); }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .section-label { color: var(--orange); font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+  h2 { margin: 0 0 18px; font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; }
+  .lead { max-width: 760px; margin: 0; color: var(--muted); font-size: 17px; }
+  .overview { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 46px; align-items: start; }
+  .facts { display: grid; gap: 12px; }
+  .fact { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .fact span { color: var(--muted); font-size: 14px; }
+  .fact strong { font-size: 15px; }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+  .problem { border-top: 3px solid var(--ink); padding-top: 18px; }
+  .problem h3 { margin: 0 0 8px; font-size: 19px; }
+  .problem p { margin: 0; color: var(--muted); }
+  .flow { margin-top: 36px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .step { min-height: 134px; padding: 17px; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  .step-number { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #fff; font-weight: 800; font-size: 12px; margin-bottom: 14px; }
+  .step h3 { margin: 0 0 7px; font-size: 16px; }
+  .step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+  .screens { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 20px; margin-top: 40px; }
+  .screen-shot { min-height: 360px; border-radius: 8px; border: 1px solid var(--line); background: #fff; overflow: hidden; box-shadow: 0 10px 30px rgba(22, 32, 42, 0.08); }
+  .screen-shot.large { min-height: 520px; }
+  .screen-top { height: 42px; display: flex; align-items: center; padding: 0 14px; background: #101828; color: #fff; font-size: 13px; font-weight: 800; }
+  .screen-content { padding: 18px; background: #f5f7fa; min-height: inherit; }
+  .screen-content img { width: 100%; border-radius: 18px; box-shadow: 0 18px 42px rgba(22,32,42,.12); background: #fff; }
+  .insight-list { display: grid; gap: 12px; }
+  .insight { background: #fff; border: 1px solid #e8eef5; border-left: 4px solid var(--blue); border-radius: 8px; padding: 14px; }
+  .insight:nth-child(2) { border-left-color: var(--orange); }
+  .insight:nth-child(3) { border-left-color: var(--green); }
+  .insight b { display: block; margin-bottom: 4px; }
+  .insight span { color: var(--muted); font-size: 14px; }
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 40px; }
+  .tech-box { padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .tech-box h3 { margin: 0 0 14px; }
+  .tech-box ul { margin: 0; padding-left: 18px; color: var(--muted); }
+  .tech-box li + li { margin-top: 8px; }
+  .outcome { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+  .outcome-item { padding: 22px; border-radius: 8px; background: #fff; border: 1px solid var(--line); }
+  .outcome-item strong { display: block; font-size: 28px; line-height: 1; margin-bottom: 10px; }
+  .outcome-item span { color: var(--muted); font-size: 14px; }
+  .cta { background: #111827; color: #fff; }
+  .cta-inner { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+  .cta p { color: rgba(255,255,255,0.72); max-width: 720px; }
+  @media (max-width: 980px) {
+    .hero { min-height: auto; }
+    .hero-inner, .overview, .screens, .tech-grid, .cta-inner { grid-template-columns: 1fr; }
+    .product-visual { min-height: 510px; }
+    .visual-shell { position: relative; width: 100%; }
+    .flow, .problem-grid, .outcome { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 22px 18px 54px; }
+    section { padding: 62px 18px; }
+    .hero-meta, .problem-grid, .flow, .screens, .tech-grid, .outcome, .phone-row, .room-preview { grid-template-columns: 1fr; }
+    .product-visual { min-height: auto; }
+    .visual-body { padding: 16px; }
+    .phone-row img:nth-child(2) { transform: none; }
+    .fact { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
 </head>
 <body>
-
-    <div class="loader-screen" aria-label="页面载入中">
-        <div class="loader-glass">
-            <div class="loader-mark">J</div>
-            <div class="loader-name">JESSIE KONG</div>
-            <div class="loader-line"><span></span></div>
-            <div class="loader-caption">Project is loading</div>
-        </div>
-    </div>
-
-    <canvas id="pond-canvas" class="pond-canvas" aria-hidden="true"></canvas>
-
-    <nav class="site-nav">
-        <div class="nav-inner">
-            <a class="logo" href="index.html">KONG · JESSIE</a>
-            <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="nav-menu">
-                <li><a href="index.html#about">ABOUT</a></li>
-                <li><a href="index.html#skills">SKILLS</a></li>
-                <li><a href="index.html#experience">EXPERIENCE</a></li>
-                <li><a href="index.html#works">WORKS</a></li>
-                <li><a href="index.html#contact">CONTACT</a></li>
-            </ul>
-        </div>
+<main class="page">
+  <header class="hero">
+    <nav class="nav" aria-label="项目页导航">
+      <a class="brand" href="index.html#works"><span class="brand-mark">JK</span><span>Portfolio Case Study</span></a>
+      <div class="nav-links">
+        <a href="#overview">概览</a>
+        <a href="#solution">方案</a>
+        <a href="#screens">界面</a>
+        <a href="#tech">思考</a>
+      </div>
     </nav>
-
-    <main class="project-page-main">
-        <section class="project-detail">
-            <a class="project-back" href="index.html#works">BACK TO WORKS</a>
-            <div class="section-title">FEATURED PROJECT</div>
-            <h1 class="section-heading">展迹 App · 私人观展日记</h1>
-
-            <div class="project-intro">
-                <div class="project-intro-copy">
-                    <p>
-                        展迹是一个面向看展人群的私人观展日记 App。用户可以在展览现场快速新建展迹、拍摄展品、补拍作品标签，并在看展结束后把照片、票根、作品信息和感受整理成个人展册。
-                    </p>
-                    <p>
-                        这个项目的重点不是做一个通用相册，而是把“展厅现场不适合长时间输入”的限制转化成轻量记录流程，让用户先完成低负担采集，再回到安静场景里整理和分享。
-                    </p>
-                </div>
-                <div class="project-actions" aria-label="项目链接">
-                    <a class="project-action project-action-primary" href="https://www.figma.com/design/Eu47UH7oWXXC3WzCDPOjZ8/%E9%AB%98%E4%BF%9D%E7%9C%9F%E7%A7%BB%E5%8A%A8%E7%AB%AF-App-UI" target="_blank" rel="noreferrer">查看 Figma 原型</a>
-                    <a class="project-action" href="#prototype">查看页面截图</a>
-                    <a class="project-action" href="index.html#contact">联系我</a>
-                </div>
-            </div>
-
-            <section class="project-section project-case-overview">
-                <div class="case-kpi-grid">
-                    <div>
-                        <span>ROLE</span>
-                        <strong>产品定义 / 高保真原型</strong>
-                        <p>负责场景定义、核心流程、页面信息架构、移动端高保真 UI 和展示页面整理。</p>
-                    </div>
-                    <div>
-                        <span>USER</span>
-                        <strong>高频看展与内容分享用户</strong>
-                        <p>喜欢记录展览，但现场时间有限，不想在展厅里被复杂输入打断。</p>
-                    </div>
-                    <div>
-                        <span>OUTPUT</span>
-                        <strong>流程原型 + 高保真 App UI</strong>
-                        <p>完成展册、看展、建档、拍摄、标签补录、分享生成和设置等关键页面。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">PROBLEM DEFINITION</div>
-                    <h2>问题定义</h2>
-                    <p>看展用户不是不想记录，而是记录动作经常打断观看本身。</p>
-                </div>
-                <div class="case-problem-layout">
-                    <div class="case-narrative">
-                        <h3>为什么选择观展记录</h3>
-                        <p>展览现场有强烈的时间、动线和社交限制。用户可能会拍很多照片，但作品名称、作者、年份、票根、地点和当时的感受往往散落在相册、备忘录和社交平台里。</p>
-                        <p>展迹的机会在于把记录拆成两个阶段：现场只做最轻的采集，展后再把内容整理成可回看、可分享的个人展册。</p>
-                    </div>
-                    <div class="case-breakpoint-list">
-                        <h3>核心断点</h3>
-                        <ol>
-                            <li>现场拍照很快，但补充作品信息很麻烦。</li>
-                            <li>展览结束后，照片、票根、感受和作品标签难以归档。</li>
-                            <li>想分享看展体验，但重新排版长图或九宫格成本高。</li>
-                            <li>用户希望保留私人记录，不希望所有内容默认公开。</li>
-                        </ol>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">USER SCENARIO</div>
-                    <h2>目标用户与使用场景</h2>
-                    <p>我把场景收敛在“现场轻记录 + 展后整理”的私人展册链路。</p>
-                </div>
-                <div class="scenario-grid">
-                    <div><span>01</span><h3>看展前</h3><p>快速建立展览档案，自动带入日期、地点、天气等基础信息。</p></div>
-                    <div><span>02</span><h3>看展中</h3><p>围绕拍展品、拍标签、记一句和拍票根设计低打扰操作。</p></div>
-                    <div><span>03</span><h3>看展后</h3><p>把展品、票根、心情和笔记整理成长图、九宫格或封面卡。</p></div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">MVP STRATEGY</div>
-                    <h2>MVP 范围与取舍</h2>
-                    <p>优先验证一条完整观展记录链路，不急着做大型社区或展览票务平台。</p>
-                </div>
-                <div class="scope-columns">
-                    <div>
-                        <h3>MVP 包含</h3>
-                        <ul>
-                            <li>新建一条展迹</li>
-                            <li>日期、地点、天气等基础信息录入</li>
-                            <li>展中拍摄展品、标签、票根和一句感受</li>
-                            <li>作品标签 OCR / 待确认机制</li>
-                            <li>展记详情、作品详情和分享图生成</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>暂不包含</h3>
-                        <ul>
-                            <li>真实票务购买和展览日历</li>
-                            <li>开放社区、关注关系和评论体系</li>
-                            <li>复杂图片编辑器和多端协同</li>
-                            <li>真实 OCR 接口、云备份和账号支付</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>取舍原因</h3>
-                        <p>看展场景的核心不是“功能越多越好”，而是现场操作越轻越好。MVP 先验证用户是否愿意把展览记录集中沉淀到一个专门工具里。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">PRD</div>
-                    <h2>功能定义</h2>
-                    <p>功能围绕“建档、采集、补全、整理、分享”五个动作组织，减少现场输入成本。</p>
-                </div>
-                <div class="prd-grid">
-                    <div class="prd-card">
-                        <h3>展册首页</h3>
-                        <p>展示正在展中的记录和最近展记，让用户可以继续未完成的展迹，也能快速回看历史展册。</p>
-                    </div>
-                    <div class="prd-card">
-                        <h3>看展入口</h3>
-                        <p>以“新建展迹”和“继续未结束的展”为核心，减少现场寻找入口的负担。</p>
-                    </div>
-                    <div class="prd-card">
-                        <h3>展中采集</h3>
-                        <p>把拍展品作为主动作，标签、票根和一句感受作为辅助动作，支持跳过与展后补全。</p>
-                    </div>
-                    <div class="prd-card">
-                        <h3>分享生成</h3>
-                        <p>提供长图、九宫格、封面卡三种模式，把私人记录转成适合社交平台分享的视觉内容。</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="project-section project-structure">
-                <div class="project-section-header">
-                    <div class="project-label">PRODUCT STRUCTURE</div>
-                    <h2>产品页面总览</h2>
-                </div>
-                <button class="project-hero zoom-trigger" type="button" data-zoom-src="assets/exhibition-overview.png" aria-label="放大展迹产品页面总览">
-                    <img src="assets/exhibition-overview.png" alt="展迹 App 四个关键页面总览">
-                    <span class="zoom-hint">点击查看页面总览</span>
-                </button>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">USER FLOW</div>
-                    <h2>核心用户流程</h2>
-                    <p>用户先建立展迹，再在现场轻量采集，最后回到展册里整理和分享。</p>
-                </div>
-                <div class="flow-steps">
-                    <div><span>01</span><div><strong>进入展册</strong><p>查看正在展中和最近展记，明确记录沉淀位置。</p></div></div>
-                    <div><span>02</span><div><strong>开始看展</strong><p>新建展迹，填入展名、日期、地点、天气、同行人和心情。</p></div></div>
-                    <div><span>03</span><div><strong>展中采集</strong><p>拍展品为主，支持补拍标签、记一句、拍票根和结束看展。</p></div></div>
-                    <div><span>04</span><div><strong>标签补录</strong><p>作品标签识别进入待确认，不要求用户现场完成校对。</p></div></div>
-                    <div><span>05</span><div><strong>展记详情</strong><p>沉淀精选作品、展览信息、感受和作品详情。</p></div></div>
-                    <div><span>06</span><div><strong>生成分享图</strong><p>按长图、九宫格或封面卡导出，完成从私人记录到分享表达的转化。</p></div></div>
-                </div>
-            </section>
-
-            <section class="project-section" id="prototype">
-                <div class="project-section-header">
-                    <div class="project-label">PROTOTYPE DESIGN</div>
-                    <h2>原型设计</h2>
-                    <p>原型按看展前、看展中、看展后拆成四个关键界面，覆盖完整 MVP 闭环。</p>
-                </div>
-                <div class="prototype-groups">
-                    <article>
-                        <div class="prototype-copy">
-                            <span>RECORDING</span>
-                            <h3>展册与建档</h3>
-                            <p>首页让用户看到正在展中的记录；看展入口降低新建成本；建档页把必填信息控制在最小范围。</p>
-                        </div>
-                        <div class="case-gallery case-gallery-three">
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-home.png">
-                                <img src="assets/screen-exhibition-home.png" alt="展迹 展册首页">
-                                <span>展册首页</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-start.png">
-                                <img src="assets/screen-exhibition-start.png" alt="展迹 看展入口">
-                                <span>看展入口</span>
-                            </button>
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-create.png">
-                                <img src="assets/screen-exhibition-create.png" alt="展迹 新建展迹">
-                                <span>新建展迹</span>
-                            </button>
-                        </div>
-                    </article>
-                    <article>
-                        <div class="prototype-copy">
-                            <span>OUTPUT</span>
-                            <h3>整理与分享</h3>
-                            <p>分享生成页把展览封面、精选展品和观展感受组织成可导出的长图，服务用户的复盘与社交表达。</p>
-                        </div>
-                        <div class="case-gallery">
-                            <button class="case-shot zoom-trigger" type="button" data-zoom-src="assets/screen-exhibition-share.png">
-                                <img src="assets/screen-exhibition-share.png" alt="展迹 分享生成页">
-                                <span>分享生成</span>
-                            </button>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">PRODUCT WORKFLOW</div>
-                    <h2>把观展记录拆成产品闭环</h2>
-                    <p>这个项目展示的是对真实场景限制的理解：少打扰、可补全、能沉淀、可分享。</p>
-                </div>
-                <div class="workflow-grid">
-                    <div><span>01</span><div><h3>轻量建档</h3><p>先建立展览容器，自动带入基础信息，减少用户开局成本。</p></div></div>
-                    <div><span>02</span><div><h3>现场采集</h3><p>把拍展品作为主任务，其他信息允许跳过，避免打断观展。</p></div></div>
-                    <div><span>03</span><div><h3>标签识别</h3><p>作品标签进入待确认状态，把校对留到展后完成。</p></div></div>
-                    <div><span>04</span><div><h3>私人展册</h3><p>按展览维度归档作品、票根、心情和文字记录。</p></div></div>
-                    <div><span>05</span><div><h3>分享模板</h3><p>提供长图、九宫格和封面卡，降低内容二次整理成本。</p></div></div>
-                    <div><span>06</span><div><h3>隐私边界</h3><p>默认私人记录，分享由用户主动触发，避免社区化过早干扰核心体验。</p></div></div>
-                </div>
-            </section>
-
-            <section class="project-section">
-                <div class="project-section-header">
-                    <div class="project-label">SUMMARY</div>
-                    <h2>项目总结</h2>
-                    <p>展迹展示的是我对垂直生活场景的产品拆解能力：先理解现场限制，再定义低负担流程。</p>
-                </div>
-                <div class="summary-panel">
-                    <div><h3>已完成</h3><p>产品定位、用户场景、MVP 范围、核心流程、高保真移动端 UI、分享模式和设置页框架。</p></div>
-                    <div><h3>下一步</h3><p>如果继续推进，会优先补真实 OCR、展览信息自动识别、图片导出质量和展后整理编辑器，而不是立刻扩展社区。</p></div>
-                </div>
-            </section>
-        </section>
-    </main>
-
-    <div class="image-lightbox" aria-hidden="true">
-        <div class="lightbox-toolbar" aria-label="图片缩放工具">
-            <button type="button" class="lightbox-btn" data-zoom-action="out" aria-label="缩小">−</button>
-            <button type="button" class="lightbox-btn" data-zoom-action="reset">100%</button>
-            <button type="button" class="lightbox-btn" data-zoom-action="in" aria-label="放大">+</button>
-            <button type="button" class="lightbox-close" aria-label="关闭大图">×</button>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span>移动端 App / 观展记录 / 高保真原型</div>
+        <h1>展迹 App · 私人观展日记</h1>
+        <p class="hero-copy">面向看展人群的私人观展日记 App，把“现场轻记录、标签补录、展后整理、分享生成”串成完整体验，让记录不打断观看本身。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://www.figma.com/design/Eu47UH7oWXXC3WzCDPOjZ8/%E9%AB%98%E4%BF%9D%E7%9C%9F%E7%A7%BB%E5%8A%A8%E7%AB%AF-App-UI">查看 Figma 原型</a>
+          <a class="btn btn-ghost" href="index.html#contact">联系我</a>
         </div>
-        <div class="lightbox-stage">
-            <img class="lightbox-image" src="" alt="">
+        <div class="hero-meta">
+          <div class="meta-item"><span class="meta-value">0-1</span><span class="meta-label">场景定义到高保真 UI</span></div><div class="meta-item"><span class="meta-value">8+</span><span class="meta-label">移动端核心页面</span></div><div class="meta-item"><span class="meta-value">3</span><span class="meta-label">分享生成模式</span></div>
         </div>
+      </div>
+      <div class="product-visual" aria-label="展迹 App · 私人观展日记 产品界面示意">
+        <div class="visual-shell">
+          <div class="browser-bar"><span class="traffic red"></span><span class="traffic yellow"></span><span class="traffic green"></span></div>
+          <div class="visual-body">
+  <div class="phone-row">
+    <img src="assets/screen-exhibition-home.png" alt="展迹 App 展册首页">
+    <img src="assets/screen-exhibition-start.png" alt="展迹 App 开始记录页面">
+    <img src="assets/screen-exhibition-share.png" alt="展迹 App 分享生成页面">
+  </div></div>
+        </div>
+      </div>
     </div>
+    <div class="scroll-hint">向下查看项目背景、核心方案和设计产出</div>
+  </header>
 
-    <footer>
-        © 2026 KONG XIAOJIE · DESIGNED WITH CARE
-    </footer>
+  <section id="overview">
+    <div class="wrap overview">
+      <div>
+        <div class="section-label">Project Overview</div>
+        <h2>把展厅里的低负担采集，转化成展后可回看、可分享的私人展册。</h2>
+        <p class="lead">展迹不做通用相册，也不急着做展览社区，而是聚焦看展用户的真实限制：现场时间短、输入不方便、信息容易散落。产品将记录拆成两个阶段，先采集，再整理。</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>项目类型</span><strong>移动端 App 产品设计 / 高保真 UI / 作品集案例</strong></div><div class="fact"><span>目标用户</span><strong>高频看展用户、艺术展爱好者、内容分享用户</strong></div><div class="fact"><span>我的角色</span><strong>产品定义、场景拆解、流程设计、移动端高保真 UI</strong></div><div class="fact"><span>核心产出</span><strong>展册首页、展中采集、标签补录、分享生成等关键页面</strong></div>
+      </div>
+    </div>
+  </section>
 
-    <script src="js/main.js?v=20260629-grain-source-breakdown"></script>
+  <section class="section-soft">
+    <div class="wrap">
+      <div class="section-label">Problem</div>
+      <h2>看展用户不是不想记录，而是记录动作经常打断观看本身。</h2>
+      <div class="problem-grid">
+        <div class="problem"><h3>现场输入成本高</h3><p>展厅里有动线、光线和社交限制，用户不适合长时间打字整理。</p></div><div class="problem"><h3>信息分散难归档</h3><p>照片、票根、标签、地点和感受常散落在相册、备忘录和社交平台。</p></div><div class="problem"><h3>分享整理成本高</h3><p>想发看展内容时，还要重新选图、排版、补充文字和作品信息。</p></div>
+      </div>
+    </div>
+  </section>
 
+  <section id="solution">
+    <div class="wrap">
+      <div class="section-label">Solution</div>
+      <h2>用“现场轻记录 + 展后整理 + 分享生成”降低记录阻力。</h2>
+      <p class="lead">产品把看展记录拆成两个阶段：现场只做必要采集，展后再补全作品信息、整理感受，并生成适合社交平台的分享内容。</p>
+      <div class="flow">
+        <div class="step"><div class="step-number">01</div><h3>进入展册</h3><p>查看正在展中的记录和最近展记，明确沉淀位置。</p></div><div class="step"><div class="step-number">02</div><h3>开始看展</h3><p>新建展迹，填入展名、日期、地点、天气和心情。</p></div><div class="step"><div class="step-number">03</div><h3>现场采集</h3><p>以拍展品为主，支持补拍标签、票根和一句感受。</p></div><div class="step"><div class="step-number">04</div><h3>标签补录</h3><p>作品标签进入待确认，不要求用户现场完成校对。</p></div><div class="step"><div class="step-number">05</div><h3>生成分享</h3><p>按长图、九宫格或封面卡导出，完成从私人记录到分享表达的转化。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens" class="section-soft">
+    <div class="wrap">
+      <div class="section-label">Interface</div>
+      <h2>界面围绕“看展前、看展中、看展后”三个时段组织。</h2>
+      <p class="lead">移动端设计重点是降低现场操作负担，让主动作足够明确，同时把展后整理和分享变成自然延伸。</p>
+      <div class="screens">
+        
+      <div class="screen-shot large"><div class="screen-top">展册首页 / 记录沉淀</div><div class="screen-content"><img src="assets/screen-exhibition-home.png" alt="展迹 App 展册首页"></div></div>
+      <div class="screen-shot"><div class="screen-top">展后整理 / 分享生成</div><div class="screen-content"><div class="insight-list"><div class="insight"><b>现场轻记录</b><span>拍展品、拍标签、记一句，减少输入压力。</span></div><div class="insight"><b>展后补全</b><span>作品标签进入待确认，回到安静场景再整理。</span></div><div class="insight"><b>分享生成</b><span>提供长图、九宫格和封面卡三种表达方式。</span></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <div class="wrap">
+      <div class="section-label">Product Thinking</div>
+      <h2>产品思考重点在于尊重线下场景的限制。</h2>
+      <p class="lead">展迹的核心不是功能堆叠，而是把线下观展的节奏转译成移动端低打扰交互。</p>
+      <div class="tech-grid">
+        <div class="tech-box"><h3>产品层</h3><ul><li>把记录拆成现场采集和展后整理两个阶段。</li><li>让拍展品成为主动作，标签和感受作为辅助动作。</li><li>默认服务私人沉淀，再提供分享生成能力。</li></ul></div><div class="tech-box"><h3>体验层</h3><ul><li>减少现场输入，避免打断观看。</li><li>用待确认机制承接 OCR 或标签补录的不确定性。</li><li>用分享模板降低用户二次排版成本。</li></ul></div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-item"><strong>8+</strong><span>移动端核心页面</span></div><div class="outcome-item"><strong>4</strong><span>关键记录阶段</span></div><div class="outcome-item"><strong>3</strong><span>分享图模式</span></div><div class="outcome-item"><strong>1</strong><span>观展记录闭环</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-inner">
+      <div>
+        <div class="section-label">Next</div>
+        <h2>从展厅现场的记录限制出发，完成一套移动端体验方案。</h2>
+        <p>继续查看 Figma 原型，了解这个项目如何把线下观展行为转化成轻量记录与展后整理流程。</p>
+      </div>
+      <div class="hero-actions" style="margin-top:0">
+        <a class="btn btn-primary" href="index.html#works">返回作品集</a>
+        <a class="btn btn-ghost" href="https://www.figma.com/design/Eu47UH7oWXXC3WzCDPOjZ8/%E9%AB%98%E4%BF%9D%E7%9C%9F%E7%A7%BB%E5%8A%A8%E7%AB%AF-App-UI">查看 Figma 原型</a>
+      </div>
+    </div>
+  </section>
+</main>
 </body>
 </html>

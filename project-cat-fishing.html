@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小猫咪休闲垂钓 · 微信小游戏产品原型 | 孔小洁 Jessie</title>
+    <link rel="stylesheet" href="css/style.css?v=20260701-cat-fishing">
+    <style>
+        .case-preview-frame { border-radius: 26px; overflow: hidden; border: 1px solid rgba(255,255,255,0.62); background: rgba(255,255,255,0.72); box-shadow: 0 24px 70px rgba(44,62,80,0.16); }
+        .case-preview-top { height: 42px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: rgba(248,250,251,0.86); border-bottom: 1px solid rgba(138,175,196,0.18); }
+        .case-preview-top span { width: 10px; height: 10px; border-radius: 999px; background: #8aafc4; opacity: .55; }
+        .case-preview-body { padding: 22px; background: rgba(245,247,249,.8); }
+        .case-screen-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; align-items: end; }
+        .case-screen-row img { width: 100%; display: block; border-radius: 22px; box-shadow: 0 18px 42px rgba(44,62,80,.18); background: #fff; }
+        .case-system-map { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 12px; }
+        .case-system-map div { padding: 18px; border-radius: 20px; background: rgba(255,255,255,.72); border: 1px solid rgba(138,175,196,.2); box-shadow: 0 18px 46px rgba(44,62,80,.08); }
+        .case-system-map span { display: block; color: #8aafc4; font-size: 12px; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .case-system-map strong { display: block; color: #2c3e50; margin-bottom: 6px; }
+        .case-system-map p { margin: 0; color: #7a8a99; font-size: 13px; }
+        .case-summary-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+        .case-summary-grid div { padding: 22px; border-radius: 22px; background: rgba(255,255,255,.66); border: 1px solid rgba(138,175,196,.22); }
+        .case-summary-grid strong { display: block; font-size: 30px; line-height: 1; color: #2c3e50; margin-bottom: 10px; }
+        .case-summary-grid span { color: #7a8a99; }
+        @media (max-width: 860px) { .case-screen-row, .case-system-map, .case-summary-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+    <div class="loader-screen" aria-label="页面载入中">
+        <div class="loader-glass">
+            <div class="loader-mark">J</div>
+            <div class="loader-name">JESSIE KONG</div>
+            <div class="loader-line"><span></span></div>
+            <div class="loader-caption">Project is loading</div>
+        </div>
+    </div>
+    <canvas id="pond-canvas" class="pond-canvas" aria-hidden="true"></canvas>
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a class="logo" href="index.html">KONG · JESSIE</a>
+            <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false"><span></span><span></span></button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html#about">ABOUT</a></li>
+                <li><a href="index.html#skills">SKILLS</a></li>
+                <li><a href="index.html#experience">EXPERIENCE</a></li>
+                <li><a href="index.html#works">WORKS</a></li>
+                <li><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="project-page-main">
+        <section class="project-detail">
+            <a class="project-back" href="index.html#works">BACK TO WORKS</a>
+            <div class="section-title">FEATURED PROJECT</div>
+            <h1 class="section-heading">小猫咪休闲垂钓 · 微信小游戏产品原型</h1>
+
+            <div class="project-intro">
+                <div class="project-intro-copy">
+                    <p>小猫咪休闲垂钓是一个零依赖微信小游戏项目。它把原本“直接看到鱼”的玩法，调整成更接近钓鱼节奏的体验：鱼隐藏在水里，玩家观察浮标变化，在咬钩瞬间按住屏幕进入拉扯判定。</p>
+                    <p>这个项目重点展示的是游戏产品的核心循环设计：等待、反馈、反应、拉扯、奖励和惩罚如何组成一局 30 秒的轻量休闲体验。</p>
+                </div>
+                <div class="project-actions" aria-label="项目链接">
+                    <a class="project-action project-action-primary" href="#game-loop">查看玩法循环</a>
+                    <a class="project-action" href="#rules">查看规则拆解</a>
+                    <a class="project-action" href="#run">运行方式</a>
+                </div>
+            </div>
+
+            <section class="project-section project-case-overview"><div class="case-kpi-grid">
+                <div><span>ROLE</span><strong>小游戏产品设计 / 交互规则</strong><p>负责玩法节奏调整、状态机拆解、鱼类数值、反馈机制和微信小游戏实现。</p></div>
+                <div><span>USER</span><strong>碎片时间休闲玩家</strong><p>希望快速开始、轻松理解，但每次咬钩和拉扯都有一点紧张感。</p></div>
+                <div><span>OUTPUT</span><strong>可运行微信小游戏 Demo</strong><p>完成 Canvas 渲染、触摸输入、倒计时、鱼类概率、结算和最高分保存。</p></div>
+            </div></section>
+
+            <section class="project-section project-game-hero"><div class="project-section-header"><div class="project-label">GAME PREVIEW</div><h2>核心体验预览</h2><p>用真实项目素材重建游戏氛围：岸边角色、水面浮标、隐藏鱼和即时反馈 UI。</p></div><div class="game-fishing-preview game-fishing-preview-large" aria-label="小猫咪休闲垂钓游戏视觉预览"><div class="game-fishing-scene"><span class="game-sky"></span><span class="game-shore"></span><img class="game-grass" src="assets/game-fishing/grass.png" alt=""><span class="game-cat"></span><span class="game-rod"></span><span class="game-line"></span><span class="game-bobber"></span><span class="game-water"></span><img class="game-fish-sheet" src="assets/game-fishing/fish-sheet.png" alt=""><span class="game-ui game-ui-score">30s · 0 fish</span><span class="game-ui game-ui-tip">上钩了！按住拉竿</span></div></div></section>
+
+            <section class="project-section"><div class="project-section-header"><div class="project-label">PROBLEM DEFINITION</div><h2>问题定义</h2><p>直接把鱼显示出来会削弱钓鱼的等待感和惊喜感。</p></div><div class="case-problem-layout"><div class="case-narrative"><h3>为什么改成观察浮标</h3><p>休闲钓鱼的乐趣不只是点到目标，而是在等待中观察反馈，并在咬钩瞬间做出反应。鱼隐藏后，玩家的注意力从追逐目标转向浮标状态，节奏更接近真实钓鱼。</p><p>因此我把核心反馈集中到浮标：等待阶段轻微漂动，咬钩时剧烈抖动并出现水花，玩家再按住屏幕进入拉扯。</p></div><div class="case-breakpoint-list"><h3>体验断点</h3><ol><li>如果鱼一直可见，玩家会更像在点选目标，而不是钓鱼。</li><li>如果咬钩没有强反馈，玩家不知道什么时候该操作。</li><li>如果拉扯没有风险，钓上鱼缺少成就感。</li><li>如果一局太长，休闲小游戏的碎片时间价值会下降。</li></ol></div></div></section>
+
+            <section class="project-section"><div class="project-section-header"><div class="project-label">USER SCENARIO</div><h2>目标用户与使用场景</h2><p>这是一款适合短时间打开、快速理解、反复尝试的小型休闲游戏。</p></div><div class="scenario-grid"><div><span>01</span><h3>碎片时间</h3><p>一局 30 秒，适合排队、等车和短暂休息。</p></div><div><span>02</span><h3>轻操作</h3><p>主要操作是观察浮标和按住屏幕，不需要复杂教程。</p></div><div><span>03</span><h3>小目标</h3><p>通过分数、稀有鱼和最高分让玩家愿意再来一局。</p></div></div></section>
+
+            <section class="project-section"><div class="project-section-header"><div class="project-label">MVP STRATEGY</div><h2>MVP 范围与取舍</h2><p>先把一局游戏的核心循环做完整，再考虑养成、图鉴和商业化。</p></div><div class="scope-columns"><div><h3>MVP 包含</h3><ul><li>开始、倒计时和结算</li><li>浮标等待与咬钩反馈</li><li>按住拉扯进度判定</li><li>鱼类概率、分数和时间奖惩</li><li>最高分本地保存</li></ul></div><div><h3>暂不包含</h3><ul><li>金币商城和付费系统</li><li>复杂鱼竿升级</li><li>多地图、多天气和任务系统</li><li>排行榜和社交分享</li></ul></div><div><h3>取舍原因</h3><p>小游戏最先要验证的是核心循环是否好玩。如果等待、咬钩和拉扯不好玩，再多外围系统也撑不住留存。</p></div></div></section>
+
+            <section class="project-section" id="game-loop"><div class="project-section-header"><div class="project-label">GAME LOOP</div><h2>核心玩法循环</h2><p>一局围绕“等待浮标 → 咬钩反应 → 按住拉扯 → 结算反馈 → 下一次等待”循环。</p></div><div class="flow-steps"><div><span>01</span><div><strong>点击开始</strong><p>玩家进入 30 秒倒计时，系统安排随机咬钩时间。</p></div></div><div><span>02</span><div><strong>观察浮标</strong><p>鱼隐藏在水里，等待阶段只显示轻微漂动。</p></div></div><div><span>03</span><div><strong>咬钩反馈</strong><p>浮标剧烈抖动并出现水花，提示玩家操作。</p></div></div><div><span>04</span><div><strong>拉扯判定</strong><p>持续按住，让指针尽量保持在安全区域。</p></div></div><div><span>05</span><div><strong>奖励惩罚</strong><p>钓上鱼加分和奖励时间，失败或塑料袋扣时间。</p></div></div><div><span>06</span><div><strong>结算收获</strong><p>时间归零后展示本局收获，并保存最高分。</p></div></div></div></section>
+
+            <section class="project-section" id="rules"><div class="project-section-header"><div class="project-label">RULES AND NUMBERS</div><h2>规则与数值拆解</h2><p>用轻量规则制造可理解的风险和奖励，让小游戏有重复游玩的动力。</p></div><div class="case-system-map"><div><span>01</span><strong>时间规则</strong><p>基础时间 30 秒，奖励时间最多累计到 60 秒。</p></div><div><span>02</span><strong>失败惩罚</strong><p>错过、失败或钓到塑料袋都会扣 3 秒。</p></div><div><span>03</span><strong>鱼类差异</strong><p>鱼有分值、难度、珍稀度和出现概率。</p></div><div><span>04</span><strong>难度变化</strong><p>安全区域宽度和指针节奏影响成功率。</p></div><div><span>05</span><strong>即时反馈</strong><p>浮标、水花、提示语和结算强化操作结果。</p></div></div></section>
+
+            <section class="project-section" id="run"><div class="project-section-header"><div class="project-label">RUNNING METHOD</div><h2>运行方式</h2><p>这是微信小游戏项目，需要用微信开发者工具运行，而不是普通浏览器页面。</p></div><div class="scope-columns"><div><h3>本地运行</h3><ol><li>打开微信开发者工具。</li><li>选择“小游戏”项目。</li><li>导入本地目录：/Users/tower/Documents/game01。</li><li>点击编译运行。</li></ol></div><div><h3>素材说明</h3><p>项目使用免费游戏素材，仅作为非商业作品集展示。发布或商用前需要替换为自有素材并按要求署名。</p></div></div></section>
+
+            <section class="project-section"><div class="project-section-header"><div class="project-label">SUMMARY</div><h2>项目总结</h2><p>这个项目展示的是我把轻量玩法拆成状态、反馈、数值和结算闭环的能力。</p></div><div class="case-summary-grid"><div><strong>30s</strong><span>单局基础时长</span></div><div><strong>6</strong><span>核心玩法步骤</span></div><div><strong>4</strong><span>鱼类与结果类型</span></div><div><strong>1</strong><span>可运行小游戏 Demo</span></div></div></section>
+        </section>
+    </main>
+    <footer>© 2026 KONG XIAOJIE · DESIGNED WITH CARE</footer>
+    <script src="js/main.js?v=20260701-cat-fishing"></script>
+</body>
+</html>
