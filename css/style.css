@@ -7764,58 +7764,42 @@ body.home-page.intro-active .home-side-rail {
     filter: saturate(0.96) contrast(1.02) !important;
 }
 
-.home-page .about-photo-card::after {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    content: "";
-    display: block;
-    background: linear-gradient(180deg, transparent 46%, rgba(28, 24, 18, 0.42) 100%);
-    pointer-events: none;
+/* Keep the collaboration strip on one shared text baseline. */
+.home-page .home-collab-strip {
+    grid-template-columns: 42px max-content minmax(190px, 1fr) minmax(240px, 1fr) max-content !important;
+    gap: 24px !important;
+    align-items: center !important;
 }
 
-.home-page .about-photo-caption {
-    position: relative !important;
-    z-index: 2 !important;
-    width: calc(100% - 32px) !important;
-    margin: 0 16px 16px !important;
-    padding: 16px 18px !important;
-    border: 1px solid rgba(220, 211, 195, 0.82) !important;
-    border-radius: 8px !important;
-    background: rgba(255, 252, 246, 0.82) !important;
-    backdrop-filter: blur(12px) !important;
-}
-
-.home-page .about-photo-caption span,
-.home-page .about-photo-caption strong,
-.home-page .about-photo-caption small {
-    display: block !important;
-}
-
-.home-page .about-photo-caption span {
-    margin-bottom: 6px !important;
-    color: #7f784f !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
+.home-page .home-collab-strip > span,
+.home-page .home-collab-strip > strong,
+.home-page .home-collab-strip > p,
+.home-page .home-collab-strip > a {
+    align-self: center !important;
+    margin: 0 !important;
     line-height: 1.6 !important;
-    letter-spacing: 0.12em !important;
 }
 
-.home-page .about-photo-caption strong {
-    margin-bottom: 4px !important;
-    color: #111 !important;
-    font-size: 24px !important;
-    font-weight: 600 !important;
-    line-height: 1.3 !important;
-    letter-spacing: -0.02em !important;
+.home-page .home-collab-strip > strong,
+.home-page .home-collab-strip > a {
+    white-space: nowrap;
 }
 
-.home-page .about-photo-caption small {
-    color: #666 !important;
-    font-size: 12px !important;
-    font-weight: 400 !important;
-    line-height: 1.6 !important;
-    letter-spacing: 0 !important;
+.home-page .home-collab-strip > a {
+    justify-self: end;
+}
+
+@media (max-width: 980px) {
+    .home-page .home-collab-strip {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        justify-items: start !important;
+        padding: 22px 24px !important;
+    }
+
+    .home-page .home-collab-strip > a {
+        justify-self: start;
+    }
 }
 
 @media (max-width: 760px) {
