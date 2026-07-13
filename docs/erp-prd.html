@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduFlow ERP｜PRD 文档</title>
+<style>
+:root{color-scheme:light;--bg:#f5efe4;--paper:#fffaf0;--ink:#111;--text:#333;--muted:#666;--line:#e4dac9;--olive:#7f875c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.6}main{max-width:980px;margin:0 auto;padding:48px 28px 72px;background:linear-gradient(135deg,rgba(255,250,240,.72),rgba(245,239,228,.62));min-height:100vh}h1,h2,h3,h4{color:var(--ink);letter-spacing:-.02em;margin:0 0 24px}h1{font-size:40px;line-height:1.2;font-weight:700}h2{font-size:32px;line-height:1.25;font-weight:600;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}h3{font-size:24px;line-height:1.3;font-weight:600;margin-top:32px}h4{font-size:20px;line-height:1.35;font-weight:500;margin-top:28px}p{margin:0 0 24px}ul,ol{margin:0 0 24px;padding-left:1.35em}li{margin:8px 0}table{width:100%;border-collapse:collapse;margin:0 0 28px;background:var(--paper);border:1px solid var(--line)}th,td{padding:12px 14px;border:1px solid var(--line);vertical-align:top;text-align:left}th{background:#f1eadc;color:#222;font-weight:600}pre{overflow:auto;background:#eee4d4;border:1px solid var(--line);border-radius:8px;padding:18px;margin:0 0 28px;color:#2d2a24}code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}.doc-meta{display:inline-flex;gap:10px;align-items:center;margin-bottom:24px;color:var(--olive);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.doc-meta::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--olive)}@media(max-width:768px){main{padding:34px 18px 56px}h1{font-size:32px}h2{font-size:26px}h3{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<div class="doc-meta">Product Requirement Document</div>
+<h1>EduFlow ERP PRD</h1>
+<h2>1. 项目背景</h2>
+<p>中小教育培训机构的经营链路通常分散在微信、表格、教务工具和财务记录中。课程顾问需要同时处理线索跟进、试听预约、报名收款和课后交付协同，管理者则需要看到转化率、顾问业绩、待收款和课时交付压力。</p>
+<p>EduFlow ERP 是一个面向教育培训机构的轻量 ERP / CRM 产品原型，目标是把“线索到报名再到课时交付”的流程系统化，并通过 AI 转化助手辅助顾问判断客户意向、生成跟进话术和识别转化风险。</p>
+<h2>2. 目标用户</h2>
+<ul>
+<li>课程顾问：录入线索、跟进客户、预约试听、推进报名。</li>
+<li>教务：接收报名学员、安排试听和正式课、维护课时消耗。</li>
+<li>财务：核对订单金额、收款状态和待收款。</li>
+<li>校区管理者：查看经营指标、顾问业绩、转化漏斗和异常风险。</li>
+</ul>
+<h2>3. 业务痛点</h2>
+<ul>
+<li>线索来源分散，缺少统一状态管理。</li>
+<li>顾问跟进过程依赖个人习惯，难以复盘转化问题。</li>
+<li>试听预约、订单收款和课时交付之间数据割裂。</li>
+<li>管理者无法快速判断本月转化、收入和交付压力。</li>
+<li>新顾问缺少标准话术和下一步动作建议。</li>
+</ul>
+<h2>4. 产品目标</h2>
+<ul>
+<li>建立线索、学员、试听、订单、课时的基础数据闭环。</li>
+<li>支持线索搜索、筛选、新增、状态推进和 CSV 导出。</li>
+<li>用看板展示线索数、试听转化率、已收金额、待收金额、剩余课时、AI 风险和 AI 机会。</li>
+<li>用 AI 转化助手模拟客户意向分析、跟进话术生成、转化风险提示和下一步动作建议。</li>
+<li>形成可用于转行产品经理作品集的网页原型和产品文档。</li>
+</ul>
+<h2>5. 核心流程</h2>
+<ol>
+<li>线索进入：顾问录入姓名、电话、来源、意向等级、负责人、下次跟进时间和备注。</li>
+<li>跟进推进：顾问根据沟通情况将线索从待跟进推进为已预约或已报名。</li>
+<li>试听管理：教务维护试听时间、老师和试听结果。</li>
+<li>订单收款：财务查看订单、金额、收款状态和顾问归属。</li>
+<li>课时交付：教务关注购买课时、已消耗课时和剩余课时。</li>
+<li>AI 辅助：系统基于线索状态、意向等级和备注关键词生成建议。</li>
+</ol>
+<h2>6. 功能清单</h2>
+<h3>经营概览</h3>
+<ul>
+<li>展示本月线索、试听转化率、已收金额、剩余课时。</li>
+<li>展示 AI 高风险线索和 AI 推荐机会。</li>
+<li>展示线索到报名漏斗、顾问业绩和今日跟进。</li>
+</ul>
+<h3>线索管理</h3>
+<ul>
+<li>支持按姓名、来源、负责人、状态和备注搜索。</li>
+<li>支持按全部、待跟进、已预约、已报名筛选。</li>
+<li>支持新增线索、推进状态、导出 CSV。</li>
+<li>支持从单条线索进入 AI 分析。</li>
+</ul>
+<h3>学员档案</h3>
+<ul>
+<li>展示课程、负责顾问、购买课时、已消耗课时、剩余课时和订单金额。</li>
+</ul>
+<h3>试听管理</h3>
+<ul>
+<li>展示试听学员、课程、时间、老师和结果。</li>
+</ul>
+<h3>收款管理</h3>
+<ul>
+<li>展示订单编号、学员、课程、金额、收款状态、顾问和创建日期。</li>
+</ul>
+<h3>ERP 业务流程</h3>
+<ul>
+<li>展示 CRM 到交付的业务闭环。</li>
+<li>展示核心数据对象和异常风控规则。</li>
+</ul>
+<h3>AI 转化助手</h3>
+<ul>
+<li>选择线索后输出意向判断、识别信号、下一步动作、推荐话术。</li>
+<li>输出 AI 待办队列，按风险与机会排序。</li>
+<li>明确标注为模拟 AI 产品原型，不调用真实模型 API。</li>
+</ul>
+<h2>7. AI 模块逻辑</h2>
+<ul>
+<li>高意向 + 待跟进：判断为高风险、高机会，建议当天电话沟通并锁定试听。</li>
+<li>已预约 + 未报名：判断为中风险、高机会，建议试听前确认到课并降低爽约。</li>
+<li>低意向或已流失：判断为低风险、低机会，建议低频维护和长期培育。</li>
+<li>已报名：判断为低风险、中机会，建议转入课时交付和续费触点维护。</li>
+<li>备注含“预算”：补充价格与优惠方案沟通建议。</li>
+<li>备注含“时间”“晚”“寒假”：补充上课时段确认建议。</li>
+<li>备注含“数学”“英语”“编程”：补充课程案例和试听安排建议。</li>
+</ul>
+<h2>8. 验收标准</h2>
+<ul>
+<li>页面可离线打开，无需账号、网络和 API Key。</li>
+<li>所有导航页可切换，数据不出现空白或错位。</li>
+<li>新增线索后，看板、线索表和 AI 转化助手同步更新。</li>
+<li>不同线索的 AI 输出随意向、状态和备注变化。</li>
+<li>搜索、筛选、推进状态和导出 CSV 功能可用。</li>
+<li>文档能完整说明项目背景、业务流程、数据对象和 AI 产品设计。</li>
+</ul>
+</main>
+</body>
+</html>

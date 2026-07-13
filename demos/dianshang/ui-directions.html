@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>电商生图 AI 中台 - UI 方向稿</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #718096;
+      --line: #e5eaf2;
+      --blue: #2563eb;
+      --nav: #0f172a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef2f7;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .board {
+      min-height: 100vh;
+      padding: 28px;
+    }
+
+    .board-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin: 0 auto 22px;
+      max-width: 1760px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 { font-size: 30px; letter-spacing: 0; }
+
+    .board-head p {
+      color: #64748b;
+      margin-top: 8px;
+      line-height: 1.7;
+    }
+
+    .hint {
+      border: 1px solid #dce5f2;
+      border-radius: 999px;
+      background: #fff;
+      padding: 10px 14px;
+      color: #475569;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .directions {
+      max-width: 1760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .direction {
+      background: #fff;
+      border: 1px solid #dce5f2;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 44px rgba(15, 23, 42, .08);
+    }
+
+    .direction-meta {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid #edf1f6;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .direction-meta h2 {
+      font-size: 19px;
+      margin-bottom: 7px;
+    }
+
+    .direction-meta p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .mockup {
+      height: 760px;
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      overflow: hidden;
+    }
+
+    .side {
+      background: var(--nav);
+      color: #cbd5e1;
+      padding: 18px 12px;
+    }
+
+    .brand {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 24px;
+      line-height: 1.35;
+    }
+
+    .nav-item {
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      margin-bottom: 7px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .nav-item.active { background: rgba(255,255,255,.13); color: #fff; }
+
+    .screen {
+      min-width: 0;
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .controls {
+      display: flex;
+      gap: 7px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 7px 10px;
+      color: #526071;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .chat {
+      position: relative;
+      border-radius: 18px;
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .bubble {
+      width: fit-content;
+      max-width: 76%;
+      margin-left: auto;
+      border-radius: 18px 18px 4px 18px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 800;
+    }
+
+    .agent {
+      width: 86%;
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .agent-card {
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, .08);
+    }
+
+    .agent-label {
+      color: #9aa6b5;
+      font-size: 11px;
+      font-weight: 900;
+      margin-bottom: 9px;
+    }
+
+    .agent-title {
+      font-weight: 950;
+      margin-bottom: 8px;
+    }
+
+    .brief {
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 12px;
+      color: #617184;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .rules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .rule {
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .image-card {
+      border-radius: 13px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, .22);
+      background: #fff;
+    }
+
+    .preview {
+      height: 138px;
+      display: grid;
+      place-items: end center;
+      padding: 10px;
+      color: #475569;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 8px 9px;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .composer {
+      min-height: 74px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #9aa6b5;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, .05);
+    }
+
+    .send {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .a .tag { background: #e8f0ff; color: #2563eb; }
+    .a .screen { background: #f6f8fb; }
+    .a .chat { background: #f9fbff; border: 1px solid #e7edf6; }
+    .a .bubble { background: #263449; color: #fff; }
+    .a .avatar, .a .send { background: #2563eb; }
+    .a .agent-card { background: #fff; border: 1px solid #e7edf6; }
+    .a .brief { background: #f4f7fb; }
+    .a .rule { background: #eef6ff; color: #2563eb; }
+    .a .preview {
+      background:
+        radial-gradient(circle at 50% 26%, #ead3c8 0 13%, transparent 14%),
+        linear-gradient(180deg, #eef4ff, #f8fafc 70%);
+    }
+
+    .b .tag { background: #fff1f2; color: #be5b69; }
+    .b .side { background: #201a24; }
+    .b .screen { background: #fbf6f3; }
+    .b .chat { background: #fffaf7; border: 1px solid #f0ddd5; }
+    .b .bubble { background: #6e5060; color: #fff; }
+    .b .avatar, .b .send { background: #c06f7a; }
+    .b .agent-card { background: rgba(255,255,255,.88); border: 1px solid #f0ddd5; }
+    .b .brief { background: #fff3ee; }
+    .b .rule { background: #fff1f2; color: #be5b69; }
+    .b .preview {
+      background:
+        radial-gradient(circle at 42% 24%, #edd6ca 0 13%, transparent 14%),
+        radial-gradient(circle at 70% 78%, #e7b996 0 24%, transparent 25%),
+        linear-gradient(180deg, #f6e8df, #fffaf7);
+    }
+
+    .c .tag { background: #eef2ff; color: #635bff; }
+    .c .side { background: #10172b; }
+    .c .screen { background: linear-gradient(180deg, #f8fbff, #eef4ff); }
+    .c .chat { background: rgba(255,255,255,.55); border: 1px solid rgba(148, 163, 184, .32); box-shadow: inset 0 0 0 1px rgba(255,255,255,.55); }
+    .c .bubble { background: #29334f; color: #fff; }
+    .c .avatar, .c .send { background: linear-gradient(135deg, #4f46e5, #0ea5e9); }
+    .c .agent-card { background: rgba(255,255,255,.78); border: 1px solid rgba(148, 163, 184, .26); backdrop-filter: blur(12px); }
+    .c .brief { background: rgba(238,242,255,.72); }
+    .c .rule { background: #eef2ff; color: #4f46e5; }
+    .c .preview {
+      background:
+        radial-gradient(circle at 50% 25%, #e6d2cf 0 13%, transparent 14%),
+        radial-gradient(circle at 70% 70%, rgba(99,102,241,.18) 0 28%, transparent 29%),
+        linear-gradient(180deg, #f4f7ff, #f8fafc);
+    }
+
+    @media (max-width: 1180px) {
+      .directions { grid-template-columns: 1fr; }
+      .mockup { height: 720px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <div class="board-head">
+      <div>
+        <h1>电商生图 AI 中台 · UI 方向稿</h1>
+        <p>先选整体视觉方向：企业效率、柔和品牌、智能工作台。选定后再把当前原型代码统一改过去。</p>
+      </div>
+      <div class="hint">建议优先选 B 或 C，更适合内衣电商 AI 中台作品集</div>
+    </div>
+
+    <section class="directions">
+      <article class="direction a">
+        <div class="direction-meta">
+          <div>
+            <h2>方向 A｜企业效率型</h2>
+            <p>更像成熟内部系统，适合强调降本提效、数据指标和流程管理。</p>
+          </div>
+          <span class="tag">稳重 · 清晰</span>
+        </div>
+        <div class="mockup">
+          <aside class="side">
+            <div class="brand">电商生图<br>AI 中台</div>
+            <div class="nav-item active">视觉智能体</div>
+            <div class="nav-item">模板库管理</div>
+            <div class="nav-item">提示词反推</div>
+            <div class="nav-item">视频智能生成</div>
+          </aside>
+          <div class="screen">
+            <div class="topbar">
+              <div class="title">视觉智能体</div>
+              <div class="controls"><span class="pill">模板库</span><span class="pill">Nano Banana Pro</span></div>
+            </div>
+            <div class="chat">
+              <div class="bubble">生成 2 张无尺码文胸自然舒适主图，保留版型和面料纹理。</div>
+              <div class="agent">
+                <div class="avatar">✦</div>
+                <div class="agent-card">
+                  <div class="agent-label">Agent</div>
+                  <div class="agent-title">已完成需求理解，生成候选图</div>
+                  <div class="brief">任务类型：内衣商品主图 · 模板：氛围主图 · 尺寸：1:1 · 风格：自然舒适</div>
+                  <div class="rules">
+                    <span class="rule">不夸大塑形</span><span class="rule">保留真实结构</span><span class="rule">避免身体焦虑</span>
+                  </div>
+                  <div class="images">
+                    <div class="image-card"><div class="preview">候选图 A</div><div class="caption"><span>主图 1:1</span><span>92%</span></div></div>
+                    <div class="image-card"><div class="preview">候选图 B</div><div class="caption"><span>详情 3:4</span><span>复核</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="composer"><span>上传商品图、参考图或输入规则要求...</span><span class="send">→</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction b">
+        <div class="direction-meta">
+          <div>
+            <h2>方向 B｜柔和品牌型</h2>
+            <p>更贴近内衣品牌气质，轻柔、细腻、舒服，适合展示垂直行业理解。</p>
+          </div>
+          <span class="tag">温和 · 精致</span>
+        </div>
+        <div class="mockup">
+          <aside class="side">
+            <div class="brand">电商生图<br>AI 中台</div>
+            <div class="nav-item active">视觉智能体</div>
+            <div class="nav-item">模板库管理</div>
+            <div class="nav-item">提示词反推</div>
+            <div class="nav-item">视频智能生成</div>
+          </aside>
+          <div class="screen">
+            <div class="topbar">
+              <div class="title">视觉智能体</div>
+              <div class="controls"><span class="pill">自然舒适</span><span class="pill">Nano Banana Pro</span></div>
+            </div>
+            <div class="chat">
+              <div class="bubble">根据莱赛尔内衣商品图，生成亲肤、无痕、轻盈质感主图。</div>
+              <div class="agent">
+                <div class="avatar">✦</div>
+                <div class="agent-card">
+                  <div class="agent-label">Agent</div>
+                  <div class="agent-title">已识别商品卖点和品牌风格</div>
+                  <div class="brief">商品主体：莱赛尔面料 · 场景：居家柔光 · 卖点：亲肤、无痕、无压感</div>
+                  <div class="rules">
+                    <span class="rule">弱化身材评价</span><span class="rule">保留面料纹理</span><span class="rule">柔和生活方式</span>
+                  </div>
+                  <div class="images">
+                    <div class="image-card"><div class="preview">柔光主图</div><div class="caption"><span>通过率</span><span>94%</span></div></div>
+                    <div class="image-card"><div class="preview">卖点头图</div><div class="caption"><span>复用率</span><span>41%</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="composer"><span>描述想要的氛围、卖点和平台尺寸...</span><span class="send">→</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="direction c">
+        <div class="direction-meta">
+          <div>
+            <h2>方向 C｜智能工作台型</h2>
+            <p>更突出 AI Agent 处理感，适合表达自动拆解、执行步骤和多模型能力。</p>
+          </div>
+          <span class="tag">智能 · 轻未来</span>
+        </div>
+        <div class="mockup">
+          <aside class="side">
+            <div class="brand">电商生图<br>AI 中台</div>
+            <div class="nav-item active">视觉智能体</div>
+            <div class="nav-item">模板库管理</div>
+            <div class="nav-item">提示词反推</div>
+            <div class="nav-item">视频智能生成</div>
+          </aside>
+          <div class="screen">
+            <div class="topbar">
+              <div class="title">视觉智能体</div>
+              <div class="controls"><span class="pill">Agent 模式</span><span class="pill">自动选择模板</span></div>
+            </div>
+            <div class="chat">
+              <div class="bubble">上传商品图和参考图，按平台规范生成主图和详情页头图。</div>
+              <div class="agent">
+                <div class="avatar">✦</div>
+                <div class="agent-card">
+                  <div class="agent-label">Agent · 4 步执行</div>
+                  <div class="agent-title">正在组合模板与合规规则</div>
+                  <div class="brief">解析商品图 → 反推参考风格 → 注入内衣类目规则 → 输出候选图</div>
+                  <div class="rules">
+                    <span class="rule">模板匹配 86%</span><span class="rule">合规通过</span><span class="rule">预计 3 分钟</span>
+                  </div>
+                  <div class="images">
+                    <div class="image-card"><div class="preview">候选结果</div><div class="caption"><span>主图</span><span>生成中</span></div></div>
+                    <div class="image-card"><div class="preview">风格变体</div><div class="caption"><span>详情</span><span>生成中</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="composer"><span>向 Agent 提问，或上传商品图、参考图、规则文件...</span><span class="send">→</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

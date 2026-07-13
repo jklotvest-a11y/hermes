@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduFlow ERP</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark">E</div>
+          <div>
+            <strong>EduFlow</strong>
+            <span>培训机构 ERP</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="dashboard" type="button">
+            <span>概览</span>
+          </button>
+          <button class="nav-item" data-view="leads" type="button">
+            <span>线索</span>
+          </button>
+          <button class="nav-item" data-view="students" type="button">
+            <span>学员</span>
+          </button>
+          <button class="nav-item" data-view="trials" type="button">
+            <span>试听</span>
+          </button>
+          <button class="nav-item" data-view="orders" type="button">
+            <span>收款</span>
+          </button>
+          <button class="nav-item" data-view="workflow" type="button">
+            <span>ERP流程</span>
+          </button>
+          <button class="nav-item" data-view="ai" type="button">
+            <span>AI助手</span>
+          </button>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">教育培训机构经营系统</p>
+            <h1 id="page-title">经营概览</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="search-box">
+              <span>搜索</span>
+              <input id="global-search" type="search" placeholder="姓名 / 来源 / 负责人" />
+            </label>
+            <button id="new-lead-button" class="primary-button" type="button">新增线索</button>
+          </div>
+        </header>
+
+        <section id="dashboard-view" class="view active-view" aria-labelledby="page-title">
+          <div class="metric-grid">
+            <article class="metric">
+              <span>本月线索</span>
+              <strong id="metric-leads">0</strong>
+              <small id="metric-leads-change">0 条待跟进</small>
+            </article>
+            <article class="metric">
+              <span>试听转化率</span>
+              <strong id="metric-conversion">0%</strong>
+              <small>预约到报名</small>
+            </article>
+            <article class="metric">
+              <span>已收金额</span>
+              <strong id="metric-paid">¥0</strong>
+              <small id="metric-unpaid">待收 ¥0</small>
+            </article>
+            <article class="metric">
+              <span>剩余课时</span>
+              <strong id="metric-hours">0</strong>
+              <small>需持续交付</small>
+            </article>
+            <article class="metric ai-metric">
+              <span>AI高风险线索</span>
+              <strong id="metric-ai-risk">0</strong>
+              <small>需优先干预</small>
+            </article>
+            <article class="metric ai-metric">
+              <span>AI推荐机会</span>
+              <strong id="metric-ai-opportunity">0</strong>
+              <small>可推进转化</small>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>漏斗</h2>
+                <span>线索到报名</span>
+              </div>
+              <div id="funnel" class="funnel"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h2>顾问业绩</h2>
+                <span>报名金额</span>
+              </div>
+              <div id="advisor-bars" class="bar-list"></div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>今日跟进</h2>
+              <span id="follow-count">0 项</span>
+            </div>
+            <div id="follow-list" class="work-list"></div>
+          </section>
+        </section>
+
+        <section id="leads-view" class="view" aria-labelledby="page-title">
+          <div class="table-toolbar">
+            <div class="segment-control" role="tablist" aria-label="线索状态">
+              <button class="segment active" data-filter="all" type="button">全部</button>
+              <button class="segment" data-filter="待跟进" type="button">待跟进</button>
+              <button class="segment" data-filter="已预约" type="button">已预约</button>
+              <button class="segment" data-filter="已报名" type="button">已报名</button>
+            </div>
+            <button id="export-button" class="secondary-button" type="button">导出 CSV</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>客户</th>
+                  <th>来源</th>
+                  <th>意向</th>
+                  <th>状态</th>
+                  <th>负责人</th>
+                  <th>下次跟进</th>
+                  <th>操作</th>
+                  <th>AI</th>
+                </tr>
+              </thead>
+              <tbody id="lead-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="students-view" class="view" aria-labelledby="page-title">
+          <div id="student-grid" class="card-grid"></div>
+        </section>
+
+        <section id="trials-view" class="view" aria-labelledby="page-title">
+          <div id="trial-grid" class="card-grid"></div>
+        </section>
+
+        <section id="orders-view" class="view" aria-labelledby="page-title">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>订单</th>
+                  <th>课程</th>
+                  <th>金额</th>
+                  <th>状态</th>
+                  <th>顾问</th>
+                  <th>创建日期</th>
+                </tr>
+              </thead>
+              <tbody id="order-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="workflow-view" class="view" aria-labelledby="page-title">
+          <div class="workflow-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>业务闭环</h2>
+                <span>CRM 到交付</span>
+              </div>
+              <div id="workflow-steps" class="step-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h2>数据对象</h2>
+                <span>ERP 核心表</span>
+              </div>
+              <div id="entity-list" class="entity-list"></div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>异常与风控</h2>
+              <span>运营动作</span>
+            </div>
+            <div id="risk-list" class="risk-grid"></div>
+          </section>
+        </section>
+
+        <section id="ai-view" class="view" aria-labelledby="page-title">
+          <div class="ai-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>AI 转化助手</h2>
+                <span>模拟 AI 产品原型</span>
+              </div>
+              <div class="ai-note">
+                基于当前线索信息生成建议，用于验证 AI 产品流程与业务规则，不调用真实模型 API。
+              </div>
+              <label class="ai-selector">
+                选择线索
+                <select id="ai-lead-select"></select>
+              </label>
+              <div id="ai-insight" class="ai-insight"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <h2>AI 规则口径</h2>
+                <span>产品设计说明</span>
+              </div>
+              <div class="rule-list">
+                <article class="rule-item">
+                  <strong>高意向 + 待跟进</strong>
+                  <span>推荐优先电话沟通，输出报名转化型话术。</span>
+                </article>
+                <article class="rule-item">
+                  <strong>已预约 + 未报名</strong>
+                  <span>提示试听后转化风险，输出试听前确认话术。</span>
+                </article>
+                <article class="rule-item">
+                  <strong>低意向或已流失</strong>
+                  <span>提示低优先级维护，输出长期培育话术。</span>
+                </article>
+                <article class="rule-item">
+                  <strong>关键词识别</strong>
+                  <span>识别预算、时间、课程兴趣，生成差异化下一步动作。</span>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>AI 待办队列</h2>
+              <span>按风险与机会排序</span>
+            </div>
+            <div id="ai-queue" class="ai-queue"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="lead-dialog" class="dialog">
+      <form id="lead-form" method="dialog">
+        <div class="dialog-header">
+          <h2>新增线索</h2>
+          <button class="icon-button" value="cancel" type="button" aria-label="关闭">×</button>
+        </div>
+        <div class="form-grid">
+          <label>
+            姓名
+            <input name="name" required placeholder="例如：陈一诺" />
+          </label>
+          <label>
+            电话
+            <input name="phone" required placeholder="13800000000" />
+          </label>
+          <label>
+            来源
+            <select name="source">
+              <option>抖音表单</option>
+              <option>转介绍</option>
+              <option>地推活动</option>
+              <option>公众号</option>
+            </select>
+          </label>
+          <label>
+            意向等级
+            <select name="intent">
+              <option>高</option>
+              <option>中</option>
+              <option>低</option>
+            </select>
+          </label>
+          <label>
+            负责人
+            <select name="advisor">
+              <option>张三</option>
+              <option>李娜</option>
+              <option>王敏</option>
+            </select>
+          </label>
+          <label>
+            下次跟进
+            <input name="nextFollow" type="date" required />
+          </label>
+          <label class="full-span">
+            备注
+            <textarea name="note" rows="3" placeholder="课程需求、预算、时间偏好"></textarea>
+          </label>
+        </div>
+        <div class="dialog-actions">
+          <button class="secondary-button" value="cancel" type="button">取消</button>
+          <button class="primary-button" value="default" type="submit">保存</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

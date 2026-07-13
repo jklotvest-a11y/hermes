@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>电商生图 AI 中台｜PRD 文档</title>
+<style>
+:root{color-scheme:light;--bg:#f5efe4;--paper:#fffaf0;--ink:#111;--text:#333;--muted:#666;--line:#e4dac9;--olive:#7f875c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.6}main{max-width:980px;margin:0 auto;padding:48px 28px 72px;background:linear-gradient(135deg,rgba(255,250,240,.72),rgba(245,239,228,.62));min-height:100vh}h1,h2,h3,h4{color:var(--ink);letter-spacing:-.02em;margin:0 0 24px}h1{font-size:40px;line-height:1.2;font-weight:700}h2{font-size:32px;line-height:1.25;font-weight:600;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}h3{font-size:24px;line-height:1.3;font-weight:600;margin-top:32px}h4{font-size:20px;line-height:1.35;font-weight:500;margin-top:28px}p{margin:0 0 24px}ul,ol{margin:0 0 24px;padding-left:1.35em}li{margin:8px 0}table{width:100%;border-collapse:collapse;margin:0 0 28px;background:var(--paper);border:1px solid var(--line)}th,td{padding:12px 14px;border:1px solid var(--line);vertical-align:top;text-align:left}th{background:#f1eadc;color:#222;font-weight:600}pre{overflow:auto;background:#eee4d4;border:1px solid var(--line);border-radius:8px;padding:18px;margin:0 0 28px;color:#2d2a24}code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92em}.doc-meta{display:inline-flex;gap:10px;align-items:center;margin-bottom:24px;color:var(--olive);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.doc-meta::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--olive)}@media(max-width:768px){main{padding:34px 18px 56px}h1{font-size:32px}h2{font-size:26px}h3{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<div class="doc-meta">Product Requirement Document</div>
+<h1>电商生图 AI 中台 MVP PRD</h1>
+<h2>1. 文档概述</h2>
+<h3>1.1 产品信息</h3>
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>产品名称</td><td>电商生图 AI 中台</td></tr>
+<tr><td>产品类型</td><td>B 端工具 / AI 产品 / 内衣电商设计效率工具 / 内部中台</td></tr>
+<tr><td>版本范围</td><td>MVP</td></tr>
+<tr><td>目标用户</td><td>内部电商设计师为主，电商运营和设计主管为辅</td></tr>
+<tr><td>核心目标</td><td>将单个商品基础出图时间从约 30 分钟降低到约 3 分钟</td></tr>
+</tbody></table>
+<h3>1.2 文档目标</h3>
+<p>本文档用于说明电商生图 AI 中台 MVP 版本的产品背景、目标用户、需求范围、核心流程、功能设计、页面交互、数据指标和验收标准，为后续原型设计、研发实现和测试验收提供依据。MVP 的核心交互方式为“对话式生图”：用户在对话窗口中上传商品图、参考图和规则要求，系统自动解析生成任务并输出候选图片。</p>
+<h3>1.3 前置条件与类目限定</h3>
+<p>本项目的业务前提限定为：服务一家以内衣、家居服、贴身衣物为主营品类的电商公司。产品方案参考 Ubras 一类舒适、轻量、无尺码、生活方式化的内衣品牌表达，但不直接复刻某一品牌。</p>
+<p>因此，本中台需要比通用电商生图工具更关注：</p>
+<ul>
+<li>内衣商品的面料、版型、支撑、舒适度、尺码适配等卖点表达。</li>
+<li>商品平铺图、模特图、场景图、详情页卖点图之间的差异。</li>
+<li>模特图与人体展示的合规、审美和平台审核风险。</li>
+<li>避免低俗化、过度性感化、身体羞辱、夸大塑形效果等不合适表达。</li>
+<li>保持“舒适、自然、轻盈、亲肤、日常化”的品牌调性。</li>
+</ul>
+<h2>2. 项目背景</h2>
+<p>在内衣电商业务中，商品图片直接影响用户点击、停留和购买决策。相比普通商品，内衣图片不仅要展示款式外观，还需要传达舒适度、面料质感、支撑效果、尺码适配和穿着场景。随着商品上新频率提升、运营活动增多，设计团队需要持续产出大量商品主图、详情页图片和多平台尺寸素材。</p>
+<p>当前设计师在内衣商品图制作过程中，存在大量重复性和标准化工作，例如平铺图处理、背景替换、面料细节放大、卖点排版、尺码信息适配、场景套用和多版本导出。这类任务虽然必要，但创意价值有限，占用了设计师大量时间。</p>
+<p>同时，运营在提交图片需求时，常常需要通过聊天工具或文档描述商品标题、面料卖点、功能卖点、尺码信息、参考图、尺寸要求等信息，需求表达不够结构化，导致设计师需要反复确认，进一步拉长出图周期。</p>
+<p>因此，本项目希望通过 AI 生图中台，将内衣商品主图和详情页基础图的生产流程产品化。系统通过对话式需求输入、参考图上传、规则解析、AI 生成候选图、人工筛选和素材入库，帮助设计师更快完成基础图片生产。</p>
+<p>本项目不以替代设计师为目标，而是通过 AI 承接低复杂度、高重复度的基础出图任务，让设计师把更多时间投入到创意设计、质量把控和品牌视觉表达中。</p>
+<h2>3. 产品目标</h2>
+<h3>3.1 业务目标</h3>
+<p>降低内部内衣电商设计团队在基础商品图制作中的重复劳动成本，提高商品主图和详情页基础图的产出效率。</p>
+<h3>3.2 用户目标</h3>
+<p>帮助设计师从“从 0 开始手动制作图片”转变为“基于 AI 候选结果进行筛选和优化”，减少重复操作和沟通成本。</p>
+<h3>3.3 MVP 目标</h3>
+<p>完成一条可闭环的对话式 AI 生图流程：</p>
+<pre><code>上传商品图/参考图
+→ 输入规则要求
+→ 系统解析生成任务
+→ AI 生成多张候选图
+→ 人工筛选
+→ 下载/入库</code></pre>
+<h3>3.4 核心指标</h3>
+<p>北极星指标：单个商品基础出图耗时。</p>
+<p>目标：从约 30 分钟降低到约 3 分钟。</p>
+<p>辅助指标：</p>
+<ul>
+<li>AI 初稿可用率</li>
+<li>生成任务完成率</li>
+<li>图片下载率</li>
+<li>图片入库率</li>
+<li>重新生成率</li>
+</ul>
+<h2>4. 用户角色与使用场景</h2>
+<h3>4.1 用户角色</h3>
+<table>
+<thead><tr><th>用户角色</th><th>角色定位</th><th>使用频率</th><th>核心诉求</th></tr></thead>
+<tbody>
+<tr><td>电商设计师</td><td>商品图生产的主要执行者</td><td>高频</td><td>快速生成商品图初稿，减少重复制图工作</td></tr>
+<tr><td>电商运营</td><td>商品图片需求发起者和使用方</td><td>中频</td><td>更快获得可用商品图，降低需求沟通成本</td></tr>
+<tr><td>设计主管</td><td>设计团队效率和质量管理者</td><td>低频</td><td>提升团队产能，关注 AI 生成质量和工具效果</td></tr>
+</tbody></table>
+<h3>4.2 核心场景</h3>
+<table>
+<thead><tr><th>使用场景</th><th>主要用户</th><th>场景描述</th><th>MVP 优先级</th></tr></thead>
+<tbody>
+<tr><td>对话式生图</td><td>设计师 / 运营</td><td>上传商品图、参考图，并用自然语言输入规则要求</td><td>P0</td></tr>
+<tr><td>商品主图生成</td><td>设计师</td><td>系统从对话中解析主图类型、风格、尺寸并生成候选图</td><td>P0</td></tr>
+<tr><td>详情页功能图生成</td><td>设计师</td><td>系统根据面料、版型、支撑、尺码等卖点生成详情页模块图</td><td>P0</td></tr>
+<tr><td>需求资料结构化提交</td><td>运营 / 设计师</td><td>通过对话自动沉淀商品标题、面料卖点、功能卖点、尺码信息、参考图、尺寸要求</td><td>P0</td></tr>
+<tr><td>候选图筛选</td><td>设计师</td><td>标记图片可用/不可用，选择下载或入库</td><td>P0</td></tr>
+<tr><td>图片下载交付</td><td>设计师</td><td>下载可用图片用于商品上架或后续处理</td><td>P0</td></tr>
+<tr><td>图片入库沉淀</td><td>设计师</td><td>保存可用图片到素材库</td><td>P0</td></tr>
+<tr><td>任务历史查看</td><td>设计师</td><td>查看历史生成任务和结果</td><td>P1</td></tr>
+<tr><td>效率数据查看</td><td>设计主管</td><td>查看生成任务数、入库数、平均耗时</td><td>P1</td></tr>
+</tbody></table>
+<h3>4.3 角色权限边界</h3>
+<p>MVP 阶段不做复杂权限系统，仅做角色边界说明。</p>
+<table>
+<thead><tr><th>功能</th><th>设计师</th><th>运营</th><th>设计主管</th></tr></thead>
+<tbody>
+<tr><td>对话式生图</td><td>可用</td><td>可用</td><td>可查看</td></tr>
+<tr><td>上传商品资料</td><td>可用</td><td>可用</td><td>可查看</td></tr>
+<tr><td>选择模板/参数</td><td>可用</td><td>可用</td><td>可查看</td></tr>
+<tr><td>查看生成结果</td><td>可用</td><td>可查看</td><td>可查看</td></tr>
+<tr><td>标记可用/不可用</td><td>可用</td><td>不建议</td><td>可查看</td></tr>
+<tr><td>下载图片</td><td>可用</td><td>可查看/下载</td><td>可查看</td></tr>
+<tr><td>入库图片</td><td>可用</td><td>不建议</td><td>可查看</td></tr>
+<tr><td>查看任务历史</td><td>可用</td><td>可查看本人任务</td><td>可查看全部</td></tr>
+<tr><td>查看数据概览</td><td>可查看</td><td>不重点开放</td><td>可查看</td></tr>
+</tbody></table>
+<h2>5. 需求范围</h2>
+<h3>5.1 MVP 包含</h3>
+<ul>
+<li>对话式生图任务</li>
+<li>上传商品图</li>
+<li>上传参考图</li>
+<li>输入自然语言规则要求</li>
+<li>系统解析任务信息</li>
+<li>填写商品标题、面料卖点、功能卖点、尺码信息、补充要求</li>
+<li>选择生成类型：商品主图 / 详情页图</li>
+<li>选择模板/场景</li>
+<li>选择尺寸和生成数量</li>
+<li>AI 生成多张候选图</li>
+<li>查看生成结果</li>
+<li>标记图片可用/不可用</li>
+<li>下载选中图片</li>
+<li>入库选中图片</li>
+<li>查看任务历史</li>
+<li>查看素材库基础列表</li>
+</ul>
+<h3>5.2 MVP 不包含</h3>
+<ul>
+<li>外部商家自助系统</li>
+<li>商业化计费</li>
+<li>复杂权限系统</li>
+<li>在线精修画布</li>
+<li>自动投放到电商平台</li>
+<li>多人协作审批</li>
+<li>自动审核</li>
+<li>完整素材资产管理系统</li>
+<li>真实模型训练和模型管理</li>
+</ul>
+<h2>6. 核心生图场景</h2>
+<h3>6.1 MVP 支持的图片类型</h3>
+<table>
+<thead><tr><th>一级场景</th><th>图片类型</th><th>适用场景</th><th>优先级</th></tr></thead>
+<tbody>
+<tr><td>商品主图</td><td>平铺主图</td><td>平台基础商品图、商品列表图</td><td>P0</td></tr>
+<tr><td>商品主图</td><td>氛围主图</td><td>展示舒适、日常、轻生活场景</td><td>P0</td></tr>
+<tr><td>商品主图</td><td>卖点主图</td><td>强调无尺码、亲肤、无钢圈、承托等核心卖点</td><td>P0</td></tr>
+<tr><td>商品详情页图</td><td>功能展示图</td><td>展示支撑、包裹、透气、无痕等核心功能</td><td>P0</td></tr>
+<tr><td>商品详情页图</td><td>面料细节图</td><td>展示面料纹理、弹力、杯垫、肩带、背扣等局部细节</td><td>P0</td></tr>
+<tr><td>商品详情页图</td><td>尺码说明图</td><td>展示尺码适配、穿着建议和人群覆盖</td><td>P1</td></tr>
+<tr><td>商品详情页图</td><td>穿着场景图</td><td>展示居家、通勤、运动轻场景等使用方式</td><td>P1</td></tr>
+<tr><td>商品详情页图</td><td>对比说明图</td><td>展示普通内衣与无尺码/无钢圈产品差异</td><td>P2</td></tr>
+</tbody></table>
+<h3>6.2 内衣类目特殊规则</h3>
+<table>
+<thead><tr><th>规则类型</th><th>规则说明</th></tr></thead>
+<tbody>
+<tr><td>商品真实性</td><td>不允许改变内衣版型、罩杯结构、颜色、肩带、背扣、蕾丝/纹理等关键商品特征</td></tr>
+<tr><td>模特展示</td><td>MVP 不默认生成真人试穿图；如后续支持，需使用合规模特素材，并避免低俗化、过度裸露或身体羞辱表达</td></tr>
+<tr><td>文案表达</td><td>避免夸大塑形、丰胸、医学功效等敏感或不可证实描述</td></tr>
+<tr><td>身体表达</td><td>避免“遮副乳”“显瘦救星”等可能制造身材焦虑的表达，优先使用舒适、包裹、支撑、贴合等中性描述</td></tr>
+<tr><td>平台合规</td><td>生成结果需符合电商平台对内衣类目图片、模特姿态和露肤尺度的审核要求</td></tr>
+<tr><td>品牌调性</td><td>参考 Ubras 类品牌的舒适、自然、轻量、日常化表达，不走强性感和夸张促销路线</td></tr>
+</tbody></table>
+<h3>6.3 通用可用标准</h3>
+<ul>
+<li>商品主体清晰完整</li>
+<li>内衣版型、颜色、结构不变形</li>
+<li>商品颜色基本准确</li>
+<li>场景或背景与商品匹配</li>
+<li>画面符合所选尺寸</li>
+<li>卖点表达准确</li>
+<li>无明显乱码、错别字</li>
+<li>无不相关元素干扰</li>
+<li>符合电商平台基础审美和展示要求</li>
+<li>视觉表达自然、舒适、不过度性感化</li>
+</ul>
+<h3>6.4 通用不可用标准</h3>
+<ul>
+<li>商品主体缺失或被遮挡</li>
+<li>内衣结构、颜色、版型、肩带、杯型、纹理发生明显变化</li>
+<li>生成与商品无关的物体</li>
+<li>场景明显不合理</li>
+<li>卖点表达错误或夸大</li>
+<li>出现乱码、错别字或错误品牌文字</li>
+<li>图片模糊、比例错误、尺寸不符</li>
+<li>风格与用户选择明显不一致</li>
+<li>不符合平台商品图基础要求</li>
+<li>模特姿态、露肤尺度或画面表达存在审核风险</li>
+<li>文案制造身材焦虑或涉嫌低俗营销</li>
+</ul>
+<h2>7. 业务流程与状态流转</h2>
+<h3>7.1 整体流程</h3>
+<pre><code>进入工作台
+→ 进入对话生图窗口
+→ 上传商品图/参考图
+→ 输入规则要求
+→ 系统解析生成类型、模板、尺寸、卖点和合规规则
+→ 用户确认或修改解析结果
+→ 提交生成任务
+→ AI 生成候选图
+→ 查看生成结果
+→ 人工筛选
+→ 下载图片 / 入库图片
+→ 任务完成</code></pre>
+<h3>7.2 任务状态</h3>
+<table>
+<thead><tr><th>状态</th><th>状态说明</th><th>用户可执行操作</th></tr></thead>
+<tbody>
+<tr><td>草稿</td><td>用户已开始填写任务，但未提交生成</td><td>编辑、继续填写、删除</td></tr>
+<tr><td>待生成</td><td>用户已提交任务，系统等待生成</td><td>查看、取消任务</td></tr>
+<tr><td>生成中</td><td>AI 正在生成候选图</td><td>查看进度、返回任务历史</td></tr>
+<tr><td>生成成功</td><td>AI 已生成候选图，但用户未完成筛选</td><td>查看结果、筛选、重新生成</td></tr>
+<tr><td>生成失败</td><td>AI 生成失败或超时</td><td>查看失败原因、重新生成、编辑参数</td></tr>
+<tr><td>已筛选</td><td>用户已标记至少 1 张可用或不可用图片</td><td>下载、入库、重新生成</td></tr>
+<tr><td>已入库</td><td>用户已将至少 1 张图片保存至素材库</td><td>查看素材、下载、继续入库</td></tr>
+<tr><td>已完成</td><td>用户完成下载或入库，任务闭环结束</td><td>查看结果、复制任务、重新生成</td></tr>
+</tbody></table>
+<h3>7.3 状态流转</h3>
+<pre><code>草稿
+ ↓
+待生成
+ ↓
+生成中
+ ├─ 生成失败 → 重新生成 → 待生成
+ ↓
+生成成功
+ ↓
+已筛选
+ ├─ 下载图片 → 已完成
+ └─ 入库图片 → 已入库 → 已完成</code></pre>
+<h3>7.4 图片状态</h3>
+<table>
+<thead><tr><th>图片状态</th><th>状态说明</th><th>可执行操作</th></tr></thead>
+<tbody>
+<tr><td>待选择</td><td>AI 已生成，用户尚未判断</td><td>预览、标记可用、标记不可用</td></tr>
+<tr><td>可用</td><td>用户认为图片可用于交付或后续处理</td><td>下载、入库、取消标记</td></tr>
+<tr><td>不可用</td><td>用户认为图片不符合要求</td><td>查看原因、取消标记</td></tr>
+<tr><td>已下载</td><td>图片已被下载</td><td>再次下载、入库</td></tr>
+<tr><td>已入库</td><td>图片已保存到素材库</td><td>查看素材、下载</td></tr>
+</tbody></table>
+<h2>8. 功能清单与优先级</h2>
+<h3>8.1 P0 功能</h3>
+<table>
+<thead><tr><th>模块</th><th>功能点</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>工作台</td><td>对话生图入口</td><td>用户进入核心流程的入口</td></tr>
+<tr><td>对话生图</td><td>上传商品图/参考图</td><td>AI 生成核心输入</td></tr>
+<tr><td>对话生图</td><td>输入规则要求</td><td>用自然语言描述图片类型、风格、卖点、尺寸和限制</td></tr>
+<tr><td>任务解析</td><td>自动提取生成类型、模板、尺寸、卖点</td><td>降低表单填写成本</td></tr>
+<tr><td>任务确认</td><td>修改解析结果</td><td>保证生成方向可控</td></tr>
+<tr><td>AI 生成</td><td>生成候选图</td><td>产品核心能力</td></tr>
+<tr><td>结果筛选</td><td>标记可用/不可用</td><td>保证质量可控</td></tr>
+<tr><td>结果处理</td><td>下载图片</td><td>完成交付</td></tr>
+<tr><td>结果处理</td><td>入库图片</td><td>沉淀可复用素材</td></tr>
+</tbody></table>
+<h3>8.2 P1 功能</h3>
+<table>
+<thead><tr><th>模块</th><th>功能点</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>任务历史</td><td>查看历史任务</td><td>支持追踪和复用</td></tr>
+<tr><td>任务历史</td><td>重新生成</td><td>基于原参数再次生成</td></tr>
+<tr><td>对话生图</td><td>上传参考图</td><td>增强风格和构图控制</td></tr>
+<tr><td>素材库</td><td>搜索和筛选</td><td>支持基础素材查找</td></tr>
+<tr><td>数据概览</td><td>任务数、入库数、平均耗时</td><td>验证效率提升</td></tr>
+</tbody></table>
+<h3>8.3 P2 功能</h3>
+<table>
+<thead><tr><th>模块</th><th>功能点</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>在线精修</td><td>局部编辑、文字调整</td><td>复杂度高，后续规划</td></tr>
+<tr><td>协作审核</td><td>评论、审批、版本管理</td><td>MVP 暂不做</td></tr>
+<tr><td>权限管理</td><td>角色、部门、资源权限</td><td>MVP 暂不做</td></tr>
+<tr><td>平台集成</td><td>同步到电商后台</td><td>涉及外部系统</td></tr>
+<tr><td>高级看板</td><td>ROI、模型效果、团队产能</td><td>需要真实数据</td></tr>
+</tbody></table>
+<h2>9. 功能详细说明</h2>
+<h3>9.1 工作台首页</h3>
+<p><strong>功能目标</strong>：让用户快速了解任务情况，并进入对话式生图流程。</p>
+<p><strong>核心内容</strong>：</p>
+<ul>
+<li>顶部导航：工作台、素材库、任务历史、模板中心</li>
+<li>数据概览：今日任务数、生成图片数、入库图片数、平均出图耗时</li>
+<li>主操作：打开对话生图</li>
+<li>最近任务列表：商品名称、类型、状态、生成时间、入库数、操作</li>
+</ul>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>点击“打开对话生图”进入对话生图页</li>
+<li>点击最近任务的“查看”进入生成结果页或任务详情页</li>
+<li>失败任务显示“重新生成”入口</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户可从首页进入新建任务流程</li>
+<li>用户可查看最近任务及状态</li>
+<li>首页展示基础效率数据</li>
+</ul>
+<h3>9.2 对话式生图</h3>
+<p><strong>功能目标</strong>：通过对话窗口收集商品图、参考图和规则要求，由系统自动解析生成任务，降低用户填写表单和理解模板的成本。</p>
+<p><strong>字段规则</strong>：</p>
+<table>
+<thead><tr><th>字段</th><th>类型</th><th>是否必填</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>商品原图</td><td>图片上传</td><td>必填</td><td>支持 JPG / PNG</td></tr>
+<tr><td>参考图</td><td>图片上传</td><td>非必填</td><td>支持上传 1-3 张，用于风格、构图或氛围参考</td></tr>
+<tr><td>规则要求</td><td>对话文本</td><td>必填</td><td>用户用自然语言描述生成目标、卖点、风格、尺寸和限制</td></tr>
+<tr><td>解析结果</td><td>系统生成</td><td>必填</td><td>系统自动提取生成类型、模板、尺寸、卖点、风格、合规限制</td></tr>
+<tr><td>用户确认</td><td>操作</td><td>必填</td><td>用户确认解析结果后才允许生成</td></tr>
+</tbody></table>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>对话窗口支持上传商品原图和参考图</li>
+<li>用户可以输入一句或多句规则要求</li>
+<li>系统根据输入自动生成“任务解析卡”</li>
+<li>任务解析卡包含商品类型、图片类型、风格方向、尺寸、生成数量、卖点、风险提示</li>
+<li>用户可以在解析卡中修改尺寸、数量、模板、风格和合规限制</li>
+<li>用户确认解析结果后，点击“生成图片”</li>
+<li>上传图片后显示缩略图</li>
+<li>参考图最多上传 3 张</li>
+</ul>
+<p><strong>异常规则</strong>：</p>
+<ul>
+<li>图片格式不支持时，提示“请上传 JPG 或 PNG 格式图片”</li>
+<li>未上传商品图时，阻止生成并提示“请先上传商品原图”</li>
+<li>未输入规则要求时，阻止生成并提示“请输入图片生成要求”</li>
+<li>系统无法解析关键字段时，提示用户补充信息，如图片类型、尺寸或核心卖点</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户可以在对话窗口上传图片并输入规则要求</li>
+<li>系统可以展示任务解析结果</li>
+<li>用户可以修改解析结果</li>
+<li>必填项缺失时无法继续</li>
+<li>用户确认解析结果后可以生成候选图片</li>
+</ul>
+<h3>9.3 模板/场景选择与自动解析</h3>
+<p><strong>功能目标</strong>：系统从用户对话中自动推荐模板/场景，用户也可以手动调整。</p>
+<p><strong>模板分类</strong>：</p>
+<table>
+<thead><tr><th>生成类型</th><th>模板</th></tr></thead>
+<tbody>
+<tr><td>商品主图</td><td>平铺主图、氛围主图、卖点主图</td></tr>
+<tr><td>详情页图</td><td>功能展示图、面料细节图、尺码说明图、穿着场景图</td></tr>
+</tbody></table>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>模板以卡片形式展示</li>
+<li>卡片包含模板名称、适用场景、示例预览</li>
+<li>用户点击模板卡片即选中</li>
+<li>生成类型为商品主图时，不展示详情页模板</li>
+<li>生成类型为详情页图时，不展示主图模板</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>不同生成类型展示对应模板</li>
+<li>用户必须选择一个模板才能进入下一步</li>
+<li>已选模板在参数确认页正确展示</li>
+</ul>
+<h3>9.4 生成参数设置</h3>
+<p><strong>功能目标</strong>：让用户确认生成尺寸、图片比例和生成数量。</p>
+<p><strong>字段规则</strong>：</p>
+<table>
+<thead><tr><th>字段</th><th>类型</th><th>是否必填</th><th>默认值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>目标尺寸</td><td>单选</td><td>必填</td><td>1:1 主图</td><td>电商常用尺寸</td></tr>
+<tr><td>生成数量</td><td>单选</td><td>必填</td><td>4 张</td><td>支持 2/4/6 张</td></tr>
+<tr><td>图片比例</td><td>单选</td><td>必填</td><td>跟随目标尺寸</td><td>可由尺寸自动决定</td></tr>
+</tbody></table>
+<p><strong>尺寸选项</strong>：</p>
+<ul>
+<li>1:1 商品主图</li>
+<li>3:4 商品图</li>
+<li>16:9 横版图</li>
+<li>750x1000 详情页模块图</li>
+</ul>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>商品主图默认推荐 1:1</li>
+<li>详情页图默认推荐 750x1000</li>
+<li>点击“开始生成”后进入生成中状态</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户可以选择尺寸和生成数量</li>
+<li>默认值符合生成类型</li>
+<li>提交后创建生成任务</li>
+</ul>
+<h3>9.5 AI 生成候选图</h3>
+<p><strong>功能目标</strong>：根据商品资料、模板和生成参数，生成多张候选图片。</p>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>生成中展示加载状态和预计耗时</li>
+<li>用户可离开页面，任务仍保留在任务历史中</li>
+<li>生成完成后进入结果页</li>
+<li>生成失败后显示失败原因和重试入口</li>
+</ul>
+<p><strong>异常规则</strong>：</p>
+<ul>
+<li>生成超时：提示“生成超时，请稍后重试”</li>
+<li>模型接口失败：提示“生成失败，请重新生成”</li>
+<li>图片数量不足：展示已生成图片，并提示部分失败</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户提交任务后进入生成中状态</li>
+<li>任务完成后展示候选图片</li>
+<li>生成失败时可以重新生成</li>
+<li>任务状态在任务历史中可查看</li>
+</ul>
+<h3>9.6 生成结果筛选</h3>
+<p><strong>功能目标</strong>：让设计师对 AI 生成结果进行人工判断，保证最终图片质量可控。</p>
+<p><strong>操作项</strong>：</p>
+<ul>
+<li>预览图片</li>
+<li>标记可用</li>
+<li>标记不可用</li>
+<li>选择不可用原因</li>
+<li>下载单张</li>
+<li>下载选中</li>
+<li>入库选中</li>
+<li>重新生成</li>
+</ul>
+<p><strong>不可用原因</strong>：</p>
+<ul>
+<li>商品变形</li>
+<li>主体不清晰</li>
+<li>风格不符</li>
+<li>卖点表达错误</li>
+<li>文字错误</li>
+<li>尺寸不符</li>
+<li>场景不合理</li>
+<li>露肤/姿态风险</li>
+<li>夸大功效</li>
+<li>身体焦虑表达</li>
+<li>其他</li>
+</ul>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>图片默认状态为待选择</li>
+<li>标记可用后显示选中状态</li>
+<li>标记不可用时弹出原因选择</li>
+<li>至少选择 1 张图片后，才允许入库或批量下载</li>
+<li>重新生成保留原商品资料和参数</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户可以标记图片可用/不可用</li>
+<li>不可用图片可以记录原因</li>
+<li>可用图片可以下载</li>
+<li>可用图片可以入库</li>
+<li>重新生成时保留原任务参数</li>
+</ul>
+<h3>9.7 素材库</h3>
+<p><strong>功能目标</strong>：沉淀可用生成结果，支持后续查找、下载和复用。</p>
+<p><strong>素材信息</strong>：</p>
+<table>
+<thead><tr><th>字段</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>图片预览</td><td>入库图片缩略图</td></tr>
+<tr><td>商品名称</td><td>来源商品标题</td></tr>
+<tr><td>生成类型</td><td>商品主图 / 详情页图</td></tr>
+<tr><td>模板类型</td><td>本次使用的模板</td></tr>
+<tr><td>图片尺寸</td><td>生成尺寸</td></tr>
+<tr><td>入库时间</td><td>图片保存时间</td></tr>
+<tr><td>来源任务</td><td>对应生成任务</td></tr>
+</tbody></table>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>入库成功后展示成功提示</li>
+<li>素材库支持按商品名称搜索</li>
+<li>素材库支持按类型、尺寸、时间筛选</li>
+<li>用户可以下载素材</li>
+<li>后续版本支持复用生成参数</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户可以将选中图片入库</li>
+<li>入库图片可在素材库查看</li>
+<li>素材支持搜索、筛选和下载</li>
+<li>素材信息展示完整</li>
+</ul>
+<h3>9.8 任务历史</h3>
+<p><strong>功能目标</strong>：记录用户的生成任务，方便追踪任务状态、查看历史结果和复用任务。</p>
+<p><strong>字段规则</strong>：</p>
+<table>
+<thead><tr><th>字段</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>商品名称</td><td>商品标题</td></tr>
+<tr><td>生成类型</td><td>商品主图 / 详情页图</td></tr>
+<tr><td>模板类型</td><td>使用的模板</td></tr>
+<tr><td>任务状态</td><td>生成中 / 已完成 / 失败</td></tr>
+<tr><td>生成数量</td><td>本次生成图片数量</td></tr>
+<tr><td>入库数量</td><td>已入库图片数量</td></tr>
+<tr><td>生成时间</td><td>任务创建时间</td></tr>
+</tbody></table>
+<p><strong>交互规则</strong>：</p>
+<ul>
+<li>点击已完成任务，进入生成结果页</li>
+<li>点击失败任务，可重新生成</li>
+<li>生成中任务展示处理中状态</li>
+<li>支持按状态、类型、时间筛选</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ul>
+<li>用户可以查看历史任务</li>
+<li>用户可以按状态筛选任务</li>
+<li>已完成任务可查看结果</li>
+<li>失败任务可重新生成</li>
+</ul>
+<h2>10. 页面规划</h2>
+<table>
+<thead><tr><th>页面</th><th>优先级</th><th>页面目标</th></tr></thead>
+<tbody>
+<tr><td>工作台首页</td><td>P0</td><td>进入系统、查看数据和最近任务</td></tr>
+<tr><td>对话生图页</td><td>P0</td><td>上传参考图、输入规则要求、确认任务解析并生成图片</td></tr>
+<tr><td>模板/场景选择页</td><td>P1</td><td>作为手动调整入口，补充对话解析能力</td></tr>
+<tr><td>生成参数确认页</td><td>P1</td><td>作为手动确认入口，补充对话解析能力</td></tr>
+<tr><td>生成结果页</td><td>P0</td><td>筛选、下载、入库候选图</td></tr>
+<tr><td>素材库页面</td><td>P1</td><td>查看和下载已入库图片</td></tr>
+<tr><td>任务历史页面</td><td>P1</td><td>查看任务记录和状态</td></tr>
+</tbody></table>
+<p>页面流转：</p>
+<pre><code>工作台首页
+→ 对话生图页
+→ 任务解析确认
+→ 生成结果页
+→ 下载 / 入库</code></pre>
+<h2>11. 数据指标与埋点</h2>
+<h3>11.1 指标体系</h3>
+<table>
+<thead><tr><th>指标类型</th><th>指标</th><th>定义</th></tr></thead>
+<tbody>
+<tr><td>效率指标</td><td>平均出图耗时</td><td>从提交任务到图片下载/入库的平均时间</td></tr>
+<tr><td>效率指标</td><td>单日处理商品数</td><td>单个设计师每天完成的商品数量</td></tr>
+<tr><td>质量指标</td><td>AI 初稿可用率</td><td>被标记为可用的图片数 / AI 生成图片总数</td></tr>
+<tr><td>质量指标</td><td>重新生成率</td><td>重新生成任务数 / 总任务数</td></tr>
+<tr><td>使用指标</td><td>任务创建数</td><td>每日/每周创建的生图任务数</td></tr>
+<tr><td>使用指标</td><td>素材下载次数</td><td>生成图片被下载的次数</td></tr>
+<tr><td>使用指标</td><td>图片入库率</td><td>入库图片数 / 生成图片总数</td></tr>
+</tbody></table>
+<h3>11.2 埋点事件</h3>
+<table>
+<thead><tr><th>事件名称</th><th>触发时机</th><th>记录字段</th></tr></thead>
+<tbody>
+<tr><td>create_task</td><td>用户创建生图任务</td><td>用户 ID、任务 ID、生成类型、时间</td></tr>
+<tr><td>send_chat_prompt</td><td>用户发送规则要求</td><td>用户 ID、任务 ID、文本长度、时间</td></tr>
+<tr><td>upload_product_image</td><td>上传商品图</td><td>任务 ID、图片数量、时间</td></tr>
+<tr><td>upload_reference_image</td><td>上传参考图</td><td>任务 ID、图片数量、时间</td></tr>
+<tr><td>parse_generation_brief</td><td>系统解析任务</td><td>任务 ID、解析字段、置信度</td></tr>
+<tr><td>edit_parsed_brief</td><td>用户修改解析结果</td><td>任务 ID、修改字段</td></tr>
+<tr><td>select_template</td><td>选择模板</td><td>任务 ID、模板 ID、模板类型</td></tr>
+<tr><td>submit_generate</td><td>点击开始生成</td><td>任务 ID、尺寸、生成数量、时间</td></tr>
+<tr><td>generate_success</td><td>AI 生成成功</td><td>任务 ID、生成图片数、耗时</td></tr>
+<tr><td>generate_fail</td><td>AI 生成失败</td><td>任务 ID、失败原因、耗时</td></tr>
+<tr><td>mark_image_usable</td><td>标记图片可用</td><td>任务 ID、图片 ID、模板类型</td></tr>
+<tr><td>mark_image_unusable</td><td>标记图片不可用</td><td>任务 ID、图片 ID、不可用原因</td></tr>
+<tr><td>download_image</td><td>下载图片</td><td>任务 ID、图片 ID、尺寸</td></tr>
+<tr><td>save_to_asset_library</td><td>图片入库</td><td>任务 ID、图片 ID、商品名称</td></tr>
+<tr><td>regenerate_task</td><td>重新生成</td><td>任务 ID、模板类型、原因</td></tr>
+</tbody></table>
+<h2>12. 非功能需求</h2>
+<h3>12.1 性能需求</h3>
+<ul>
+<li>页面基础操作响应应在 1 秒内完成。</li>
+<li>AI 生成任务应展示预计耗时。</li>
+<li>MVP 目标生成耗时控制在 1-3 分钟。</li>
+<li>任务生成中允许用户离开结果页，并可在任务历史中查看状态。</li>
+</ul>
+<h3>12.2 可用性需求</h3>
+<ul>
+<li>必填项需要有明确提示。</li>
+<li>生成失败需保留原任务信息和参数。</li>
+<li>核心任务流程不超过 4 个主要步骤。</li>
+<li>模板名称应使用用户可理解的电商场景语言。</li>
+</ul>
+<h3>12.3 安全与合规边界</h3>
+<ul>
+<li>上传图片仅用于当前生图任务和素材入库。</li>
+<li>MVP 阶段不对外开放商家账号体系。</li>
+<li>商品图生成结果必须经过人工筛选后使用。</li>
+<li>涉及文字卖点时应避免夸大宣传和错误表达。</li>
+</ul>
+<h2>13. 风险与应对</h2>
+<table>
+<thead><tr><th>风险</th><th>表现</th><th>应对方式</th></tr></thead>
+<tbody>
+<tr><td>AI 生成质量不稳定</td><td>可用率低、重新生成率高</td><td>使用模板约束生成方向，记录不可用原因</td></tr>
+<tr><td>商品主体变形</td><td>内衣版型、肩带、杯型、颜色变化</td><td>增加可用标准和人工筛选</td></tr>
+<tr><td>文字生成错误</td><td>乱码、错别字、卖点错误</td><td>MVP 可采用系统叠加文字，减少模型直接生成文字</td></tr>
+<tr><td>内衣类目合规风险</td><td>露肤尺度、模特姿态、低俗化表达不合规</td><td>MVP 不默认生成真人试穿图，增加人工审核和风险原因标记</td></tr>
+<tr><td>用户不愿使用</td><td>任务创建数低</td><td>降低填写成本，提供默认模板和尺寸</td></tr>
+<tr><td>素材难复用</td><td>入库率低、搜索效率低</td><td>保留商品、类型、尺寸等基础标签</td></tr>
+</tbody></table>
+<h2>14. MVP 验收标准</h2>
+<ol>
+<li>用户可以完成完整链路：进入对话生图 → 上传商品图/参考图 → 输入规则要求 → 确认任务解析 → 生成候选图 → 筛选 → 下载/入库。</li>
+<li>用户在创建任务时，必须上传商品图并输入规则要求。</li>
+<li>系统能从规则要求中解析生成类型、模板、尺寸、卖点和合规限制。</li>
+<li>用户可以一次生成多张候选图。</li>
+<li>用户可以对候选图进行人工筛选。</li>
+<li>可用图片可以下载，也可以进入素材库。</li>
+<li>历史任务可以被记录和查看。</li>
+<li>生成失败时，用户可以重新发起生成。</li>
+<li>系统支持基础效率指标统计，如生成任务数、生成图片数、入库图片数、平均出图耗时。</li>
+</ol>
+</main>
+</body>
+</html>

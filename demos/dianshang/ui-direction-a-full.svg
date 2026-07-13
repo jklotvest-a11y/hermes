@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#f3f6fa"/>
+  <text x="60" y="64" fill="#111827" font-family="Arial, 'PingFang SC', sans-serif" font-size="34" font-weight="800">方向 A｜企业效率型</text>
+  <text x="60" y="100" fill="#64748b" font-family="Arial, 'PingFang SC', sans-serif" font-size="18">适合强调降本提效、流程管理、指标看板，整体更像成熟内部 SaaS 中台。</text>
+
+  <rect x="60" y="132" width="1480" height="808" rx="24" fill="#ffffff" stroke="#dbe3ee"/>
+  <rect x="60" y="132" width="210" height="808" rx="24" fill="#0f172a"/>
+  <rect x="230" y="132" width="40" height="808" fill="#0f172a"/>
+  <text x="92" y="190" fill="#ffffff" font-family="Arial, 'PingFang SC', sans-serif" font-size="24" font-weight="800">电商生图</text>
+  <text x="92" y="224" fill="#ffffff" font-family="Arial, 'PingFang SC', sans-serif" font-size="24" font-weight="800">AI 中台</text>
+  <text x="92" y="292" fill="#94a3b8" font-family="Arial, 'PingFang SC', sans-serif" font-size="15" font-weight="700">工作台</text>
+  <rect x="84" y="320" width="156" height="46" rx="10" fill="#263449"/>
+  <text x="108" y="350" fill="#ffffff" font-family="Arial, 'PingFang SC', sans-serif" font-size="17" font-weight="700">视觉智能体</text>
+  <text x="108" y="408" fill="#cbd5e1" font-family="Arial, 'PingFang SC', sans-serif" font-size="17" font-weight="700">模板库管理</text>
+  <text x="108" y="464" fill="#cbd5e1" font-family="Arial, 'PingFang SC', sans-serif" font-size="17" font-weight="700">提示词反推</text>
+  <text x="108" y="520" fill="#cbd5e1" font-family="Arial, 'PingFang SC', sans-serif" font-size="17" font-weight="700">视频智能生成</text>
+
+  <rect x="270" y="132" width="1270" height="74" fill="#ffffff"/>
+  <text x="310" y="180" fill="#111827" font-family="Arial, 'PingFang SC', sans-serif" font-size="26" font-weight="800">视觉智能体</text>
+  <rect x="1160" y="152" width="94" height="34" rx="17" fill="#ffffff" stroke="#dbe3ee"/>
+  <text x="1182" y="175" fill="#475569" font-family="Arial, 'PingFang SC', sans-serif" font-size="14" font-weight="700">模板库</text>
+  <rect x="1270" y="152" width="210" height="34" rx="17" fill="#ffffff" stroke="#dbe3ee"/>
+  <text x="1292" y="175" fill="#475569" font-family="Arial, 'PingFang SC', sans-serif" font-size="14" font-weight="700">模型：Nano Banana Pro</text>
+
+  <rect x="270" y="206" width="1270" height="620" fill="#f8fbff"/>
+  <rect x="1000" y="252" width="360" height="74" rx="24" fill="#263449"/>
+  <text x="1030" y="283" fill="#ffffff" font-family="Arial, 'PingFang SC', sans-serif" font-size="18" font-weight="700">生成 2 张无尺码文胸主图</text>
+  <text x="1030" y="309" fill="#d4deec" font-family="Arial, 'PingFang SC', sans-serif" font-size="14">保留版型和面料纹理</text>
+
+  <circle cx="510" cy="370" r="25" fill="#2563eb"/>
+  <text x="502" y="379" fill="#ffffff" font-family="Arial" font-size="20" font-weight="800">✦</text>
+  <rect x="552" y="340" width="700" height="420" rx="22" fill="#ffffff" stroke="#e3eaf4"/>
+  <text x="588" y="386" fill="#94a3b8" font-family="Arial" font-size="14" font-weight="800">Agent</text>
+  <text x="588" y="424" fill="#111827" font-family="Arial, 'PingFang SC', sans-serif" font-size="23" font-weight="800">已完成需求理解，生成候选图</text>
+  <rect x="588" y="448" width="620" height="54" rx="12" fill="#f4f7fb"/>
+  <text x="610" y="481" fill="#64748b" font-family="Arial, 'PingFang SC', sans-serif" font-size="16">任务：内衣商品主图 · 模板：氛围主图 · 尺寸：1:1 · 风格：自然舒适</text>
+  <rect x="588" y="522" width="140" height="30" rx="15" fill="#e8f0ff"/>
+  <text x="610" y="542" fill="#2563eb" font-family="Arial, 'PingFang SC', sans-serif" font-size="14" font-weight="800">不夸大塑形</text>
+  <rect x="740" y="522" width="150" height="30" rx="15" fill="#e8f0ff"/>
+  <text x="762" y="542" fill="#2563eb" font-family="Arial, 'PingFang SC', sans-serif" font-size="14" font-weight="800">保留真实结构</text>
+  <rect x="902" y="522" width="160" height="30" rx="15" fill="#e8f0ff"/>
+  <text x="924" y="542" fill="#2563eb" font-family="Arial, 'PingFang SC', sans-serif" font-size="14" font-weight="800">避免身体焦虑</text>
+  <rect x="588" y="580" width="292" height="138" rx="16" fill="#ffffff" stroke="#dfe7f2"/>
+  <rect x="588" y="580" width="292" height="96" rx="16" fill="#eef4ff"/>
+  <circle cx="682" cy="620" r="30" fill="#ead3c8"/>
+  <text x="682" y="660" text-anchor="middle" fill="#475569" font-family="Arial, 'PingFang SC', sans-serif" font-size="18" font-weight="800">候选图 A</text>
+  <text x="610" y="704" fill="#64748b" font-family="Arial, 'PingFang SC', sans-serif" font-size="15" font-weight="700">主图 1:1</text>
+  <text x="828" y="704" fill="#2563eb" font-family="Arial" font-size="15" font-weight="800">92%</text>
+  <rect x="916" y="580" width="292" height="138" rx="16" fill="#ffffff" stroke="#dfe7f2"/>
+  <rect x="916" y="580" width="292" height="96" rx="16" fill="#eef4ff"/>
+  <circle cx="1010" cy="620" r="30" fill="#ead3c8"/>
+  <text x="1010" y="660" text-anchor="middle" fill="#475569" font-family="Arial, 'PingFang SC', sans-serif" font-size="18" font-weight="800">候选图 B</text>
+  <text x="938" y="704" fill="#64748b" font-family="Arial, 'PingFang SC', sans-serif" font-size="15" font-weight="700">详情 3:4</text>
+  <text x="1130" y="704" fill="#d97706" font-family="Arial, 'PingFang SC', sans-serif" font-size="15" font-weight="800">待复核</text>
+
+  <rect x="560" y="850" width="760" height="66" rx="26" fill="#ffffff" stroke="#dbe3ee"/>
+  <text x="590" y="890" fill="#94a3b8" font-family="Arial, 'PingFang SC', sans-serif" font-size="17" font-weight="700">上传商品图、参考图或输入规则要求...</text>
+  <circle cx="1272" cy="883" r="22" fill="#2563eb"/>
+  <text x="1264" y="891" fill="#fff" font-family="Arial" font-size="20">→</text>
+</svg>
