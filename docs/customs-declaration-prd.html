@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>智能报关单 PRD</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="customs-declaration-prd.css" />
+</head>
+<body>
+<main>
+<h1 id="智能报关单-prddemo-mvp--研发实施版">智能报关单 PRD（Demo MVP →
+研发实施版）</h1>
+<h2 id="1-文档信息">1. 文档信息</h2>
+<table>
+<thead>
+<tr class="header">
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>产品名称</td>
+<td>智能报关单</td>
+</tr>
+<tr class="even">
+<td>版本</td>
+<td>MVP v1.0</td>
+</tr>
+<tr class="odd">
+<td>更新日期</td>
+<td>2026-07-29</td>
+</tr>
+<tr class="even">
+<td>文档状态</td>
+<td>已确认 Demo 需求；可用于研发评估、排期、报价和测试设计。</td>
+</tr>
+<tr class="odd">
+<td>线上 Demo</td>
+<td><a
+href="https://customs-prototype-three.vercel.app/order-list.html">报关订单工作台</a></td>
+</tr>
+<tr class="even">
+<td>Figma</td>
+<td><a
+href="https://www.figma.com/design/tgQnSqoD5URc2Nbd0am3y8/%E6%8A%A5%E5%85%B3%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F--Copy-?node-id=2106-443">报关业务
+/ 报关订单</a></td>
+</tr>
+<tr class="odd">
+<td>关联清单</td>
+<td><code>智能报关单_当前Demo功能清单.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-项目目标">2. 项目目标</h2>
+<p>将合同、发票、装箱单、提单等报关资料沉淀为一张可追溯的报关订单，支持资料识别、人工核对、审核、草单下载与关贸云申报。</p>
+<p>本期交付目标：</p>
+<ol type="1">
+<li>建立统一订单编号和完整订单状态流转。</li>
+<li>支持业务员从创建订单到提交审核的完整处理链路。</li>
+<li>支持审核主管审核通过或填写原因驳回。</li>
+<li>支持待申报订单推送关贸云，并保留下载和推送留痕。</li>
+<li>支持客户、商品、HS Code、HS 要素作为可复用基础资料。</li>
+</ol>
+<h2 id="3-角色与边界">3. 角色与边界</h2>
+<table>
+<thead>
+<tr class="header">
+<th>角色</th>
+<th>主要权限</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>业务员</td>
+<td>新建、编辑待提交订单；上传 / 解析 /
+回填资料；下载草单；提交审核；复制、预览订单。</td>
+</tr>
+<tr class="even">
+<td>审核主管</td>
+<td>对待审核订单进行审核通过或审核驳回。</td>
+</tr>
+<tr class="odd">
+<td>系统</td>
+<td>生成编号、保存版本、执行 OCR、生成草单、记录下载 /
+操作日志、调用关贸云。</td>
+</tr>
+</tbody>
+</table>
+<p>本期不包括登录、组织与数据权限的正式实现；研发需预留当前用户、所属组织、角色权限和审计字段。</p>
+<h2 id="4-信息架构">4. 信息架构</h2>
+<pre class="mermaid"><code>flowchart LR
+  A[报关订单工作台] --&gt; B[新建报关订单]
+  A --&gt; C[订单详情：编辑 / 预览 / 审核]
+  C --&gt; D[文件上传与 OCR]
+  C --&gt; E[报关信息 / 商品明细 / 附属资料]
+  A --&gt; F[关贸云推送]
+  G[基础资料] --&gt; G1[客户资料]
+  G --&gt; G2[商品资料]
+  G --&gt; G3[HS Code]
+  G --&gt; G4[HS 要素]
+  B --&gt; C
+  G1 --&gt; B
+  G2 --&gt; C
+  G3 --&gt; C
+  G4 --&gt; C</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>模块</th>
+<th>页面</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>报关订单工作台</td>
+<td><code>order-list.html</code></td>
+<td>订单统计、查询、列表、提交、审核、下载、推送入口。</td>
+</tr>
+<tr class="even">
+<td>新建订单</td>
+<td><code>order-create.html</code></td>
+<td>填写基础信息，生成订单编号。</td>
+</tr>
+<tr class="odd">
+<td>订单详情</td>
+<td><code>order-workbench.html</code></td>
+<td>编辑、预览、审核三种模式；包含资料、OCR、商品、附属资料和处理记录。</td>
+</tr>
+<tr class="even">
+<td>基础资料</td>
+<td><code>rule-library.html</code></td>
+<td>通过参数切换客户、商品、HS Code、HS 要素。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-核心业务流程">5. 核心业务流程</h2>
+<pre class="mermaid"><code>stateDiagram-v2
+  [*] --&gt; 待提交: 新建 / 复制
+  待提交 --&gt; 待审核: 确认提交
+  待审核 --&gt; 待提交: 审核驳回（填写原因）
+  待审核 --&gt; 待申报: 审核通过
+  待申报 --&gt; 已申报: 关贸云推送成功
+  已申报 --&gt; [*]</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>状态</th>
+<th>定义</th>
+<th>是否可编辑</th>
+<th>关贸云路径</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>待提交</td>
+<td>新建草稿、资料待补录或审核驳回后待修改</td>
+<td>是</td>
+<td>未同步</td>
+</tr>
+<tr class="even">
+<td>待审核</td>
+<td>已确认提交，等待审核人处理</td>
+<td>否</td>
+<td>未同步</td>
+</tr>
+<tr class="odd">
+<td>待申报</td>
+<td>审核通过，等待推送关贸云</td>
+<td>否</td>
+<td>未同步</td>
+</tr>
+<tr class="even">
+<td>已申报</td>
+<td>已成功推送关贸云</td>
+<td>否</td>
+<td>已同步</td>
+</tr>
+</tbody>
+</table>
+<p>状态标签颜色：待提交橙色、待审核红色、待申报绿色、已申报蓝色。</p>
+<h2 id="6-报关订单工作台">6. 报关订单工作台</h2>
+<h3 id="61-统计与筛选">6.1 统计与筛选</h3>
+<ol type="1">
+<li>顶部统计卡展示待提交、待审核、待申报、当前列表四类数量。</li>
+<li>点击统计卡，自动以对应状态筛选列表。</li>
+<li>支持以下筛选字段：客户名称、合同号、发票号、提单号 /
+运单号、报关状态。</li>
+<li>支持查询与重置；默认按订单最近更新时间倒序。</li>
+</ol>
+<h3 id="62-列表字段">6.2 列表字段</h3>
+<p>列表字段采用可配置模式。用户可在“字段可调整”中按个人或租户配置新增、隐藏、恢复默认和拖拽排序；字段配置仅影响列表展示，不影响订单数据、筛选能力或状态流转。订单编号与操作列默认固定展示，其他业务字段均可按需调整。</p>
+<h4 id="默认字段">默认字段</h4>
+<table>
+<thead>
+<tr class="header">
+<th>字段</th>
+<th>展示与规则</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>订单编号</td>
+<td>创建时生成；蓝色链接；任意状态可打开只读预览。</td>
+</tr>
+<tr class="even">
+<td>客户名称</td>
+<td>只显示客户名称，不拼接合同和发票信息。</td>
+</tr>
+<tr class="odd">
+<td>合同编号、提运单号、报关口岸</td>
+<td>为空时显示“待补录”。</td>
+</tr>
+<tr class="even">
+<td>件数、重量、金额</td>
+<td>分列展示；金额含币制。</td>
+</tr>
+<tr class="odd">
+<td>订单状态</td>
+<td>显示状态标签；待申报额外显示蓝色纸飞机推送入口。</td>
+</tr>
+<tr class="even">
+<td>关贸云路径</td>
+<td>仅已申报显示“已同步”；其余状态统一“未同步”。</td>
+</tr>
+<tr class="odd">
+<td>提审时间</td>
+<td>提交审核时写入；未提交显示“—”。</td>
+</tr>
+<tr class="even">
+<td>下载记录</td>
+<td>无记录显示“—”；有记录显示次数，悬停 /
+聚焦后展示下载人、时间和格式。</td>
+</tr>
+<tr class="odd">
+<td>操作</td>
+<td>固定展示编辑、复制、下载、提交、审核、删除六项，按状态灰显。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="可增加字段">可增加字段</h4>
+<table>
+<thead>
+<tr class="header">
+<th>字段</th>
+<th>展示与规则</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>发票号</td>
+<td>显示订单关联的商业发票号；为空显示“待补录”。</td>
+</tr>
+<tr class="even">
+<td>统一社会信用代码</td>
+<td>显示客户统一社会信用代码；为空显示“—”。</td>
+</tr>
+<tr class="odd">
+<td>B/L No.</td>
+<td>显示提单补充编号；为空显示“待补录”。</td>
+</tr>
+<tr class="even">
+<td>起运港、目的港</td>
+<td>分别显示起运港与目的港。</td>
+</tr>
+<tr class="odd">
+<td>贸易方式</td>
+<td>显示贸易方式及代码。</td>
+</tr>
+<tr class="even">
+<td>运输方式</td>
+<td>可选显示运输方式；默认不展示。</td>
+</tr>
+<tr class="odd">
+<td>包装单位</td>
+<td>显示包装单位。</td>
+</tr>
+<tr class="even">
+<td>毛重、净重</td>
+<td>分列展示重量及单位。</td>
+</tr>
+<tr class="odd">
+<td>币制</td>
+<td>显示订单币制；多币制订单显示“多币制”。</td>
+</tr>
+<tr class="even">
+<td>创建时间、最近更新时间</td>
+<td>用于按时间判断订单处理进度。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-操作权限矩阵按状态控制">6.3 操作权限矩阵（按状态控制）</h3>
+<table>
+  <thead>
+    <tr><th>状态</th><th>编辑</th><th>复制</th><th>下载</th><th>提交</th><th>审核</th><th>删除</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>待提交</td><td>可用</td><td>可用</td><td>禁用</td><td>可用</td><td>禁用</td><td>可用</td></tr>
+    <tr><td>待审核</td><td>禁用</td><td>可用</td><td>禁用</td><td>禁用</td><td>可用</td><td>禁用</td></tr>
+    <tr><td>待申报</td><td>禁用</td><td>可用</td><td>可用</td><td>禁用</td><td>禁用</td><td>禁用</td></tr>
+    <tr><td>已申报</td><td>禁用</td><td>可用</td><td>可用</td><td>禁用</td><td>禁用</td><td>禁用</td></tr>
+  </tbody>
+</table>
+
+<!-- 兼容未启用 GFM 表格扩展的 Markdown 预览：下方保留原始表格源码。
+
+| 状态 | 编辑 | 复制 | 下载 | 提交 | 审核 | 删除 |
+| --- | --- | --- | --- | --- | --- |
+| 待提交 | 可用 | 可用 | 禁用 | 可用 | 禁用 | 可用 |
+| 待审核 | 禁用 | 可用 | 禁用 | 禁用 | 可用 | 禁用 |
+| 待申报 | 禁用 | 可用 | 可用 | 禁用 | 禁用 | 禁用 |
+| 已申报 | 禁用 | 可用 | 可用 | 禁用 | 禁用 | 禁用 |
+-->
+
+<p>不可用操作必须保留位置、灰色显示、不可点击。</p>
+<h3 id="64-列表操作规则">6.4 列表操作规则</h3>
+<table>
+<thead>
+<tr class="header">
+<th>操作</th>
+<th>触发与结果</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>新建</td>
+<td>跳转新建订单页。</td>
+</tr>
+<tr class="even">
+<td>编辑</td>
+<td>打开订单详情编辑模式。</td>
+</tr>
+<tr class="odd">
+<td>预览</td>
+<td>点击订单编号，以只读方式打开订单详情。</td>
+</tr>
+<tr class="even">
+<td>复制</td>
+<td>复制订单基础信息、商品、附件；生成新订单编号；状态设为待提交。</td>
+</tr>
+<tr class="odd">
+<td>删除</td>
+<td>仅待提交可删除；显示二次确认；删除订单及其关联明细。</td>
+</tr>
+<tr class="even">
+<td>提交</td>
+<td>显示“确认提交订单？”弹窗，确认后更新为待审核，写入提审时间和操作日志。</td>
+</tr>
+<tr class="odd">
+<td>审核</td>
+<td>仅待审核可进入审核模式。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-新建订单">7. 新建订单</h2>
+<h3 id="71-字段与校验">7.1 字段与校验</h3>
+<table>
+<thead>
+<tr class="header">
+<th>字段</th>
+<th>是否必填</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>客户名称</td>
+<td>是</td>
+<td>支持客户名称、客户代码、统一信用代码联想；允许直接手工填写。</td>
+</tr>
+<tr class="even">
+<td>客户代码</td>
+<td>否</td>
+<td>选择客户后自动带入。</td>
+</tr>
+<tr class="odd">
+<td>统一信用代码</td>
+<td>否</td>
+<td>选择客户后自动带入，可修改。</td>
+</tr>
+<tr class="even">
+<td>合同编号、发票号、提运单号</td>
+<td>否</td>
+<td>可先为空，在详情继续补充。</td>
+</tr>
+<tr class="odd">
+<td>报关口岸</td>
+<td>否</td>
+<td>可人工填写或由识别结果回填。</td>
+</tr>
+<tr class="even">
+<td>运输方式</td>
+<td>否</td>
+<td>海运整箱、海运拼箱、空运、陆运。</td>
+</tr>
+<tr class="odd">
+<td>贸易方式</td>
+<td>否</td>
+<td>一般贸易、进料加工、来料加工。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-提交结果">7.2 提交结果</h3>
+<ol type="1">
+<li>点击“下一步”时创建订单、生成唯一订单编号。</li>
+<li>新订单状态默认为待提交，关贸云路径默认未同步。</li>
+<li>创建成功后进入订单详情编辑模式。</li>
+</ol>
+<h2 id="8-订单详情">8. 订单详情</h2>
+<h3 id="81-页面模式与顶部操作">8.1 页面模式与顶部操作</h3>
+<table>
+<thead>
+<tr class="header">
+<th>模式</th>
+<th>可见操作</th>
+<th>可编辑性</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>编辑</td>
+<td>复制订单、下载、保存草稿、提交审核</td>
+<td>可编辑</td>
+</tr>
+<tr class="even">
+<td>预览</td>
+<td>复制订单、下载</td>
+<td>只读</td>
+</tr>
+<tr class="odd">
+<td>审核</td>
+<td>审核通过、审核驳回</td>
+<td>只读</td>
+</tr>
+<tr class="even">
+<td>待申报 / 已申报</td>
+<td>复制订单、下载</td>
+<td>锁定</td>
+</tr>
+</tbody>
+</table>
+<p>下载下拉菜单在列表与详情保持一致：</p>
+<table>
+<thead>
+<tr class="header">
+<th>菜单项</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>关贸云推送单</td>
+<td>Excel 格式草单。</td>
+</tr>
+<tr class="even">
+<td>核对草单</td>
+<td>PDF 格式草单。</td>
+</tr>
+</tbody>
+</table>
+<p>每次下载需记录订单、格式、下载人、下载时间，并写入订单处理记录。</p>
+<h3 id="82-文件上传与-ocr">8.2 文件上传与 OCR</h3>
+<table>
+<thead>
+<tr class="header">
+<th>功能</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>文件列表</td>
+<td>显示文件名称、状态、耗时、错误摘要、解析 / 预览 / 删除操作。</td>
+</tr>
+<tr class="even">
+<td>上传材料</td>
+<td>新增补充材料，默认待解析。</td>
+</tr>
+<tr class="odd">
+<td>单文件解析</td>
+<td>可独立解析单个文件。</td>
+</tr>
+<tr class="even">
+<td>一键解析</td>
+<td>对已上传且可识别的材料批量发起解析。</td>
+</tr>
+<tr class="odd">
+<td>文件预览</td>
+<td>弹窗显示源文件预览与可复制的识别字段文本。</td>
+</tr>
+<tr class="even">
+<td>回填</td>
+<td>只有主动点击“回填”后才写入订单字段；不可直接用 OCR
+覆盖人工录入。</td>
+</tr>
+<tr class="odd">
+<td>锁定限制</td>
+<td>待审核、待申报、已申报状态不允许上传、解析、回填、删除。</td>
+</tr>
+</tbody>
+</table>
+<p>回填范围：报关信息、商品明细、随附单证。回填后仍允许人工核对和修改。</p>
+<h3 id="83-报关信息">8.3 报关信息</h3>
+<p>字段包括：客户名称、统一信用代码、合同号、发票号、提运单号、B/L
+No.、报关口岸、贸易方式、运输方式、启运港、目的港、件数、包装单位、毛重、净重、币制、总金额、备注。</p>
+<p>提交审核前需校验以下字段：客户名称、统一信用代码、发票号、提运单号、报关口岸、贸易方式、运输方式、净重、总金额。缺失时禁止提交，并提示缺失数量。</p>
+<p>页面需要展示“已填写数 / 应填写数”；备注不纳入完整度统计。</p>
+<h3 id="84-商品明细">8.4 商品明细</h3>
+<table>
+<thead>
+<tr class="header">
+<th>功能</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>商品字段</td>
+<td>项号、货物描述、产品编码、HS
+Code、中文品名、规格型号、数量、单位、总价、币制、申报要素。</td>
+</tr>
+<tr class="even">
+<td>行维护</td>
+<td>支持新增、复制、保存、删除；删除前二次确认。</td>
+</tr>
+<tr class="odd">
+<td>项号</td>
+<td>新增、复制、删除后自动连续重排。</td>
+</tr>
+<tr class="even">
+<td>表头汇总</td>
+<td>订单编辑页的商品明细表头实时显示：总项数、HS Code
+数、数量合计、总价合计；总项数显示在“项号”右侧，HS Code 数显示在“HS
+Code”右侧。</td>
+</tr>
+<tr class="odd">
+<td>汇总口径</td>
+<td>HS Code
+只统计有效编码并去重；金额必须按币制分组，不得跨币制直接相加。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="85-报关附属资料">8.5 报关附属资料</h3>
+<p>资料分类：许可证、集装箱、随附单证、所需单证、企业资质、VIN。</p>
+<ol type="1">
+<li>每个分类使用独立表格维护数据。</li>
+<li>每类可新增、编辑、保存、删除。</li>
+<li>切换分类后保留当前订单资料。</li>
+<li>订单锁定时不允许修改附属资料。</li>
+</ol>
+<h3 id="86-处理记录">8.6 处理记录</h3>
+<p>记录以下会影响订单或状态的事件：新建、复制、上传、解析、回填、保存、商品
+/ 附属资料变更、提交、审核通过、审核驳回、草单下载、关贸云推送。</p>
+<p>每条记录至少保存：订单
+ID、事件类型、操作人、发生时间、描述、扩展数据（可选）。</p>
+<h2 id="9-审核与关贸云申报">9. 审核与关贸云申报</h2>
+<h3 id="91-审核">9.1 审核</h3>
+<ol type="1">
+<li>待审核订单从列表进入审核模式，订单资料必须只读。</li>
+<li>审核通过后：订单状态更新为待申报，关贸云路径更新为未同步，订单继续锁定。</li>
+<li>审核驳回时：必须输入原因；订单退回待提交，恢复编辑、提交、删除权限；原因写入处理记录。</li>
+</ol>
+<h3 id="92-关贸云推送">9.2 关贸云推送</h3>
+<ol type="1">
+<li>仅待申报订单展示蓝色纸飞机入口。</li>
+<li>若订单存在任意草单下载记录，点击纸飞机先弹出确认：<strong>“当前单据已下载过关贸云表格，请确认是否推送。”</strong></li>
+<li>若无下载记录，点击纸飞机直接调用推送。</li>
+<li>推送成功：订单状态变为已申报，关贸云路径变为已同步，写入推送与处理日志。</li>
+<li>推送失败：保留待申报和未同步，记录失败原因，并允许后续重试；该项需要正式接口实现。</li>
+</ol>
+<h2 id="10-基础资料">10. 基础资料</h2>
+<h3 id="101-共性能力">10.1 共性能力</h3>
+<p>四类基础资料均支持：查询、重置、导入、新增、编辑、保存草稿、提交审核、审核通过、启用
+/ 停用。</p>
+<p>新增 /
+编辑采用弹窗，两列标签与输入控件对齐；必填星号必须显示于字段标签内，不能挤占输入列。</p>
+<h3 id="102-模块规则">10.2 模块规则</h3>
+<table>
+<thead>
+<tr class="header">
+<th>模块</th>
+<th>关键字段 / 规则</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>客户资料</td>
+<td>客户代码、客户名称、统一信用代码、状态、最近更新；客户代码唯一。</td>
+</tr>
+<tr class="even">
+<td>商品资料</td>
+<td>内部商品编码、中英文品名、品牌、材质、状态；内部商品编码唯一。</td>
+</tr>
+<tr class="odd">
+<td>HS Code</td>
+<td>HS
+Code、品名、法定单位、税率、监管证件、申报要素、版本、生效日期；HS Code
+必须为 10 位数字且唯一。</td>
+</tr>
+<tr class="even">
+<td>HS 要素</td>
+<td>HS
+Code、要素编码、要素名称、来源、状态；来源固定为“企业自填”，唯一键为 HS
+Code + 要素编码。</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>基础资料保存草稿后不可作为正式可复用数据。</li>
+<li>审核通过后资料可启用，并可在订单中进行联想或回填。</li>
+<li>HS Code 的申报要素可按序号自动拆分为 HS 要素记录。</li>
+</ol>
+<h2 id="11-数据模型与接口建议">11. 数据模型与接口建议</h2>
+<table>
+<thead>
+<tr class="header">
+<th>实体</th>
+<th>关键内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>order</code></td>
+<td>订单编号、状态、客户 / 单证 /
+港口信息、金额、提审时间、审核原因、同步状态、创建 / 更新时间。</td>
+</tr>
+<tr class="even">
+<td><code>order_file</code></td>
+<td>文件类型、文件名、存储地址、解析状态、耗时、错误摘要、解析结果版本。</td>
+</tr>
+<tr class="odd">
+<td><code>order_goods</code></td>
+<td>项号、产品编码、HS
+Code、品名、规格、数量、金额、币制、申报要素。</td>
+</tr>
+<tr class="even">
+<td><code>order_attachment</code></td>
+<td>附属资料分类、行号、字段 JSON。</td>
+</tr>
+<tr class="odd">
+<td><code>order_event</code></td>
+<td>事件类型、操作人、操作时间、描述、扩展数据。</td>
+</tr>
+<tr class="even">
+<td><code>order_download_log</code></td>
+<td>文件格式、下载人、下载时间、文件版本。</td>
+</tr>
+<tr class="odd">
+<td><code>guamaoyun_push_log</code></td>
+<td>请求报文、响应报文、状态、失败原因、重试次数、关贸云流水号。</td>
+</tr>
+<tr class="even">
+<td><code>customer</code> / <code>product</code> / <code>hs_rule</code>
+/ <code>hs_element</code></td>
+<td>基础资料的主数据与生命周期状态。</td>
+</tr>
+</tbody>
+</table>
+<p>建议接口组：订单及状态流转、文件上传与
+OCR、商品及附属资料、草单生成与下载、关贸云推送与回执、基础资料维护与导入。</p>
+<h2 id="12-验收标准">12. 验收标准</h2>
+<ol type="1">
+<li>可完成“新建 → 上传 / 解析 / 回填 → 补录 → 提交 → 审核通过 → 推送 →
+已申报”的完整链路。</li>
+<li>四种订单状态在列表与详情中的可编辑性、颜色、同步状态和操作权限完全符合第
+5、6.3 节。</li>
+<li>只有已申报显示已同步；其余状态均显示未同步。</li>
+<li>待申报订单有下载记录时推送必须确认；无记录时直接推送。</li>
+<li>审核驳回必须填写原因，订单必须回到待提交且恢复可编辑。</li>
+<li>下载 Excel / PDF 均写入下载记录和订单处理记录。</li>
+<li>商品汇总实时更新，HS Code 去重，金额不跨币制相加。</li>
+<li>基础资料弹窗字段文本、必填星号和输入框在各资料类型下保持对齐。</li>
+</ol>
+<h2 id="13-研发待确认项">13. 研发待确认项</h2>
+<ol type="1">
+<li>登录、组织、角色、审核权限与数据权限规则。</li>
+<li>OCR
+文件类型、最大大小、异步任务模式、置信度和人工差异处理方式。</li>
+<li>关贸云认证、字段映射、推送回执、异常码、失败重试和报关号回写机制。</li>
+<li>Excel 推送单与 PDF 核对草单的正式模板、文件归档与下载权限。</li>
+<li>订单删除的逻辑删除策略、审计留存期限及已申报订单是否允许作废。</li>
+<li>多币制金额的展示币种与汇率换算策略。</li>
+</ol>
+</main>
+</body>
+</html>

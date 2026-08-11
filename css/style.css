@@ -7753,3 +7753,54 @@ body.home-page.intro-active .home-side-rail {
     min-height: 400px !important;
     max-height: none !important;
 }
+
+/* Customs declaration workbench preview */
+.home-page .home-media-customs {
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #f1ece0, #e4ded0);
+}
+
+.home-page .customs-thumbnail {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(82, 69, 43, .12);
+}
+
+.customs-mini-table {
+    width: min(88%, 360px);
+    padding: 18px;
+    border-radius: 12px;
+    background: #fffdf8;
+    border: 1px solid rgba(128, 119, 94, .22);
+    box-shadow: 0 18px 28px rgba(82, 69, 43, .14);
+}
+
+.customs-mini-table span {
+    display: block;
+    width: 42%;
+    height: 13px;
+    margin-bottom: 18px;
+    border-radius: 4px;
+    background: #2f3946;
+}
+
+.customs-mini-table b,
+.customs-mini-table i {
+    display: block;
+    height: 11px;
+    margin-top: 10px;
+    border-radius: 4px;
+    background: #e9e5d9;
+}
+
+.customs-mini-table b:nth-of-type(1) { width: 86%; background: #d9d3c4; }
+.customs-mini-table b:nth-of-type(2) { width: 68%; background: #ebe7dc; }
+.customs-mini-table b:nth-of-type(3) { width: 78%; background: #ebe7dc; }
+.customs-mini-table i:nth-of-type(1) { width: 100%; height: 1px; margin-top: 19px; background: #ded8cb; }
+.customs-mini-table i:nth-of-type(2) { width: 72%; background: #8c8968; }
+.customs-mini-table i:nth-of-type(3) { width: 54%; background: #ead8d1; }
