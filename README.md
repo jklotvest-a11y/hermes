@@ -57,6 +57,22 @@ python3 -m http.server 8000
 # 然后访问 http://localhost:8000
 ```
 
+## 📊 网站访问统计
+
+网站使用 Vercel Web Analytics 统计访客和页面浏览量。部署并在 Vercel 项目后台启用 Analytics 后，可在项目的 **Analytics** 页面查看数据。
+
+站长自己的访问默认排除：首次在正式网站首页打开一次：
+
+```text
+https://你的域名/?owner=1
+```
+
+浏览器会记住站长模式，之后该浏览器的访问不会上报。需要恢复统计时打开：
+
+```text
+https://你的域名/?owner=0
+```
+
 ## 🧠 家plus MiniMax 后端部署
 
 如果要让家plus Demo 真实调用 MiniMax 生成改造图，可以把本仓库部署为 Render Web Service。
