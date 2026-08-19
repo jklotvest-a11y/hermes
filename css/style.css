@@ -7165,34 +7165,6 @@ body:not(.home-page) .prototype-copy span {
 }
 
 
-.home-page #hero-works .hero-project-media-zhike {
-    background: #fff4eb;
-    padding: 0;
-}
-
-.home-page #hero-works .hero-project-media-zhike .zhike-demo-shot {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transform: none;
-}
-
-.work-media-zhike {
-    background: #f4eee3 !important;
-    padding: 0 !important;
-}
-
-.work-media-zhike img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center top !important;
-    display: block !important;
-    transform: none !important;
-}
-
 .work-media-erp {
     display: grid !important;
     place-items: center !important;
