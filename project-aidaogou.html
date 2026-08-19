@@ -32,6 +32,11 @@
   .lead { max-width: 660px; margin: 0; color: rgba(255,255,255,.82); font-size: 18px; }
   .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
   .hero-meta span { padding: 7px 11px; border: 1px solid rgba(255,255,255,.25); border-radius: 7px; color: rgba(255,255,255,.86); font-size: 13px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 18px; border-radius: 8px; font-size: 14px; font-weight: 700; transition: transform .18s ease, background .18s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { color: var(--deep); background: #fff; }
+  .btn-ghost { color: #fff; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.1); }
   .hero-shot { padding: 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 22px; background: rgba(255,255,255,.14); box-shadow: var(--shadow); transform: rotate(2deg); }
   .hero-shot img { display: block; width: 100%; border-radius: 12px; }
   .section { max-width: 1180px; margin: 0 auto; padding: 92px 7vw; }
@@ -67,12 +72,19 @@
         <h1>AI 智能商城导购平台</h1>
         <p class="lead">一个把商品经营、知识工程与 AI 导购体验串在一起的电商产品实践：让用户能问、系统能查、答案可追溯，运营也能持续验收。</p>
         <div class="hero-meta"><span>Vue 3</span><span>Spring Boot</span><span>MySQL</span><span>RAG / Embedding</span><span>Function Tool</span></div>
+        <div class="hero-actions"><a class="btn btn-primary" href="docs/aidaogou-prd.html">查看完整 PRD</a><a class="btn btn-ghost" href="#prd-overview">查看产品方案</a></div>
       </div>
       <div class="hero-shot"><img src="assets/aidaogou-admin-products.png" alt="AI 智能商城导购平台商品管理后台界面"></div>
     </div>
   </header>
 
   <main>
+    <section class="section" id="prd-overview">
+      <div class="section-kicker">PRODUCT REQUIREMENTS</div>
+      <h2>完整 PRD 已上线阅读</h2>
+      <p class="section-intro">从业务目标、角色权限到 AI 导购、商品问答、RAG 知识库、工具调用和效果验收，完整记录产品设计与验收口径。</p>
+      <div class="hero-actions"><a class="btn btn-primary" style="color:#fff;background:var(--deep);" href="docs/aidaogou-prd.html">进入 PRD 文档 →</a></div>
+    </section>
     <section class="section">
       <div class="section-kicker">PRODUCT QUESTION</div>
       <h2>把“会聊天”变成“能完成导购任务”</h2>
