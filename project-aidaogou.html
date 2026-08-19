@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI 智能商城导购平台项目案例：从商品知识库、RAG 检索到 Agent、Function Tool 和效果验收。">
+<title>AI 智能商城导购平台 | 作品集项目</title>
+<style>
+  :root {
+    --ink: #18212b;
+    --muted: #687789;
+    --paper: #f7f9fc;
+    --card: #fff;
+    --line: #dce5ef;
+    --blue: #3d8df5;
+    --deep: #17355e;
+    --green: #20a477;
+    --shadow: 0 24px 70px rgba(36, 62, 92, .14);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; color: var(--ink); background: var(--paper); font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; }
+  a { color: inherit; text-decoration: none; }
+  .page { overflow: hidden; }
+  .hero { padding: 28px 7vw 86px; color: #fff; background: radial-gradient(circle at 83% 15%, rgba(91, 178, 255, .45), transparent 30%), linear-gradient(135deg, #112a4b, #2f6eaa 58%, #d5edf4); }
+  .nav { display: flex; justify-content: space-between; align-items: center; max-width: 1180px; margin: 0 auto; font-size: 14px; }
+  .brand { font-weight: 800; letter-spacing: .08em; }
+  .back { color: rgba(255,255,255,.82); }
+  .hero-inner { max-width: 1180px; margin: 110px auto 0; display: grid; grid-template-columns: 1fr .86fr; gap: 76px; align-items: center; }
+  .eyebrow { display: inline-flex; padding: 7px 13px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.88); font-size: 13px; }
+  h1 { max-width: 720px; margin: 22px 0 18px; font-size: clamp(42px, 7vw, 78px); line-height: 1.02; letter-spacing: -.04em; }
+  .lead { max-width: 660px; margin: 0; color: rgba(255,255,255,.82); font-size: 18px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+  .hero-meta span { padding: 7px 11px; border: 1px solid rgba(255,255,255,.25); border-radius: 7px; color: rgba(255,255,255,.86); font-size: 13px; }
+  .hero-shot { padding: 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 22px; background: rgba(255,255,255,.14); box-shadow: var(--shadow); transform: rotate(2deg); }
+  .hero-shot img { display: block; width: 100%; border-radius: 12px; }
+  .section { max-width: 1180px; margin: 0 auto; padding: 92px 7vw; }
+  .section-kicker { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+  h2 { margin: 12px 0 18px; font-size: clamp(30px, 4vw, 48px); line-height: 1.12; letter-spacing: -.03em; }
+  .section-intro { max-width: 720px; color: var(--muted); font-size: 17px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+  .card { padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: 0 10px 30px rgba(36, 62, 92, .05); }
+  .card-number { color: var(--blue); font-size: 13px; font-weight: 800; }
+  .card h3 { margin: 12px 0 8px; font-size: 20px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14px; }
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 38px; }
+  .flow-item { position: relative; min-height: 118px; padding: 18px; border-radius: 13px; background: #eaf3ff; }
+  .flow-item:not(:last-child)::after { content: "→"; position: absolute; right: -18px; top: 42px; color: var(--blue); font-size: 21px; }
+  .flow-item strong { display: block; margin-bottom: 7px; color: var(--deep); }
+  .flow-item span { color: var(--muted); font-size: 13px; }
+  .evidence { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+  .evidence img { width: 100%; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+  .list { margin: 26px 0 0; padding: 0; list-style: none; }
+  .list li { position: relative; padding: 13px 0 13px 24px; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .list li::before { content: ""; position: absolute; left: 0; top: 22px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  .quote { margin: 0; padding: 42px; border-radius: 18px; color: #fff; background: linear-gradient(135deg, #1d4778, #397fb2); font-size: clamp(22px, 3vw, 34px); line-height: 1.35; }
+  .footer { padding: 30px 7vw 60px; color: var(--muted); text-align: center; font-size: 13px; }
+  @media (max-width: 820px) { .hero-inner, .evidence { grid-template-columns: 1fr; gap: 42px; } .hero-inner { margin-top: 72px; } .grid { grid-template-columns: 1fr; } .flow { grid-template-columns: 1fr; } .flow-item:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -27px; } .section { padding-top: 66px; padding-bottom: 66px; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <nav class="nav"><a class="brand" href="index.html">KONG · JESSIE</a><a class="back" href="index.html#works">← 返回作品集</a></nav>
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">AI E-COMMERCE · PRODUCT CASE</span>
+        <h1>AI 智能商城导购平台</h1>
+        <p class="lead">一个把商品经营、知识工程与 AI 导购体验串在一起的电商产品实践：让用户能问、系统能查、答案可追溯，运营也能持续验收。</p>
+        <div class="hero-meta"><span>Vue 3</span><span>Spring Boot</span><span>MySQL</span><span>RAG / Embedding</span><span>Function Tool</span></div>
+      </div>
+      <div class="hero-shot"><img src="assets/aidaogou-admin-products.png" alt="AI 智能商城导购平台商品管理后台界面"></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-kicker">PRODUCT QUESTION</div>
+      <h2>把“会聊天”变成“能完成导购任务”</h2>
+      <p class="section-intro">项目从一个真实的电商问题出发：用户不只想看商品列表，而是希望在预算、场景、偏好和商品事实之间得到可信建议。产品因此同时服务用户端体验和管理端运营。</p>
+      <div class="grid">
+        <article class="card"><span class="card-number">01 / 商品经营</span><h3>基础商城可维护</h3><p>商品、分类、品牌、价格、库存、详情和售后规则形成可管理的商品底座。</p></article>
+        <article class="card"><span class="card-number">02 / AI 知识</span><h3>知识能被检索</h3><p>商品资料进入综合知识库，经过切片、Embedding 和相似度检索，作为回答依据。</p></article>
+        <article class="card"><span class="card-number">03 / 效果可验收</span><h3>结果能被定位</h3><p>记录用户输入、模型输出、工具调用和执行步骤，用标准用例持续验证准确率。</p></article>
+      </div>
+    </section>
+
+    <section class="section" style="background:#fff;max-width:none;">
+      <div style="max-width:1180px;margin:0 auto;">
+        <div class="section-kicker">AI BUSINESS LOOP</div>
+        <h2>从资料到回答的完整链路</h2>
+        <div class="flow"><div class="flow-item"><strong>商品资料</strong><span>价格、库存、卖点、参数</span></div><div class="flow-item"><strong>知识治理</strong><span>导入、清洗、切片</span></div><div class="flow-item"><strong>RAG 召回</strong><span>Embedding 相似度检索</span></div><div class="flow-item"><strong>Agent 决策</strong><span>识别意图并调用工具</span></div><div class="flow-item"><strong>效果验收</strong><span>准确率与步骤追溯</span></div></div>
+      </div>
+    </section>
+
+    <section class="section evidence">
+      <div><div class="section-kicker">WHAT I BUILT</div><h2>重点不是接上模型，而是让系统可控</h2><ul class="list"><li>AI 导购根据预算、场景和偏好筛选商品，并保留导购记录。</li><li>AI 商品问答限定在具体 productId 和商品知识范围内，减少无依据生成。</li><li>价格库存等实时信息通过 Function Tool 查询，避免把动态数据写死在知识库。</li><li>Agent Step 记录每次输入、输出、工具结果和中间步骤，便于定位问题。</li><li>AI 效果验收覆盖 RAG、导购、问答、工具调用、异常兜底和业务闭环。</li></ul></div>
+      <img src="assets/aidaogou-admin-products.png" alt="商品管理后台中的商品列表与运营数据"></section>
+
+    <section class="section"><blockquote class="quote">“基础商城和向量基础设施已经完成，但 AI 业务闭环和生产化业务闭环还没有完成。”</blockquote><p class="section-intro" style="margin-top:24px;">这句话也成为项目的阶段性判断标准：先让链路真实跑通，再用可观测记录和标准用例把效果做实。</p></section>
+  </main>
+  <footer class="footer">© 2026 KONG XIAOJIE · AI PRODUCT PORTFOLIO</footer>
+</div>
+</body>
+</html>
