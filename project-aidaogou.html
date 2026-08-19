@@ -53,7 +53,6 @@
   .list { margin: 26px 0 0; padding: 0; list-style: none; }
   .list li { position: relative; padding: 13px 0 13px 24px; border-bottom: 1px solid var(--line); color: var(--muted); }
   .list li::before { content: ""; position: absolute; left: 0; top: 22px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
-  .quote { margin: 0; padding: 42px; border-radius: 18px; color: #fff; background: linear-gradient(135deg, #1d4778, #397fb2); font-size: clamp(22px, 3vw, 34px); line-height: 1.35; }
   .footer { padding: 30px 7vw 60px; color: var(--muted); text-align: center; font-size: 13px; }
   @media (max-width: 820px) { .hero-inner, .evidence { grid-template-columns: 1fr; gap: 42px; } .hero-inner { margin-top: 72px; } .grid { grid-template-columns: 1fr; } .flow { grid-template-columns: 1fr; } .flow-item:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -27px; } .section { padding-top: 66px; padding-bottom: 66px; } }
 </style>
@@ -97,7 +96,6 @@
       <div><div class="section-kicker">WHAT I BUILT</div><h2>重点不是接上模型，而是让系统可控</h2><ul class="list"><li>AI 导购根据预算、场景和偏好筛选商品，并保留导购记录。</li><li>AI 商品问答限定在具体 productId 和商品知识范围内，减少无依据生成。</li><li>价格库存等实时信息通过 Function Tool 查询，避免把动态数据写死在知识库。</li><li>Agent Step 记录每次输入、输出、工具结果和中间步骤，便于定位问题。</li><li>AI 效果验收覆盖 RAG、导购、问答、工具调用、异常兜底和业务闭环。</li></ul></div>
       <img src="assets/aidaogou-admin-products.png" alt="商品管理后台中的商品列表与运营数据"></section>
 
-    <section class="section"><blockquote class="quote">“基础商城和向量基础设施已经完成，但 AI 业务闭环和生产化业务闭环还没有完成。”</blockquote><p class="section-intro" style="margin-top:24px;">这句话也成为项目的阶段性判断标准：先让链路真实跑通，再用可观测记录和标准用例把效果做实。</p></section>
   </main>
   <footer class="footer">© 2026 KONG XIAOJIE · AI PRODUCT PORTFOLIO</footer>
 </div>
